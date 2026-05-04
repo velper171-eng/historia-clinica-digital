@@ -1,0 +1,19 @@
+import Link from 'next/link';
+import { HistoriaForm } from '../../components/historia-form';
+
+export default function NuevaHistoria() {
+  return (
+    <main className="flex-1">
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+          <Link href="/" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+            ← Inicio
+          </Link>
+          <h1 className="text-base font-semibold text-slate-800">Historia clínica</h1>
+          <div className="w-16" />
+        </div>
+      </header>
+      <HistoriaForm />
+    </main>
+  );
+}
