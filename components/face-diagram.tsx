@@ -23,7 +23,7 @@ export function FaceDiagram({
 
   const hover = hoverId ? INJECTION_POINTS.find((p) => p.id === hoverId) : null;
 
-  const faceImage = gender === 'mujer' ? '/face-real.png' : '/face-male.jpg';
+  const faceImage = gender === 'mujer' ? '/face-female-v2.png' : '/face-male-v2.png';
 
   return (
     <div className="flex flex-col items-center gap-4">

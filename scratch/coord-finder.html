@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Coordinate Finder</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .row { display: flex; gap: 20px; }
+        #container { position: relative; }
+        canvas { border: 1px solid black; cursor: crosshair; }
+        #log { margin-top: 10px; width: 600px; height: 300px; font-family: monospace; }
+        .controls { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h3>Click on the green dots to get coordinates</h3>
+    <div class="controls">
+        <button onclick="loadImage('face-male-with-dots.jpg')">Load Male</button>
+        <button onclick="loadImage('face-female-with-dots.jpg')">Load Female</button>
+    </div>
+    <div id="container">
+        <canvas id="canvas"></canvas>
+    </div>
+    <br>
+    <textarea id="log" placeholder="Coordinates will appear here..."></textarea>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const log = document.getElementById('log');
+        const img = new Image();
+        
+        function loadImage(src) {
+            img.src = src;
+            log.value += `\n--- ${src} ---\n`;
+        }
+        
+        img.onload = () => {
+            canvas.width = 800;
+            canvas.height = 1000;
+            ctx.drawImage(img, 0, 0, 800, 1000);
+        };
+        
+        canvas.onclick = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.round(e.clientX - rect.left);
+            const y = Math.round(e.clientY - rect.top);
+            log.value += `{ cx: ${x}, cy: ${y} },\n`;
+        };
+        
+        loadImage('face-male-with-dots.jpg');
+    </script>
+</body>
+</html>
