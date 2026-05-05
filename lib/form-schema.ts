@@ -56,7 +56,7 @@ export const historiaClinicaSchema = z.object({
   observacionesAlergias: z.string().default(''),
   quirurgicos: z.string().default(''),
   condicionRecuperacion: z.string().default(''),
-  estadoGestacion: z.string().default(''),
+  estadoGestacion: z.enum(['Sí', 'No', 'No aplica']).default('No'),
   tipoCutis: z.enum(['Normal', 'Seca', 'Grasa', 'Mixta']).default('Normal'),
   sesionesProgramadas: z.number().min(1).default(1),
   fechasSesiones: z.array(z.string()).default([]),

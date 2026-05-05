@@ -53,7 +53,7 @@ const initialState: HistoriaClinica = {
   observacionesAlergias: '',
   quirurgicos: '',
   condicionRecuperacion: '',
-  estadoGestacion: '',
+  estadoGestacion: 'No',
   tipoCutis: 'Normal',
   sesionesProgramadas: 1,
   fechasSesiones: [today()],
@@ -73,7 +73,7 @@ type Store = HistoriaClinica & {
   setObservacionesAlergias: (s: string) => void;
   setQuirurgicos: (s: string) => void;
   setCondicionRecuperacion: (s: string) => void;
-  setEstadoGestacion: (s: string) => void;
+  setEstadoGestacion: (s: 'Sí' | 'No' | 'No aplica') => void;
   setTipoCutis: (s: 'Normal' | 'Seca' | 'Grasa' | 'Mixta') => void;
   setSesionesProgramadas: (n: number) => void;
   setFechasSesiones: (arr: string[]) => void;

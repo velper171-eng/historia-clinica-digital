@@ -336,13 +336,15 @@ export function HistoriaForm() {
           <label className="mb-1 block text-sm font-medium text-slate-700">
             ¿Sabe o sospecha estado de gestación?
           </label>
-          <textarea
-            rows={2}
+          <select
             value={data.estadoGestacion}
-            onChange={(e) => useFormStore.getState().setEstadoGestacion(e.target.value)}
+            onChange={(e) => useFormStore.getState().setEstadoGestacion(e.target.value as 'Sí' | 'No' | 'No aplica')}
             className={inputClass}
-            placeholder='Sí / No / No aplica'
-          />
+          >
+            <option value="No">No</option>
+            <option value="Sí">Sí</option>
+            <option value="No aplica">No aplica</option>
+          </select>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
