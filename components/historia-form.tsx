@@ -372,7 +372,7 @@ export function HistoriaForm() {
             <label className="mb-1 block text-sm font-medium text-slate-700">Tipo de cutis</label>
             <select
               value={data.tipoCutis}
-              onChange={(e) => useFormStore.getState().setTipoCutis(e.target.value as any)}
+              onChange={(e) => useFormStore.getState().setTipoCutis(e.target.value as "Normal" | "Seca" | "Grasa" | "Mixta")}
               className={inputClass}
             >
               <option value="Normal">Normal</option>

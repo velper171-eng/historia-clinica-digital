@@ -1,5 +1,5 @@
 'use client';
-import { Document, Packer, Paragraph, TextRun, ImageRun, HeadingLevel, Table, TableRow, TableCell, BorderStyle, WidthType } from 'docx';
+import { Document, Packer, Paragraph, TextRun, ImageRun, HeadingLevel, Table, TableRow, TableCell, WidthType } from 'docx';
 import html2canvas from 'html2canvas';
 import type { HistoriaClinica } from './form-schema';
 import { ENFERMEDADES, ALERGIAS } from './form-schema';
@@ -7,7 +7,7 @@ import { ENFERMEDADES, ALERGIAS } from './form-schema';
 const sanitize = (s: string) =>
   s.replace(/[^a-z0-9\-_]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'sin-nombre';
 
-function createHeading(text: string, level: any = HeadingLevel.HEADING_2) {
+function createHeading(text: string, level: (typeof HeadingLevel)[keyof typeof HeadingLevel] = HeadingLevel.HEADING_2) {
   return new Paragraph({
     text,
     heading: level,
@@ -25,7 +25,7 @@ function createField(label: string, value: string) {
   });
 }
 
-function createDiseaseTable(title: string, dataObj: any) {
+function createDiseaseTable(title: string, dataObj: Record<string, { presenta: boolean; observacion?: string }>) {
   const rows = ENFERMEDADES.map(e => {
     const presenta = dataObj[e.key].presenta ? 'Sí' : 'No';
     const obs = dataObj[e.key].observacion || '';
@@ -57,7 +57,7 @@ function createDiseaseTable(title: string, dataObj: any) {
 }
 
 export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
-  const children: any[] = [];
+  const children: (Paragraph | Table)[] = [];
 
   // Título principal
   children.push(createHeading('HISTORIA CLÍNICA Y SEGUIMIENTO', HeadingLevel.HEADING_1));
