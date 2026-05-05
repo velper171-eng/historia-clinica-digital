@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { INJECTION_POINTS } from '../lib/injection-points';
+import { INJECTION_POINTS, INJECTION_POINTS_MAP } from '../lib/injection-points';
 
 type Gender = 'mujer' | 'hombre';
 
@@ -21,7 +21,7 @@ export function FaceDiagram({
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [gender, setGender] = useState<Gender>('mujer');
 
-  const faceImage = gender === 'mujer' ? '/face-female-with-dots.jpg' : '/face-male-with-dots.jpg';
+  const faceImage = gender === 'mujer' ? '/face-female-with-dots.png' : '/face-male-with-dots.png';
   const points = gender === 'mujer' ? INJECTION_POINTS_MAP.mujer : INJECTION_POINTS_MAP.hombre;
 
   return (
