@@ -6,85 +6,155 @@ export type InjectionPointDefinition = {
   cy: number;
 };
 
-// SVG viewBox: 800 x 1000, calibrado contra public/face-template.jpg
-// Anatomía de referencia (post-zoom):
-//   Línea de pelo  y ≈ 230
-//   Cejas          y ≈ 358-385  (izq x ≈ 250-340, der x ≈ 405-490)
-//   Glabela        ≈ (375, 385)
-//   Ojos           y ≈ 410      (izq x ≈ 305, der x ≈ 450)
-//   Bunny          y ≈ 450
-//   Punta nariz    ≈ (375, 495)
-//   Labios sup     y ≈ 530-540
-//   Comisuras      y ≈ 560
-//   Mentón         y ≈ 615-650
-//   Cuello visible y ≈ 715-755
-export const INJECTION_POINTS: InjectionPointDefinition[] = [
-  // ===== FRONTAL (frente) =====
-  { id: 'frontal-sup-1', zona: 'Frontal', nombre: 'Frontal superior izquierdo', cx: 260, cy: 200 },
-  { id: 'frontal-sup-2', zona: 'Frontal', nombre: 'Frontal superior central izq', cx: 350, cy: 195 },
-  { id: 'frontal-sup-3', zona: 'Frontal', nombre: 'Frontal superior central der', cx: 450, cy: 195 },
-  { id: 'frontal-sup-4', zona: 'Frontal', nombre: 'Frontal superior derecho', cx: 540, cy: 200 },
-  { id: 'frontal-inf-1', zona: 'Frontal', nombre: 'Frontal inferior izquierdo', cx: 250, cy: 250 },
-  { id: 'frontal-inf-2', zona: 'Frontal', nombre: 'Frontal inferior central izq', cx: 350, cy: 245 },
-  { id: 'frontal-inf-3', zona: 'Frontal', nombre: 'Frontal inferior central der', cx: 450, cy: 245 },
-  { id: 'frontal-inf-4', zona: 'Frontal', nombre: 'Frontal inferior derecho', cx: 550, cy: 250 },
+export type Gender = 'mujer' | 'hombre';
 
-  // ===== GLABELA (entre cejas) =====
-  { id: 'glabela-corrugador-izq-medial', zona: 'Glabela', nombre: 'Corrugador izquierdo medial', cx: 375, cy: 375 },
-  { id: 'glabela-corrugador-izq-lateral', zona: 'Glabela', nombre: 'Corrugador izquierdo lateral', cx: 340, cy: 365 },
-  { id: 'glabela-procerus', zona: 'Glabela', nombre: 'Procerus (central)', cx: 400, cy: 395 },
-  { id: 'glabela-corrugador-der-medial', zona: 'Glabela', nombre: 'Corrugador derecho medial', cx: 425, cy: 375 },
-  { id: 'glabela-corrugador-der-lateral', zona: 'Glabela', nombre: 'Corrugador derecho lateral', cx: 460, cy: 365 },
+export const INJECTION_POINTS_MAP: Record<Gender, InjectionPointDefinition[]> = {
+  hombre: [
+    { id: 'h-f-1', zona: 'Frontal', nombre: 'Punto 1', cx: 400, cy: 194 },
+    { id: 'h-f-2', zona: 'Frontal', nombre: 'Punto 2', cx: 253, cy: 197 },
+    { id: 'h-f-3', zona: 'Frontal', nombre: 'Punto 3', cx: 304, cy: 198 },
+    { id: 'h-f-4', zona: 'Frontal', nombre: 'Punto 4', cx: 352, cy: 197 },
+    { id: 'h-f-5', zona: 'Frontal', nombre: 'Punto 5', cx: 449, cy: 195 },
+    { id: 'h-f-6', zona: 'Frontal', nombre: 'Punto 6', cx: 491, cy: 197 },
+    { id: 'h-f-7', zona: 'Frontal', nombre: 'Punto 7', cx: 536, cy: 197 },
+    { id: 'h-f-8', zona: 'Frontal', nombre: 'Punto 8', cx: 247, cy: 247 },
+    { id: 'h-f-9', zona: 'Frontal', nombre: 'Punto 9', cx: 307, cy: 249 },
+    { id: 'h-f-10', zona: 'Frontal', nombre: 'Punto 10', cx: 353, cy: 249 },
+    { id: 'h-f-11', zona: 'Frontal', nombre: 'Punto 11', cx: 402, cy: 250 },
+    { id: 'h-f-12', zona: 'Frontal', nombre: 'Punto 12', cx: 449, cy: 250 },
+    { id: 'h-f-13', zona: 'Frontal', nombre: 'Punto 13', cx: 493, cy: 248 },
+    { id: 'h-f-14', zona: 'Frontal', nombre: 'Punto 14', cx: 538, cy: 249 },
+    { id: 'h-g-1', zona: 'Glabela/Cejas', nombre: 'Punto 1', cx: 223, cy: 330 },
+    { id: 'h-g-2', zona: 'Glabela/Cejas', nombre: 'Punto 2', cx: 371, cy: 321 },
+    { id: 'h-g-3', zona: 'Glabela/Cejas', nombre: 'Punto 3', cx: 441, cy: 320 },
+    { id: 'h-g-4', zona: 'Glabela/Cejas', nombre: 'Punto 4', cx: 585, cy: 323 },
+    { id: 'h-g-5', zona: 'Glabela/Cejas', nombre: 'Punto 5', cx: 602, cy: 343 },
+    { id: 'h-g-6', zona: 'Glabela/Cejas', nombre: 'Punto 6', cx: 198, cy: 352 },
+    { id: 'h-g-7', zona: 'Glabela/Cejas', nombre: 'Punto 7', cx: 405, cy: 364 },
+    { id: 'h-o-1', zona: 'Patas de gallo/Ojos', nombre: 'Punto 1', cx: 202, cy: 406 },
+    { id: 'h-o-2', zona: 'Patas de gallo/Ojos', nombre: 'Punto 2', cx: 216, cy: 426 },
+    { id: 'h-o-3', zona: 'Bunny lines', nombre: 'Punto 1', cx: 384, cy: 413 },
+    { id: 'h-o-4', zona: 'Bunny lines', nombre: 'Punto 2', cx: 425, cy: 412 },
+    { id: 'h-o-5', zona: 'Patas de gallo/Ojos', nombre: 'Punto 3', cx: 578, cy: 427 },
+    { id: 'h-o-6', zona: 'Patas de gallo/Ojos', nombre: 'Punto 4', cx: 600, cy: 409 },
+    { id: 'h-o-7', zona: 'Patas de gallo/Ojos', nombre: 'Punto 5', cx: 239, cy: 441 },
+    { id: 'h-o-8', zona: 'Patas de gallo/Ojos', nombre: 'Punto 6', cx: 381, cy: 446 },
+    { id: 'h-o-9', zona: 'Patas de gallo/Ojos', nombre: 'Punto 7', cx: 430, cy: 444 },
+    { id: 'h-o-10', zona: 'Patas de gallo/Ojos', nombre: 'Punto 8', cx: 551, cy: 443 },
+    { id: 'h-l-1', zona: 'Mejillas/Labios', nombre: 'Punto 1', cx: 356, cy: 487 },
+    { id: 'h-l-2', zona: 'Mejillas/Labios', nombre: 'Punto 2', cx: 404, cy: 502 },
+    { id: 'h-l-3', zona: 'Mejillas/Labios', nombre: 'Punto 3', cx: 456, cy: 484 },
+    { id: 'h-l-4', zona: 'Mejillas/Labios', nombre: 'Punto 4', cx: 213, cy: 576 },
+    { id: 'h-l-5', zona: 'Mejillas/Labios', nombre: 'Punto 5', cx: 355, cy: 553 },
+    { id: 'h-l-6', zona: 'Mejillas/Labios', nombre: 'Punto 6', cx: 459, cy: 551 },
+    { id: 'h-l-7', zona: 'Mejillas/Labios', nombre: 'Punto 7', cx: 589, cy: 579 },
+    { id: 'h-l-8', zona: 'Mejillas/Labios', nombre: 'Punto 8', cx: 218, cy: 598 },
+    { id: 'h-l-9', zona: 'Mejillas/Labios', nombre: 'Punto 9', cx: 245, cy: 599 },
+    { id: 'h-l-10', zona: 'Mejillas/Labios', nombre: 'Punto 10', cx: 325, cy: 595 },
+    { id: 'h-l-11', zona: 'Mejillas/Labios', nombre: 'Punto 11', cx: 349, cy: 589 },
+    { id: 'h-l-12', zona: 'Mejillas/Labios', nombre: 'Punto 12', cx: 462, cy: 590 },
+    { id: 'h-l-13', zona: 'Mejillas/Labios', nombre: 'Punto 13', cx: 482, cy: 596 },
+    { id: 'h-l-14', zona: 'Mejillas/Labios', nombre: 'Punto 14', cx: 558, cy: 608 },
+    { id: 'h-l-15', zona: 'Mejillas/Labios', nombre: 'Punto 15', cx: 586, cy: 603 },
+    { id: 'h-m-1', zona: 'Mentón/Masetero', nombre: 'Punto 1', cx: 316, cy: 675 },
+    { id: 'h-m-2', zona: 'Mentón/Masetero', nombre: 'Punto 2', cx: 502, cy: 678 },
+    { id: 'h-m-3', zona: 'Mentón/Masetero', nombre: 'Punto 3', cx: 248, cy: 741 },
+    { id: 'h-m-4', zona: 'Mentón/Masetero', nombre: 'Punto 4', cx: 404, cy: 730 },
+    { id: 'h-m-5', zona: 'Mentón/Masetero', nombre: 'Punto 5', cx: 554, cy: 734 },
+    { id: 'h-p-1', zona: 'Platisma/Cuello', nombre: 'Punto 1', cx: 235, cy: 816 },
+    { id: 'h-p-2', zona: 'Platisma/Cuello', nombre: 'Punto 2', cx: 336, cy: 788 },
+    { id: 'h-p-3', zona: 'Platisma/Cuello', nombre: 'Punto 3', cx: 481, cy: 790 },
+    { id: 'h-p-4', zona: 'Platisma/Cuello', nombre: 'Punto 4', cx: 587, cy: 815 },
+    { id: 'h-p-5', zona: 'Platisma/Cuello', nombre: 'Punto 5', cx: 338, cy: 845 },
+    { id: 'h-p-6', zona: 'Platisma/Cuello', nombre: 'Punto 6', cx: 478, cy: 849 },
+    { id: 'h-p-7', zona: 'Platisma/Cuello', nombre: 'Punto 7', cx: 210, cy: 889 },
+    { id: 'h-p-8', zona: 'Platisma/Cuello', nombre: 'Punto 8', cx: 613, cy: 876 },
+    { id: 'h-p-9', zona: 'Platisma/Cuello', nombre: 'Punto 9', cx: 336, cy: 911 },
+    { id: 'h-p-10', zona: 'Platisma/Cuello', nombre: 'Punto 10', cx: 491, cy: 915 }
+  ],
+  mujer: [
+    { id: 'm-f-1', zona: 'Frontal', nombre: 'Punto 1', cx: 214, cy: 210 },
+    { id: 'm-f-2', zona: 'Frontal', nombre: 'Punto 2', cx: 270, cy: 207 },
+    { id: 'm-f-3', zona: 'Frontal', nombre: 'Punto 3', cx: 346, cy: 206 },
+    { id: 'm-f-4', zona: 'Frontal', nombre: 'Punto 4', cx: 438, cy: 210 },
+    { id: 'm-f-5', zona: 'Frontal', nombre: 'Punto 5', cx: 491, cy: 206 },
+    { id: 'm-f-6', zona: 'Frontal', nombre: 'Punto 6', cx: 547, cy: 201 },
+    { id: 'm-f-7', zona: 'Frontal', nombre: 'Punto 7', cx: 242, cy: 251 },
+    { id: 'm-f-8', zona: 'Frontal', nombre: 'Punto 8', cx: 314, cy: 252 },
+    { id: 'm-f-9', zona: 'Frontal', nombre: 'Punto 9', cx: 402, cy: 254 },
+    { id: 'm-f-10', zona: 'Frontal', nombre: 'Punto 10', cx: 466, cy: 253 },
+    { id: 'm-f-11', zona: 'Frontal', nombre: 'Punto 11', cx: 534, cy: 250 },
+    { id: 'm-g-1', zona: 'Glabela/Cejas', nombre: 'Punto 1', cx: 194, cy: 341 },
+    { id: 'm-g-2', zona: 'Glabela/Cejas', nombre: 'Punto 2', cx: 228, cy: 316 },
+    { id: 'm-g-3', zona: 'Glabela/Cejas', nombre: 'Punto 3', cx: 366, cy: 315 },
+    { id: 'm-g-4', zona: 'Glabela/Cejas', nombre: 'Punto 4', cx: 451, cy: 316 },
+    { id: 'm-g-5', zona: 'Glabela/Cejas', nombre: 'Punto 5', cx: 593, cy: 316 },
+    { id: 'm-g-6', zona: 'Glabela/Cejas', nombre: 'Punto 6', cx: 617, cy: 343 },
+    { id: 'm-g-7', zona: 'Glabela/Cejas', nombre: 'Punto 7', cx: 417, cy: 354 },
+    { id: 'm-o-1', zona: 'Patas de gallo/Ojos', nombre: 'Punto 1', cx: 198, cy: 404 },
+    { id: 'm-o-2', zona: 'Patas de gallo/Ojos', nombre: 'Punto 2', cx: 221, cy: 429 },
+    { id: 'm-o-3', zona: 'Bunny lines', nombre: 'Punto 1', cx: 383, cy: 410 },
+    { id: 'm-o-4', zona: 'Bunny lines', nombre: 'Punto 2', cx: 437, cy: 411 },
+    { id: 'm-o-5', zona: 'Patas de gallo/Ojos', nombre: 'Punto 3', cx: 611, cy: 413 },
+    { id: 'm-o-6', zona: 'Patas de gallo/Ojos', nombre: 'Punto 4', cx: 254, cy: 446 },
+    { id: 'm-o-7', zona: 'Patas de gallo/Ojos', nombre: 'Punto 5', cx: 382, cy: 447 },
+    { id: 'm-o-8', zona: 'Patas de gallo/Ojos', nombre: 'Punto 6', cx: 434, cy: 447 },
+    { id: 'm-o-9', zona: 'Patas de gallo/Ojos', nombre: 'Punto 7', cx: 550, cy: 451 },
+    { id: 'm-o-10', zona: 'Patas de gallo/Ojos', nombre: 'Punto 8', cx: 584, cy: 441 },
+    { id: 'm-l-1', zona: 'Mejillas/Labios', nombre: 'Punto 1', cx: 366, cy: 484 },
+    { id: 'm-l-2', zona: 'Mejillas/Labios', nombre: 'Punto 2', cx: 452, cy: 484 },
+    { id: 'm-l-3', zona: 'Mejillas/Labios', nombre: 'Punto 3', cx: 213, cy: 561 },
+    { id: 'm-l-4', zona: 'Mejillas/Labios', nombre: 'Punto 4', cx: 355, cy: 584 },
+    { id: 'm-l-5', zona: 'Mejillas/Labios', nombre: 'Punto 5', cx: 360, cy: 547 },
+    { id: 'm-l-6', zona: 'Mejillas/Labios', nombre: 'Punto 6', cx: 408, cy: 582 },
+    { id: 'm-l-7', zona: 'Mejillas/Labios', nombre: 'Punto 7', cx: 463, cy: 550 },
+    { id: 'm-l-8', zona: 'Mejillas/Labios', nombre: 'Punto 8', cx: 600, cy: 569 },
+    { id: 'm-l-9', zona: 'Mejillas/Labios', nombre: 'Punto 9', cx: 327, cy: 593 },
+    { id: 'm-l-10', zona: 'Mejillas/Labios', nombre: 'Punto 10', cx: 475, cy: 588 },
+    { id: 'm-l-11', zona: 'Mejillas/Labios', nombre: 'Punto 11', cx: 498, cy: 598 },
+    { id: 'm-m-1', zona: 'Mentón/Masetero', nombre: 'Punto 1', cx: 227, cy: 624 },
+    { id: 'm-m-2', zona: 'Mentón/Masetero', nombre: 'Punto 2', cx: 273, cy: 622 },
+    { id: 'm-m-3', zona: 'Mentón/Masetero', nombre: 'Punto 3', cx: 528, cy: 612 },
+    { id: 'm-m-4', zona: 'Mentón/Masetero', nombre: 'Punto 4', cx: 588, cy: 619 },
+    { id: 'm-m-5', zona: 'Mentón/Masetero', nombre: 'Punto 5', cx: 347, cy: 630 },
+    { id: 'm-m-6', zona: 'Mentón/Masetero', nombre: 'Punto 6', cx: 380, cy: 645 },
+    { id: 'm-m-7', zona: 'Mentón/Masetero', nombre: 'Punto 7', cx: 441, cy: 643 },
+    { id: 'm-m-8', zona: 'Mentón/Masetero', nombre: 'Punto 8', cx: 480, cy: 626 },
+    { id: 'm-m-9', zona: 'Mentón/Masetero', nombre: 'Punto 9', cx: 280, cy: 672 },
+    { id: 'm-m-10', zona: 'Mentón/Masetero', nombre: 'Punto 10', cx: 330, cy: 683 },
+    { id: 'm-m-11', zona: 'Mentón/Masetero', nombre: 'Punto 11', cx: 496, cy: 674 },
+    { id: 'm-m-12', zona: 'Mentón/Masetero', nombre: 'Punto 12', cx: 543, cy: 666 },
+    { id: 'm-m-13', zona: 'Mentón/Masetero', nombre: 'Punto 13', cx: 411, cy: 724 },
+    { id: 'm-m-14', zona: 'Mentón/Masetero', nombre: 'Punto 14', cx: 527, cy: 735 },
+    { id: 'm-m-15', zona: 'Mentón/Masetero', nombre: 'Punto 15', cx: 289, cy: 747 },
+    { id: 'm-p-1', zona: 'Platisma/Cuello', nombre: 'Punto 1', cx: 349, cy: 772 },
+    { id: 'm-p-2', zona: 'Platisma/Cuello', nombre: 'Punto 2', cx: 462, cy: 778 },
+    { id: 'm-p-3', zona: 'Platisma/Cuello', nombre: 'Punto 3', cx: 274, cy: 810 },
+    { id: 'm-p-4', zona: 'Platisma/Cuello', nombre: 'Punto 4', cx: 542, cy: 816 },
+    { id: 'm-p-5', zona: 'Platisma/Cuello', nombre: 'Punto 5', cx: 346, cy: 827 },
+    { id: 'm-p-6', zona: 'Platisma/Cuello', nombre: 'Punto 6', cx: 461, cy: 832 },
+    { id: 'm-p-7', zona: 'Platisma/Cuello', nombre: 'Punto 7', cx: 254, cy: 864 },
+    { id: 'm-p-8', zona: 'Platisma/Cuello', nombre: 'Punto 8', cx: 345, cy: 870 },
+    { id: 'm-p-9', zona: 'Platisma/Cuello', nombre: 'Punto 9', cx: 453, cy: 881 },
+    { id: 'm-p-10', zona: 'Platisma/Cuello', nombre: 'Punto 10', cx: 555, cy: 866 },
+    { id: 'm-p-11', zona: 'Platisma/Cuello', nombre: 'Punto 11', cx: 220, cy: 926 },
+    { id: 'm-p-12', zona: 'Platisma/Cuello', nombre: 'Punto 12', cx: 341, cy: 934 },
+    { id: 'm-p-13', zona: 'Platisma/Cuello', nombre: 'Punto 13', cx: 455, cy: 935 },
+    { id: 'm-p-14', zona: 'Platisma/Cuello', nombre: 'Punto 14', cx: 582, cy: 933 }
+  ]
+};
 
-  // ===== COLA DE CEJA =====
-  { id: 'cola-ceja-izq', zona: 'Cola de ceja', nombre: 'Cola de ceja izquierda', cx: 230, cy: 345 },
-  { id: 'cola-ceja-der', zona: 'Cola de ceja', nombre: 'Cola de ceja derecha', cx: 570, cy: 345 },
-
-  // ===== PATAS DE GALLO (lateral del ojo) =====
-  { id: 'pata-gallo-izq-sup', zona: 'Patas de gallo', nombre: 'Pata de gallo izq superior', cx: 220, cy: 395 },
-  { id: 'pata-gallo-izq-med', zona: 'Patas de gallo', nombre: 'Pata de gallo izq media', cx: 205, cy: 425 },
-  { id: 'pata-gallo-izq-inf', zona: 'Patas de gallo', nombre: 'Pata de gallo izq inferior', cx: 225, cy: 455 },
-  { id: 'pata-gallo-der-sup', zona: 'Patas de gallo', nombre: 'Pata de gallo der superior', cx: 580, cy: 395 },
-  { id: 'pata-gallo-der-med', zona: 'Patas de gallo', nombre: 'Pata de gallo der media', cx: 595, cy: 425 },
-  { id: 'pata-gallo-der-inf', zona: 'Patas de gallo', nombre: 'Pata de gallo der inferior', cx: 575, cy: 455 },
-
-  // ===== BUNNY LINES (nariz) =====
-  { id: 'bunny-izq', zona: 'Bunny lines', nombre: 'Bunny line izquierdo', cx: 365, cy: 470 },
-  { id: 'bunny-der', zona: 'Bunny lines', nombre: 'Bunny line derecho', cx: 435, cy: 470 },
-
-  // ===== LABIO SUPERIOR =====
-  { id: 'labio-sup-izq-1', zona: 'Labio superior', nombre: 'Labio superior izq exterior', cx: 330, cy: 580 },
-  { id: 'labio-sup-izq-2', zona: 'Labio superior', nombre: 'Labio superior izq interior', cx: 375, cy: 575 },
-  { id: 'labio-sup-der-1', zona: 'Labio superior', nombre: 'Labio superior der interior', cx: 425, cy: 575 },
-  { id: 'labio-sup-der-2', zona: 'Labio superior', nombre: 'Labio superior der exterior', cx: 470, cy: 580 },
-
-  // ===== COMISURAS (DAO) =====
-  { id: 'dao-izq', zona: 'Comisuras (DAO)', nombre: 'Comisura izquierda (DAO)', cx: 345, cy: 625 },
-  { id: 'dao-der', zona: 'Comisuras (DAO)', nombre: 'Comisura derecha (DAO)', cx: 455, cy: 625 },
-
-  // ===== MENTÓN =====
-  { id: 'menton-izq-sup', zona: 'Mentón', nombre: 'Mentón izq superior', cx: 375, cy: 685 },
-  { id: 'menton-der-sup', zona: 'Mentón', nombre: 'Mentón der superior', cx: 425, cy: 685 },
-  { id: 'menton-izq-inf', zona: 'Mentón', nombre: 'Mentón izq inferior', cx: 380, cy: 715 },
-  { id: 'menton-der-inf', zona: 'Mentón', nombre: 'Mentón der inferior', cx: 420, cy: 715 },
-
-  // ===== MASETERO (mandíbula) =====
-  { id: 'masetero-izq-1', zona: 'Masetero', nombre: 'Masetero izq superior', cx: 300, cy: 660 },
-  { id: 'masetero-izq-2', zona: 'Masetero', nombre: 'Masetero izq medio', cx: 280, cy: 700 },
-  { id: 'masetero-izq-3', zona: 'Masetero', nombre: 'Masetero izq inferior', cx: 320, cy: 700 },
-  { id: 'masetero-der-1', zona: 'Masetero', nombre: 'Masetero der superior', cx: 500, cy: 660 },
-  { id: 'masetero-der-2', zona: 'Masetero', nombre: 'Masetero der medio', cx: 520, cy: 700 },
-  { id: 'masetero-der-3', zona: 'Masetero', nombre: 'Masetero der inferior', cx: 480, cy: 700 },
-
-  // ===== PLATISMA (cuello) =====
-  { id: 'platisma-1', zona: 'Platisma', nombre: 'Banda izquierda superior', cx: 350, cy: 810 },
-  { id: 'platisma-2', zona: 'Platisma', nombre: 'Banda izquierda media', cx: 350, cy: 855 },
-  { id: 'platisma-3', zona: 'Platisma', nombre: 'Banda izquierda inferior', cx: 350, cy: 900 },
-  { id: 'platisma-4', zona: 'Platisma', nombre: 'Banda derecha superior', cx: 450, cy: 810 },
-  { id: 'platisma-5', zona: 'Platisma', nombre: 'Banda derecha media', cx: 450, cy: 855 },
-  { id: 'platisma-6', zona: 'Platisma', nombre: 'Banda derecha inferior', cx: 450, cy: 900 },
-];
-
+// Combinación única de todas las zonas para el resumen
 export const ZONAS_INYECCION = Array.from(
-  new Set(INJECTION_POINTS.map((p) => p.zona))
+  new Set([
+    ...INJECTION_POINTS_MAP.hombre.map(p => p.zona),
+    ...INJECTION_POINTS_MAP.mujer.map(p => p.zona)
+  ])
 );
+
+// Mantenemos este export para compatibilidad con el esquema de datos (store)
+// pero ahora incluiremos TODOS los puntos posibles de ambos géneros.
+export const INJECTION_POINTS: InjectionPointDefinition[] = [
+  ...INJECTION_POINTS_MAP.hombre,
+  ...INJECTION_POINTS_MAP.mujer
+];

@@ -21,9 +21,8 @@ export function FaceDiagram({
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [gender, setGender] = useState<Gender>('mujer');
 
-  const hover = hoverId ? INJECTION_POINTS.find((p) => p.id === hoverId) : null;
-
-  const faceImage = gender === 'mujer' ? '/face-female-v2.png' : '/face-male-v2.png';
+  const faceImage = gender === 'mujer' ? '/face-female-with-dots.jpg' : '/face-male-with-dots.jpg';
+  const points = gender === 'mujer' ? INJECTION_POINTS_MAP.mujer : INJECTION_POINTS_MAP.hombre;
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -99,25 +98,26 @@ export function FaceDiagram({
           aria-label="Diagrama facial para puntos de inyección"
         >
           {/* Capa sutil para mejorar contraste de los puntos */}
-          <rect x="0" y="0" width="800" height="1000" fill="#000" fillOpacity="0.05" />
+          <rect x="0" y="0" width="800" height="1000" fill="#000" fillOpacity="0.02" />
 
           {/* Puntos de inyección */}
-          {INJECTION_POINTS.map((p) => {
+          {points.map((p) => {
             const isActive = activeIds.has(p.id);
             const isHover = hoverId === p.id;
             return (
               <g key={p.id}>
                 {/* Halo cuando activo */}
                 {isActive && (
-                  <circle cx={p.cx} cy={p.cy} r={18} fill="#22c55e" fillOpacity={0.3} />
+                  <circle cx={p.cx} cy={p.cy} r={18} fill="#22c55e" fillOpacity={0.4} />
                 )}
                 <circle
                   cx={p.cx}
                   cy={p.cy}
-                  r={isHover || isActive ? 11 : 9}
-                  fill={isActive ? '#22c55e' : '#ffffff'}
-                  stroke={isActive ? '#0f5132' : '#0f172a'}
+                  r={isHover || isActive ? 12 : 10}
+                  fill={isActive ? '#22c55e' : 'transparent'}
+                  stroke={isActive ? '#0f5132' : '#22c55e'}
                   strokeWidth={isActive ? 3 : 2}
+                  strokeOpacity={isActive ? 1 : 0.6}
                   style={{ cursor: readOnly ? 'default' : 'pointer', transition: 'all 120ms' }}
                   onClick={() => !readOnly && onTogglePoint?.(p.id)}
                   onMouseEnter={() => setHoverId(p.id)}
@@ -128,7 +128,8 @@ export function FaceDiagram({
                   cx={p.cx}
                   cy={p.cy}
                   r={2}
-                  fill={isActive ? '#0f5132' : '#0f172a'}
+                  fill={isActive ? '#0f5132' : '#22c55e'}
+                  fillOpacity={isActive ? 1 : 0.6}
                   pointerEvents="none"
                 />
               </g>
@@ -137,9 +138,9 @@ export function FaceDiagram({
         </svg>
 
         {/* Tooltip */}
-        {hover && (
+        {hoverId && (
           <div className="pointer-events-none absolute left-1/2 top-2 -translate-x-1/2 rounded-md bg-slate-900/95 px-3 py-1.5 text-xs font-medium text-white shadow-lg backdrop-blur">
-            {hover.zona} — {hover.nombre}
+            {points.find(p => p.id === hoverId)?.zona} — {points.find(p => p.id === hoverId)?.nombre}
           </div>
         )}
       </div>
