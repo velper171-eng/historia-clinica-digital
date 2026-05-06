@@ -35,6 +35,10 @@ export const consentimientoSchema = z.object({
   autorizadoA: z.string().min(3, 'Indica el profesional o clínica autorizada'),
   procedimiento: z.string().min(3, 'Describe el procedimiento'),
   riesgosInformados: z.string().min(10, 'Describe los riesgos informados'),
+  riesgosInformadosAnteriores: z.array(z.object({
+    texto: z.string(),
+    fecha: z.string(),
+  })).default([]),
   firma: z.string().min(1, 'La firma es obligatoria'),
   fecha: z.string().min(1, 'Selecciona la fecha'),
 });
@@ -61,6 +65,10 @@ export const historiaClinicaSchema = z.object({
   antecedentesPersonales: diseaseRecordSchema,
   antecedentesFamiliares: diseaseRecordSchema,
   observacionesPatologicos: z.string().default(''),
+  observacionesPatologicosAnteriores: z.array(z.object({
+    texto: z.string(),
+    fecha: z.string(),
+  })).default([]),
   medicamentos: z.string().default(''),
   medicamentosAnteriores: z.array(z.object({
     texto: z.string(),
@@ -68,17 +76,29 @@ export const historiaClinicaSchema = z.object({
   })).default([]),
   alergicos: allergyRecordSchema,
   observacionesAlergias: z.string().default(''),
+  observacionesAlergiasAnteriores: z.array(z.object({
+    texto: z.string(),
+    fecha: z.string(),
+  })).default([]),
   quirurgicos: z.string().default(''),
   quirurgicosAnteriores: z.array(z.object({
     texto: z.string(),
     fecha: z.string(),
   })).default([]),
   condicionRecuperacion: z.string().default(''),
+  condicionRecuperacionAnteriores: z.array(z.object({
+    texto: z.string(),
+    fecha: z.string(),
+  })).default([]),
   estadoGestacion: z.enum(['Sí', 'No', 'No aplica']).default('No'),
   tipoCutis: z.enum(['Normal', 'Seca', 'Grasa', 'Mixta']).default('Normal'),
   sesionesProgramadas: z.number().min(1).default(1),
   fechasSesiones: z.array(z.string()).default([]),
   observacionesGenerales: z.string().default(''),
+  observacionesGeneralesAnteriores: z.array(z.object({
+    texto: z.string(),
+    fecha: z.string(),
+  })).default([]),
   firmaFinal: z.string().min(1, 'La firma final es obligatoria'),
   fechaFinal: z.string().min(1, 'Selecciona la fecha'),
   puntosInyeccion: z.array(puntoInyeccionSchema),

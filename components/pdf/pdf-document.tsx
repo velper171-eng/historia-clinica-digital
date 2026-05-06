@@ -181,9 +181,12 @@ export function PdfDocument({ data }: Props) {
             padding: 8,
             minHeight: 110,
             whiteSpace: 'pre-wrap',
+            fontSize: '10pt',
           }}
         >
           {c.riesgosInformados}
+          <HistorySection entries={c.riesgosInformadosAnteriores} />
+          {!c.riesgosInformados && c.riesgosInformadosAnteriores.length === 0 && ' '}
         </div>
 
         <p style={{ marginTop: 16, textAlign: 'justify', fontSize: '10pt' }}>
@@ -244,7 +247,9 @@ export function PdfDocument({ data }: Props) {
             fontSize: '10pt',
           }}
         >
-          {data.observacionesPatologicos || ' '}
+          {data.observacionesPatologicos}
+          <HistorySection entries={data.observacionesPatologicosAnteriores} />
+          {!data.observacionesPatologicos && data.observacionesPatologicosAnteriores.length === 0 && ' '}
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 18, fontSize: '8pt', color: '#555' }}>
@@ -307,7 +312,9 @@ export function PdfDocument({ data }: Props) {
             fontSize: '10pt',
           }}
         >
-          {data.observacionesAlergias || ' '}
+          {data.observacionesAlergias}
+          <HistorySection entries={data.observacionesAlergiasAnteriores} />
+          {!data.observacionesAlergias && data.observacionesAlergiasAnteriores.length === 0 && ' '}
         </div>
 
         <h2 style={{ fontSize: '11pt', marginTop: 14, marginBottom: 6 }}>4. QUIRÚRGICOS</h2>
@@ -341,7 +348,9 @@ export function PdfDocument({ data }: Props) {
             fontSize: '10pt',
           }}
         >
-          {data.condicionRecuperacion || ' '}
+          {data.condicionRecuperacion}
+          <HistorySection entries={data.condicionRecuperacionAnteriores} />
+          {!data.condicionRecuperacion && data.condicionRecuperacionAnteriores.length === 0 && ' '}
         </div>
 
         <div style={{ fontWeight: 600, fontSize: '10pt', marginTop: 8 }}>
@@ -392,7 +401,9 @@ export function PdfDocument({ data }: Props) {
             marginBottom: 12
           }}
         >
-          {data.observacionesGenerales || ' '}
+          {data.observacionesGenerales}
+          <HistorySection entries={data.observacionesGeneralesAnteriores} />
+          {!data.observacionesGenerales && data.observacionesGeneralesAnteriores.length === 0 && ' '}
         </div>
 
         <SignatureBlock firma={data.firmaFinal} fecha={data.fechaFinal} />

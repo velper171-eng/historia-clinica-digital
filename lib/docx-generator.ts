@@ -81,20 +81,27 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   children.push(createField(`Identificado con ${data.consentimiento.tipoDocumento}`, data.consentimiento.numeroDocumento));
   children.push(createField('Autorizado a la profesional', data.consentimiento.autorizadoA));
   children.push(createField('Procedimiento actual', data.consentimiento.procedimiento));
-  
   if (data.procedimientosAnteriores.length > 0) {
     children.push(new Paragraph({ children: [new TextRun({ text: "Procedimientos anteriores:", bold: true })] }));
     children.push(...createHistoryItems(data.procedimientosAnteriores));
   }
 
-  children.push(createField('Riesgos Informados', data.consentimiento.riesgosInformados));
+  children.push(createField('Riesgos Informados actuales', data.consentimiento.riesgosInformados));
+  if (data.consentimiento.riesgosInformadosAnteriores.length > 0) {
+    children.push(new Paragraph({ children: [new TextRun({ text: "Riesgos informados anteriormente:", bold: true })] }));
+    children.push(...createHistoryItems(data.consentimiento.riesgosInformadosAnteriores));
+  }
   children.push(createField('Fecha', data.consentimiento.fecha));
 
   // 2. Antecedentes Patológicos
   children.push(createHeading('2. Antecedentes Patológicos'));
   children.push(...createDiseaseTable('Personales', data.antecedentesPersonales));
   children.push(...createDiseaseTable('Familiares', data.antecedentesFamiliares));
-  children.push(createField('Observaciones Patológicas', data.observacionesPatologicos));
+  children.push(createField('Observaciones Patológicas actuales', data.observacionesPatologicos));
+  if (data.observacionesPatologicosAnteriores.length > 0) {
+    children.push(new Paragraph({ children: [new TextRun({ text: "Observaciones patológicas anteriores:", bold: true })] }));
+    children.push(...createHistoryItems(data.observacionesPatologicosAnteriores));
+  }
 
   // 3. Medicamentos y Alergias
   children.push(createHeading('3. Medicamentos y Alergias'));
@@ -108,7 +115,11 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   const alergiasTexto = ALERGIAS.map(a => `${a.label}: ${data.alergicos[a.key as keyof typeof data.alergicos] ? 'Sí' : 'No'}`).join(', ');
   const alergiasOtros = `Otros: ${data.alergicos.otros.presenta ? 'Sí (' + data.alergicos.otros.descripcion + ')' : 'No'}`;
   children.push(createField('Alergias presentadas', `${alergiasTexto}, ${alergiasOtros}`));
-  children.push(createField('Observaciones Alergias', data.observacionesAlergias));
+  children.push(createField('Observaciones Alergias actuales', data.observacionesAlergias));
+  if (data.observacionesAlergiasAnteriores.length > 0) {
+    children.push(new Paragraph({ children: [new TextRun({ text: "Observaciones alergias anteriores:", bold: true })] }));
+    children.push(...createHistoryItems(data.observacionesAlergiasAnteriores));
+  }
 
   // 4. Quirúrgicos
   children.push(createHeading('4. Quirúrgicos'));
@@ -121,7 +132,11 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
 
   // 5. Condiciones Finales, Cutis y Sesiones
   children.push(createHeading('5. Condiciones Finales y Sesiones'));
-  children.push(createField('Interferencias en la recuperación', data.condicionRecuperacion));
+  children.push(createField('Interferencias en la recuperación actual', data.condicionRecuperacion));
+  if (data.condicionRecuperacionAnteriores.length > 0) {
+    children.push(new Paragraph({ children: [new TextRun({ text: "Interferencias informadas anteriormente:", bold: true })] }));
+    children.push(...createHistoryItems(data.condicionRecuperacionAnteriores));
+  }
   children.push(createField('Estado de gestación', data.estadoGestacion));
   children.push(createField('Tipo de cutis', data.tipoCutis));
   children.push(createField('Sesiones programadas', data.sesionesProgramadas.toString()));
@@ -130,7 +145,11 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
     const fechasFormateadas = data.fechasSesiones.map((f, i) => `Sesión ${i + 1}: ${f || 'No definida'}`).join(' | ');
     children.push(createField('Fechas de sesiones', fechasFormateadas));
   }
-  children.push(createField('Observaciones generales', data.observacionesGenerales));
+  children.push(createField('Observaciones generales actuales', data.observacionesGenerales));
+  if (data.observacionesGeneralesAnteriores.length > 0) {
+    children.push(new Paragraph({ children: [new TextRun({ text: "Observaciones generales anteriores:", bold: true })] }));
+    children.push(...createHistoryItems(data.observacionesGeneralesAnteriores));
+  }
 
   // 6. Diagrama Facial
   children.push(createHeading('6. Puntos de Aplicación (Diagrama Facial)'));

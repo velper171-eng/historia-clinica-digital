@@ -43,6 +43,7 @@ const initialState: HistoriaClinica = {
     procedimiento: '',
     riesgosInformados:
       'Dolor leve, eritema, edema, hematomas en los puntos de inyección, cefalea transitoria, ptosis palpebral, asimetría facial, reacción alérgica.',
+    riesgosInformadosAnteriores: [],
     firma: '',
     fecha: today(),
   },
@@ -50,18 +51,22 @@ const initialState: HistoriaClinica = {
   antecedentesPersonales: structuredClone(emptyDiseaseRecord),
   antecedentesFamiliares: structuredClone(emptyDiseaseRecord),
   observacionesPatologicos: '',
+  observacionesPatologicosAnteriores: [],
   medicamentos: '',
   medicamentosAnteriores: [],
   alergicos: structuredClone(emptyAllergyRecord),
   observacionesAlergias: '',
+  observacionesAlergiasAnteriores: [],
   quirurgicos: '',
   quirurgicosAnteriores: [],
   condicionRecuperacion: '',
+  condicionRecuperacionAnteriores: [],
   estadoGestacion: 'No',
   tipoCutis: 'Normal',
   sesionesProgramadas: 1,
   fechasSesiones: [today()],
   observacionesGenerales: '',
+  observacionesGeneralesAnteriores: [],
   firmaFinal: '',
   fechaFinal: today(),
   puntosInyeccion: INJECTION_POINTS.map((p) => ({
@@ -96,6 +101,11 @@ type Store = HistoriaClinica & {
   updateProcedimientoHistorico: (index: number, texto: string) => void;
   updateMedicamentoHistorico: (index: number, texto: string) => void;
   updateQuirurgicoHistorico: (index: number, texto: string) => void;
+  updateRiesgoHistorico: (index: number, texto: string) => void;
+  updatePatologicoHistorico: (index: number, texto: string) => void;
+  updateAlergiaHistorico: (index: number, texto: string) => void;
+  updateCondicionHistorico: (index: number, texto: string) => void;
+  updateObservacionGralHistorico: (index: number, texto: string) => void;
   commitToHistory: () => void;
 
   loadData: (data: HistoriaClinica) => void;
@@ -127,7 +137,13 @@ export const useFormStore = create<Store>((set) => ({
   togglePuntoInyeccion: (id) =>
     set((s) => ({
       puntosInyeccion: s.puntosInyeccion.map((p) =>
-        p.id === id ? { ...p, activo: !p.activo } : p
+        p.id === id 
+          ? { 
+              ...p, 
+              activo: true, 
+              unidades: (p.unidades || 0) + 1 
+            } 
+          : p
       ),
     })),
   setPuntoUnidades: (id, unidades) =>
@@ -161,6 +177,39 @@ export const useFormStore = create<Store>((set) => ({
         i === index ? { ...q, texto } : q
       ),
     })),
+  updateRiesgoHistorico: (index, texto) =>
+    set((s) => ({
+      consentimiento: {
+        ...s.consentimiento,
+        riesgosInformadosAnteriores: s.consentimiento.riesgosInformadosAnteriores.map((r, i) =>
+          i === index ? { ...r, texto } : r
+        ),
+      },
+    })),
+  updatePatologicoHistorico: (index, texto) =>
+    set((s) => ({
+      observacionesPatologicosAnteriores: s.observacionesPatologicosAnteriores.map((p, i) =>
+        i === index ? { ...p, texto } : p
+      ),
+    })),
+  updateAlergiaHistorico: (index, texto) =>
+    set((s) => ({
+      observacionesAlergiasAnteriores: s.observacionesAlergiasAnteriores.map((a, i) =>
+        i === index ? { ...a, texto } : a
+      ),
+    })),
+  updateCondicionHistorico: (index, texto) =>
+    set((s) => ({
+      condicionRecuperacionAnteriores: s.condicionRecuperacionAnteriores.map((c, i) =>
+        i === index ? { ...c, texto } : c
+      ),
+    })),
+  updateObservacionGralHistorico: (index, texto) =>
+    set((s) => ({
+      observacionesGeneralesAnteriores: s.observacionesGeneralesAnteriores.map((o, i) =>
+        i === index ? { ...o, texto } : o
+      ),
+    })),
 
   commitToHistory: () =>
     set((s) => {
@@ -178,6 +227,31 @@ export const useFormStore = create<Store>((set) => ({
       const newQuirurgicos = [...s.quirurgicosAnteriores];
       if (s.quirurgicos.trim()) {
         newQuirurgicos.push({ texto: s.quirurgicos, fecha });
+      }
+
+      const newRiesgos = [...s.consentimiento.riesgosInformadosAnteriores];
+      if (s.consentimiento.riesgosInformados.trim()) {
+        newRiesgos.push({ texto: s.consentimiento.riesgosInformados, fecha });
+      }
+
+      const newPatologicos = [...s.observacionesPatologicosAnteriores];
+      if (s.observacionesPatologicos.trim()) {
+        newPatologicos.push({ texto: s.observacionesPatologicos, fecha });
+      }
+
+      const newAlergias = [...s.observacionesAlergiasAnteriores];
+      if (s.observacionesAlergias.trim()) {
+        newAlergias.push({ texto: s.observacionesAlergias, fecha });
+      }
+
+      const newCondiciones = [...s.condicionRecuperacionAnteriores];
+      if (s.condicionRecuperacion.trim()) {
+        newCondiciones.push({ texto: s.condicionRecuperacion, fecha });
+      }
+
+      const newObsGral = [...s.observacionesGeneralesAnteriores];
+      if (s.observacionesGenerales.trim()) {
+        newObsGral.push({ texto: s.observacionesGenerales, fecha });
       }
 
       const newPuntos = s.puntosInyeccion.map((p) => {
@@ -200,10 +274,23 @@ export const useFormStore = create<Store>((set) => ({
         procedimientosAnteriores: newProcedimientos,
         medicamentosAnteriores: newMedicamentos,
         quirurgicosAnteriores: newQuirurgicos,
+        observacionesPatologicosAnteriores: newPatologicos,
+        observacionesAlergiasAnteriores: newAlergias,
+        condicionRecuperacionAnteriores: newCondiciones,
+        observacionesGeneralesAnteriores: newObsGral,
         puntosInyeccion: newPuntos,
-        consentimiento: { ...s.consentimiento, procedimiento: '' },
+        consentimiento: { 
+          ...s.consentimiento, 
+          procedimiento: '',
+          riesgosInformados: '',
+          riesgosInformadosAnteriores: newRiesgos
+        },
         medicamentos: '',
         quirurgicos: '',
+        observacionesPatologicos: '',
+        observacionesAlergias: '',
+        condicionRecuperacion: '',
+        observacionesGenerales: '',
       };
     }),
 
@@ -215,6 +302,14 @@ export const useFormStore = create<Store>((set) => ({
       procedimientosAnteriores: data.procedimientosAnteriores || [],
       medicamentosAnteriores: data.medicamentosAnteriores || [],
       quirurgicosAnteriores: data.quirurgicosAnteriores || [],
+      observacionesPatologicosAnteriores: data.observacionesPatologicosAnteriores || [],
+      observacionesAlergiasAnteriores: data.observacionesAlergiasAnteriores || [],
+      condicionRecuperacionAnteriores: data.condicionRecuperacionAnteriores || [],
+      observacionesGeneralesAnteriores: data.observacionesGeneralesAnteriores || [],
+      consentimiento: {
+        ...(data.consentimiento || s.consentimiento),
+        riesgosInformadosAnteriores: data.consentimiento?.riesgosInformadosAnteriores || []
+      },
       puntosInyeccion: (data.puntosInyeccion || s.puntosInyeccion).map(p => ({
         ...p,
         aplicacionesAnteriores: p.aplicacionesAnteriores || []

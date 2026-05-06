@@ -88,18 +88,22 @@ export function HistoriaForm() {
         antecedentesPersonales,
         antecedentesFamiliares,
         observacionesPatologicos,
+        observacionesPatologicosAnteriores,
         medicamentos,
         medicamentosAnteriores,
         alergicos,
         observacionesAlergias,
+        observacionesAlergiasAnteriores,
         quirurgicos,
         quirurgicosAnteriores,
         condicionRecuperacion,
+        condicionRecuperacionAnteriores,
         estadoGestacion,
         tipoCutis,
         sesionesProgramadas,
         fechasSesiones,
         observacionesGenerales,
+        observacionesGeneralesAnteriores,
         firmaFinal,
         fechaFinal,
         puntosInyeccion,
@@ -112,18 +116,22 @@ export function HistoriaForm() {
         antecedentesPersonales,
         antecedentesFamiliares,
         observacionesPatologicos,
+        observacionesPatologicosAnteriores,
         medicamentos,
         medicamentosAnteriores,
         alergicos,
         observacionesAlergias,
+        observacionesAlergiasAnteriores,
         quirurgicos,
         quirurgicosAnteriores,
         condicionRecuperacion,
+        condicionRecuperacionAnteriores,
         estadoGestacion,
         tipoCutis,
         sesionesProgramadas,
         fechasSesiones,
         observacionesGenerales,
+        observacionesGeneralesAnteriores,
         firmaFinal,
         fechaFinal,
         puntosInyeccion,
@@ -265,8 +273,8 @@ export function HistoriaForm() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Riesgos y efectos secundarios informados
+          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+            Riesgos y efectos secundarios informados (Nuevo)
           </label>
           <textarea
             rows={3}
@@ -275,6 +283,12 @@ export function HistoriaForm() {
               useFormStore.getState().setConsentimiento({ riesgosInformados: e.target.value })
             }
             className={inputClass}
+            placeholder="Enumere los riesgos informados..."
+          />
+          <HistoricalEntries 
+            title="Riesgos informados anteriormente"
+            entries={data.consentimiento.riesgosInformadosAnteriores}
+            onEdit={(idx, val) => useFormStore.getState().updateRiesgoHistorico(idx, val)}
           />
         </div>
 
@@ -329,15 +343,20 @@ export function HistoriaForm() {
         />
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Observaciones generales (patológicos)
+          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+            Observaciones generales patológicas (Nuevo)
           </label>
           <textarea
             rows={2}
             value={data.observacionesPatologicos}
             onChange={(e) => useFormStore.getState().setObservacionesPatologicos(e.target.value)}
             className={inputClass}
-            placeholder="Detalles adicionales"
+            placeholder="Detalles adicionales sobre antecedentes"
+          />
+          <HistoricalEntries 
+            title="Observaciones patológicas anteriores"
+            entries={data.observacionesPatologicosAnteriores}
+            onEdit={(idx, val) => useFormStore.getState().updatePatologicoHistorico(idx, val)}
           />
         </div>
       </Section>
@@ -373,15 +392,20 @@ export function HistoriaForm() {
           onChange={useFormStore.getState().setAlergicos}
         />
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Observaciones (síntomas)
+          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+            Observaciones y síntomas de alergias (Nuevo)
           </label>
           <textarea
             rows={2}
             value={data.observacionesAlergias}
             onChange={(e) => useFormStore.getState().setObservacionesAlergias(e.target.value)}
             className={inputClass}
-            placeholder="Síntomas presentados"
+            placeholder="Síntomas presentados..."
+          />
+          <HistoricalEntries 
+            title="Observaciones de alergias anteriores"
+            entries={data.observacionesAlergiasAnteriores}
+            onEdit={(idx, val) => useFormStore.getState().updateAlergiaHistorico(idx, val)}
           />
         </div>
       </Section>
@@ -407,8 +431,8 @@ export function HistoriaForm() {
       {/* ====== SECCIÓN 7: CONDICIONES FINALES ====== */}
       <Section number="7" title="Condiciones finales">
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            ¿Conoce alguna condición que interfiera con la recuperación?
+          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+            ¿Conoce alguna condición que interfiera con la recuperación? (Nuevo)
           </label>
           <textarea
             rows={2}
@@ -416,6 +440,11 @@ export function HistoriaForm() {
             onChange={(e) => useFormStore.getState().setCondicionRecuperacion(e.target.value)}
             className={inputClass}
             placeholder='Describa o responda "No"'
+          />
+          <HistoricalEntries 
+            title="Condiciones anteriores informadas"
+            entries={data.condicionRecuperacionAnteriores}
+            onEdit={(idx, val) => useFormStore.getState().updateCondicionHistorico(idx, val)}
           />
         </div>
 
@@ -512,8 +541,8 @@ export function HistoriaForm() {
         )}
 
         <div className="mt-4">
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Observaciones generales
+          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+            Observaciones generales (Nuevo)
           </label>
           <textarea
             rows={3}
@@ -521,6 +550,11 @@ export function HistoriaForm() {
             onChange={(e) => useFormStore.getState().setObservacionesGenerales(e.target.value)}
             className={inputClass}
             placeholder="Anotaciones adicionales..."
+          />
+          <HistoricalEntries 
+            title="Observaciones generales anteriores"
+            entries={data.observacionesGeneralesAnteriores}
+            onEdit={(idx, val) => useFormStore.getState().updateObservacionGralHistorico(idx, val)}
           />
         </div>
       </Section>
