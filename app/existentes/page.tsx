@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, ArrowLeft, User, Calendar, ChevronRight, Loader2 } from 'lucide-react';
+import { Search, ArrowLeft, User, Calendar, ChevronRight, Loader2, Trash2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useFormStore } from '@/lib/form-store';
 
@@ -50,6 +50,29 @@ export default function ExistentesPage() {
     };
     loadData(fullData);
     router.push('/nueva');
+  };
+
+  const handleDelete = async (e: React.MouseEvent, id: string, name: string) => {
+    e.stopPropagation(); // Evitar que se active el handleSelect
+    if (!confirm(`¿Estás seguro de que deseas eliminar la historia clínica de ${name || 'este paciente'}? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+
+    try {
+      const { error: supabaseError } = await supabase
+        .from('historias_clinicas')
+        .delete()
+        .eq('id', id);
+
+      if (supabaseError) throw supabaseError;
+      
+      // Actualizar el estado local
+      setRecords(records.filter(r => r.id !== id));
+      alert('Registro eliminado correctamente.');
+    } catch (e) {
+      console.error(e);
+      alert('Error al eliminar el registro.');
+    }
   };
 
   return (
@@ -101,10 +124,10 @@ export default function ExistentesPage() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {filteredRecords.map((record) => (
-              <button
+              <div
                 key={record.id}
                 onClick={() => handleSelect(record)}
-                className="group flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all hover:border-blue-500 hover:shadow-md active:scale-[0.99]"
+                className="group flex w-full cursor-pointer items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all hover:border-blue-500 hover:shadow-md active:scale-[0.99]"
               >
                 <div className="flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
@@ -124,11 +147,21 @@ export default function ExistentesPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-slate-400 group-hover:text-blue-600">
-                  <span className="text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">Continuar</span>
-                  <ChevronRight size={20} />
+                
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={(e) => handleDelete(e, record.id, record.paciente_nombre)}
+                    className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
+                    title="Eliminar registro"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                  <div className="flex items-center gap-2 text-slate-400 group-hover:text-blue-600">
+                    <span className="text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">Continuar</span>
+                    <ChevronRight size={20} />
+                  </div>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         )}
