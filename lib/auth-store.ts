@@ -28,7 +28,15 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ isAuthenticated: false }),
     }),
     {
-      name: 'auth-storage', // persiste en localStorage
+      name: 'auth-storage',
+      storage: {
+        getItem: (name) => {
+          const str = sessionStorage.getItem(name);
+          return str ? JSON.parse(str) : null;
+        },
+        setItem: (name, value) => sessionStorage.setItem(name, JSON.stringify(value)),
+        removeItem: (name) => sessionStorage.removeItem(name),
+      },
     }
   )
 );
