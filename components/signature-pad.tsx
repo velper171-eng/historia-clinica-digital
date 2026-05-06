@@ -37,29 +37,29 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
 
   return (
     <div>
-      <div className="mb-1 flex items-center justify-between">
-        <label className="text-sm font-medium text-slate-700">{label}</label>
+      <div className="mb-2 flex items-center justify-between">
+        <label className="text-sm font-bold text-stone">{label}</label>
         <button
           type="button"
           onClick={clear}
-          className="text-xs text-slate-500 underline hover:text-slate-700"
+          className="text-[10px] font-black uppercase tracking-widest text-stone/40 hover:text-red-400 transition-colors"
         >
           Limpiar
         </button>
       </div>
-      <div className="rounded-lg border-2 border-dashed border-slate-300 bg-white">
+      <div className="rounded-2xl border-2 border-dashed border-stone/20 bg-blush/10">
         <SignatureCanvas
           ref={sigRef}
-          penColor="black"
+          penColor="#4A4A4A"
           canvasProps={{
-            className: 'w-full h-40 rounded-lg cursor-crosshair',
+            className: 'w-full h-40 rounded-2xl cursor-crosshair',
             width: 600,
             height: 160,
           }}
           onEnd={handleEnd}
         />
       </div>
-      <p className="mt-1 text-xs text-slate-500">Firme con el mouse o con el dedo si usa tablet.</p>
+      <p className="mt-2 text-[10px] font-medium text-stone/40">Firme con el mouse o con el dedo si usa tablet.</p>
     </div>
   );
 }

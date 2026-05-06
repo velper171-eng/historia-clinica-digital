@@ -33,25 +33,26 @@ export function FaceDiagram({
           gap: '0',
           borderRadius: '999px',
           overflow: 'hidden',
-          border: '2px solid #334155',
+          border: '1px solid rgba(154, 140, 132, 0.2)',
           width: 'fit-content',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+          boxShadow: '0 8px 30px rgba(0,0,0,0.04)',
         }}
       >
         <button
           id="gender-mujer"
           onClick={() => setGender('mujer')}
           style={{
-            padding: '8px 28px',
-            fontSize: '14px',
-            fontWeight: 600,
+            padding: '10px 32px',
+            fontSize: '12px',
+            fontWeight: 800,
             cursor: 'pointer',
             border: 'none',
             outline: 'none',
-            letterSpacing: '0.03em',
-            transition: 'background 200ms, color 200ms',
-            background: gender === 'mujer' ? '#e879a0' : '#1e293b',
-            color: gender === 'mujer' ? '#fff' : '#94a3b8',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            transition: 'all 200ms',
+            background: gender === 'mujer' ? '#A7B7A4' : '#fff',
+            color: gender === 'mujer' ? '#fff' : '#9A8C84',
           }}
         >
           ♀ Mujer
@@ -60,16 +61,17 @@ export function FaceDiagram({
           id="gender-hombre"
           onClick={() => setGender('hombre')}
           style={{
-            padding: '8px 28px',
-            fontSize: '14px',
-            fontWeight: 600,
+            padding: '10px 32px',
+            fontSize: '12px',
+            fontWeight: 800,
             cursor: 'pointer',
             border: 'none',
             outline: 'none',
-            letterSpacing: '0.03em',
-            transition: 'background 200ms, color 200ms',
-            background: gender === 'hombre' ? '#3b82f6' : '#1e293b',
-            color: gender === 'hombre' ? '#fff' : '#94a3b8',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            transition: 'all 200ms',
+            background: gender === 'hombre' ? '#9A8C84' : '#fff',
+            color: gender === 'hombre' ? '#fff' : '#9A8C84',
           }}
         >
           ♂ Hombre
@@ -78,7 +80,7 @@ export function FaceDiagram({
 
       {/* Diagrama facial */}
       <div
-        className="relative inline-block overflow-hidden rounded-lg"
+        className="relative inline-block overflow-hidden rounded-[40px] shadow-2xl shadow-stone/10 border border-stone/5"
         style={{ width, aspectRatio: '800/1000' }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -98,7 +100,7 @@ export function FaceDiagram({
           aria-label="Diagrama facial para puntos de inyección"
         >
           {/* Capa sutil para mejorar contraste de los puntos */}
-          <rect x="0" y="0" width="800" height="1000" fill="#000" fillOpacity="0.02" />
+          <rect x="0" y="0" width="800" height="1000" fill="#9A8C84" fillOpacity="0.05" />
 
           {/* Puntos de inyección */}
           {points.map((p) => {
@@ -108,17 +110,16 @@ export function FaceDiagram({
               <g key={p.id}>
                 {/* Halo cuando activo */}
                 {isActive && (
-                  <circle cx={p.cx} cy={p.cy} r={18} fill="#22c55e" fillOpacity={0.4} />
+                  <circle cx={p.cx} cy={p.cy} r={22} fill="#A7B7A4" fillOpacity={0.3} className="animate-pulse" />
                 )}
                 <circle
                   cx={p.cx}
                   cy={p.cy}
-                  r={isHover || isActive ? 12 : 10}
-                  fill={isActive ? '#22c55e' : 'transparent'}
-                  stroke={isActive ? '#0f5132' : '#22c55e'}
-                  strokeWidth={isActive ? 3 : 2}
-                  strokeOpacity={isActive ? 1 : 0.6}
-                  style={{ cursor: readOnly ? 'default' : 'pointer', transition: 'all 120ms' }}
+                  r={isHover || isActive ? 14 : 10}
+                  fill={isActive ? '#A7B7A4' : 'rgba(255,255,255,0.8)'}
+                  stroke={isActive ? '#fff' : '#A7B7A4'}
+                  strokeWidth={isActive ? 4 : 2}
+                  style={{ cursor: readOnly ? 'default' : 'pointer', transition: 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)' }}
                   onClick={() => !readOnly && onTogglePoint?.(p.id)}
                   onMouseEnter={() => setHoverId(p.id)}
                   onMouseLeave={() => setHoverId(null)}
@@ -127,9 +128,8 @@ export function FaceDiagram({
                 <circle
                   cx={p.cx}
                   cy={p.cy}
-                  r={2}
-                  fill={isActive ? '#0f5132' : '#22c55e'}
-                  fillOpacity={isActive ? 1 : 0.6}
+                  r={isActive ? 4 : 2}
+                  fill={isActive ? '#fff' : '#A7B7A4'}
                   pointerEvents="none"
                 />
               </g>
@@ -139,7 +139,7 @@ export function FaceDiagram({
 
         {/* Tooltip */}
         {hoverId && (
-          <div className="pointer-events-none absolute left-1/2 top-2 -translate-x-1/2 rounded-md bg-slate-900/95 px-3 py-1.5 text-xs font-medium text-white shadow-lg backdrop-blur">
+          <div className="pointer-events-none absolute left-1/2 bottom-8 -translate-x-1/2 rounded-full bg-stone/90 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-xl backdrop-blur-md border border-white/10">
             {points.find(p => p.id === hoverId)?.zona} — {points.find(p => p.id === hoverId)?.nombre}
           </div>
         )}

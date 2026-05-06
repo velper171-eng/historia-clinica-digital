@@ -11,13 +11,13 @@ type Props = {
 
 export function DiseaseChecklist({ value, onChange, idPrefix }: Props) {
   return (
-    <div className="overflow-hidden rounded-lg border border-slate-200">
+    <div className="overflow-hidden rounded-2xl border border-stone/10 bg-white shadow-sm">
       <table className="w-full text-sm">
-        <thead className="bg-slate-50">
+        <thead className="bg-sand/30">
           <tr>
-            <th className="px-3 py-2 text-left font-medium text-slate-700">Enfermedad</th>
-            <th className="w-16 px-3 py-2 text-center font-medium text-slate-700">¿Padece?</th>
-            <th className="px-3 py-2 text-left font-medium text-slate-700">Observación</th>
+            <th className="px-3 py-3 text-left text-[10px] font-black uppercase tracking-widest text-stone/50">Enfermedad</th>
+            <th className="w-20 px-3 py-3 text-center text-[10px] font-black uppercase tracking-widest text-stone/50">¿Padece?</th>
+            <th className="px-3 py-3 text-left text-[10px] font-black uppercase tracking-widest text-stone/50">Observación</th>
           </tr>
         </thead>
         <tbody>
@@ -25,18 +25,18 @@ export function DiseaseChecklist({ value, onChange, idPrefix }: Props) {
             const entry = value[key];
             const inputId = `${idPrefix}-${key}`;
             return (
-              <tr key={key} className="border-t border-slate-200">
-                <td className="px-3 py-2 align-top">
-                  <label htmlFor={inputId} className="block font-medium text-slate-800">
+              <tr key={key} className="border-t border-stone/5 hover:bg-blush/20 transition-colors">
+                <td className="px-3 py-3 align-top">
+                  <label htmlFor={inputId} className="block font-bold text-stone">
                     {label}
                   </label>
-                  <p className="mt-0.5 text-xs text-slate-500">{descripcion}</p>
+                  <p className="mt-0.5 text-[11px] text-stone/50 font-medium">{descripcion}</p>
                 </td>
-                <td className="px-3 py-2 text-center align-top">
+                <td className="px-3 py-3 text-center align-top">
                   <input
                     id={inputId}
                     type="checkbox"
-                    className="h-5 w-5 cursor-pointer accent-emerald-600"
+                    className="h-5 w-5 cursor-pointer accent-sage rounded-lg border-stone/20"
                     checked={entry.presenta}
                     onChange={(e) =>
                       onChange({
@@ -46,11 +46,11 @@ export function DiseaseChecklist({ value, onChange, idPrefix }: Props) {
                     }
                   />
                 </td>
-                <td className="px-3 py-2 align-top">
+                <td className="px-3 py-3 align-top">
                   <input
                     type="text"
                     placeholder="Detalle (opcional)"
-                    className="w-full rounded border border-slate-300 px-2 py-1 text-sm focus:border-emerald-500 focus:outline-none"
+                    className="w-full rounded-xl border border-stone/10 bg-blush/30 px-3 py-1.5 text-xs font-medium text-stone focus:border-sage focus:outline-none transition-all placeholder:text-stone/20"
                     value={entry.observacion}
                     onChange={(e) =>
                       onChange({

@@ -11,12 +11,12 @@
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-sage: var(--sage);
-  --color-stone: var(--stone);
-  --color-sand: var(--sand);
-  --color-blush: var(--blush);
+  --color-background: #F2EBE0;
+  --color-foreground: #4A4A4A;
+  --color-sage: #A7B7A4;
+  --color-stone: #9A8C84;
+  --color-sand: #E0D7CD;
+  --color-blush: #F2EBE0;
   --font-sans: var(--font-geist-sans);
 }
 
