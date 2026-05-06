@@ -90,7 +90,7 @@ function DiseaseTable({
       }}
     >
       <thead>
-        <tr style={{ background: '#f1f5f9' }}>
+        <tr style={{ background: '#E0D7CD' }}>
           <th style={cellStyle(true)}>Enfermedad</th>
           <th style={{ ...cellStyle(true), width: 50, textAlign: 'center' }}>Sí</th>
           <th style={cellStyle(true)}>Observación</th>
@@ -100,10 +100,10 @@ function DiseaseTable({
         {rows.map((r) => (
           <tr key={r.label}>
             <td style={cellStyle(false)}>
-              <div style={{ fontWeight: 600 }}>{r.label}</div>
-              <div style={{ fontSize: '8.5pt', color: '#444' }}>{r.descripcion}</div>
+              <div style={{ fontWeight: 700, color: '#9A8C84' }}>{r.label}</div>
+              <div style={{ fontSize: '8.5pt', color: '#666' }}>{r.descripcion}</div>
             </td>
-            <td style={{ ...cellStyle(false), textAlign: 'center', fontWeight: 700 }}>
+            <td style={{ ...cellStyle(false), textAlign: 'center', fontWeight: 700, color: '#A7B7A4' }}>
               {r.presenta ? 'X' : ''}
             </td>
             <td style={cellStyle(false)}>{r.observacion || ' '}</td>
@@ -116,21 +116,22 @@ function DiseaseTable({
 
 function cellStyle(header: boolean): React.CSSProperties {
   return {
-    border: '1px solid #94a3b8',
-    padding: '4px 6px',
+    border: '1px solid #E0D7CD',
+    padding: '6px 8px',
     textAlign: 'left',
     verticalAlign: 'top',
-    fontWeight: header ? 600 : 400,
+    fontWeight: header ? 700 : 400,
+    color: header ? '#9A8C84' : '#444',
   };
 }
 
 function HistorySection({ entries }: { entries: { texto: string; fecha: string }[] }) {
   if (!entries || entries.length === 0) return null;
   return (
-    <div style={{ marginTop: 4, paddingLeft: 10, borderLeft: '2px solid #e2e8f0' }}>
+    <div style={{ marginTop: 6, paddingLeft: 12, borderLeft: '3px solid #E0D7CD' }}>
       {entries.map((e, idx) => (
-        <div key={idx} style={{ marginBottom: 4, fontSize: '9pt' }}>
-          <span style={{ fontWeight: 600, color: '#64748b' }}>[{formatDate(e.fecha)}]:</span> {e.texto}
+        <div key={idx} style={{ marginBottom: 6, fontSize: '9pt' }}>
+          <span style={{ fontWeight: 700, color: '#A7B7A4' }}>[{formatDate(e.fecha)}]:</span> {e.texto}
         </div>
       ))}
     </div>
