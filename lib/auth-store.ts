@@ -8,15 +8,18 @@ interface AuthState {
 }
 
 // Credenciales por defecto (puedes cambiarlas aquí o usar variables de entorno)
-const VALID_USER = "admin";
-const VALID_PASS = "isabel2024";
+const AUTHORIZED_USERS = [
+  { user: "39457112", pass: "39457112" },
+  { user: "1007346562", pass: "1007346562" }
+];
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       isAuthenticated: false,
       login: (user, pass) => {
-        if (user === VALID_USER && pass === VALID_PASS) {
+        const isValid = AUTHORIZED_USERS.some(u => u.user === user && u.pass === pass);
+        if (isValid) {
           set({ isAuthenticated: true });
           return true;
         }
