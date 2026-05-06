@@ -207,6 +207,18 @@ export const useFormStore = create<Store>((set) => ({
       };
     }),
 
-  loadData: (data) => set({ ...structuredClone(data) }),
+  loadData: (data) => 
+    set((s) => ({ 
+      ...structuredClone(initialState), 
+      ...structuredClone(data),
+      // Aseguramos que los arreglos de historial existan si el registro es viejo
+      procedimientosAnteriores: data.procedimientosAnteriores || [],
+      medicamentosAnteriores: data.medicamentosAnteriores || [],
+      quirurgicosAnteriores: data.quirurgicosAnteriores || [],
+      puntosInyeccion: (data.puntosInyeccion || s.puntosInyeccion).map(p => ({
+        ...p,
+        aplicacionesAnteriores: p.aplicacionesAnteriores || []
+      }))
+    })),
   reset: () => set(structuredClone(initialState)),
 }));
