@@ -189,7 +189,9 @@ export function HistoriaForm() {
     if (confirm('¿Desea descartar los cambios realizados en esta sesión? Se mantendrá el historial previo.')) {
       useFormStore.getState().discardCurrentSession();
     }
-   return (
+  };
+
+  return (
     <div className="mx-auto w-full max-w-5xl px-4 py-6 pb-32">
       {/* ====== HEADER ====== */}
       <div className="mb-6 rounded-xl border border-stone/10 bg-white p-5 shadow-sm">
