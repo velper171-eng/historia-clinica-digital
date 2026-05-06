@@ -79,13 +79,13 @@ export default function ExistentesPage() {
 
   return (
     <AuthGate>
-      <main className="min-h-screen bg-slate-50 pb-20">
-        <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur-md">
+      <main className="min-h-screen bg-blush pb-20">
+        <header className="sticky top-0 z-10 border-b border-stone/10 bg-white/80 backdrop-blur-md">
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-            <Link href="/" className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+            <Link href="/" className="flex items-center gap-2 text-sm font-medium text-stone/60 hover:text-stone transition-colors">
               <ArrowLeft size={16} /> Volver al inicio
             </Link>
-            <h1 className="text-lg font-bold text-slate-900">Historias Clínicas Existentes</h1>
+            <h1 className="text-lg font-bold text-stone">Historias Clínicas Existentes</h1>
             <div className="w-20" />
           </div>
         </header>
@@ -93,20 +93,20 @@ export default function ExistentesPage() {
         <div className="mx-auto max-w-5xl px-4 pt-8">
           {/* Buscador */}
           <div className="relative mb-8">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-stone/40" size={20} />
             <input
               type="text"
               placeholder="Buscar por nombre del paciente o documento..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full rounded-2xl border border-slate-200 bg-white py-4 pl-12 pr-4 text-lg shadow-sm focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-50"
+              className="w-full rounded-2xl border border-stone/10 bg-white py-4 pl-12 pr-4 text-lg shadow-sm focus:border-sage focus:outline-none focus:ring-4 focus:ring-sage/5 transition-all"
             />
           </div>
 
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-20 text-slate-500">
-              <Loader2 className="mb-4 animate-spin" size={40} />
-              <p>Cargando registros...</p>
+            <div className="flex flex-col items-center justify-center py-20 text-stone/50">
+              <Loader2 className="mb-4 animate-spin text-sage" size={40} />
+              <p className="font-bold uppercase tracking-widest text-[10px]">Cargando registros...</p>
             </div>
           ) : error ? (
             <div className="rounded-2xl border border-red-100 bg-red-50 p-8 text-center text-red-600">
@@ -114,13 +114,13 @@ export default function ExistentesPage() {
               <button onClick={fetchRecords} className="mt-4 font-semibold underline">Reintentar</button>
             </div>
           ) : filteredRecords.length === 0 ? (
-            <div className="rounded-3xl border-2 border-dashed border-slate-200 p-20 text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+            <div className="rounded-3xl border-2 border-dashed border-stone/20 p-20 text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-sand/30 text-stone/30">
                 <User size={32} />
               </div>
-              <h3 className="text-lg font-semibold text-slate-900">No se encontraron pacientes</h3>
-              <p className="text-slate-500">Intenta con otro nombre o documento, o crea una nueva historia.</p>
-              <Link href="/nueva" className="mt-6 inline-block rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white transition-transform hover:scale-105 active:scale-95">
+              <h3 className="text-lg font-bold text-stone">No se encontraron pacientes</h3>
+              <p className="text-stone/50 font-medium">Intenta con otro nombre o documento, o crea una nueva historia.</p>
+              <Link href="/nueva" className="mt-6 inline-block rounded-xl bg-stone px-6 py-3 font-bold text-white transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-stone/20">
                 Crear Nueva Historia
               </Link>
             </div>
@@ -130,17 +130,17 @@ export default function ExistentesPage() {
                 <div
                   key={record.id}
                   onClick={() => handleSelect(record)}
-                  className="group flex w-full cursor-pointer items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all hover:border-blue-500 hover:shadow-md active:scale-[0.99]"
+                  className="group flex w-full cursor-pointer items-center justify-between rounded-2xl border border-stone/10 bg-white p-5 text-left shadow-sm transition-all hover:border-sage hover:shadow-md active:scale-[0.99]"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sand/30 text-sage group-hover:bg-sage group-hover:text-white transition-colors">
                       <User size={24} />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 group-hover:text-blue-700">
+                      <h3 className="font-bold text-stone">
                         {record.paciente_nombre || 'Sin nombre'}
                       </h3>
-                      <div className="flex items-center gap-3 text-sm text-slate-500">
+                      <div className="flex items-center gap-3 text-sm text-stone/50 font-medium">
                         <span className="flex items-center gap-1">
                           Doc: {record.paciente_documento || '—'}
                         </span>
@@ -154,13 +154,13 @@ export default function ExistentesPage() {
                   <div className="flex items-center gap-4">
                     <button
                       onClick={(e) => handleDelete(e, record.id, record.paciente_nombre)}
-                      className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
+                      className="flex h-10 w-10 items-center justify-center rounded-xl text-stone/20 transition-colors hover:bg-red-50 hover:text-red-600"
                       title="Eliminar registro"
                     >
                       <Trash2 size={20} />
                     </button>
-                    <div className="flex items-center gap-2 text-slate-400 group-hover:text-blue-600">
-                      <span className="text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">Continuar</span>
+                    <div className="flex items-center gap-2 text-stone/20 group-hover:text-sage transition-colors">
+                      <span className="text-xs font-bold uppercase opacity-0 group-hover:opacity-100 transition-opacity tracking-tighter">Continuar</span>
                       <ChevronRight size={20} />
                     </div>
                   </div>

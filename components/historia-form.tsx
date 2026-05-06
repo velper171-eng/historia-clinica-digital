@@ -189,17 +189,15 @@ export function HistoriaForm() {
     if (confirm('¿Desea descartar los cambios realizados en esta sesión? Se mantendrá el historial previo.')) {
       useFormStore.getState().discardCurrentSession();
     }
-  };
-
-  return (
+   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-6 pb-32">
       {/* ====== HEADER ====== */}
-      <div className="mb-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="mb-1 inline-block rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold uppercase text-emerald-800">
-          Historia clínica
+      <div className="mb-6 rounded-xl border border-stone/10 bg-white p-5 shadow-sm">
+        <div className="mb-1 inline-block rounded-full bg-sand px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-stone">
+          Isabel Velasquez
         </div>
-        <h1 className="text-2xl font-bold text-slate-900">Historia clínica y seguimiento</h1>
-        <p className="mt-1 text-sm text-slate-600">
+        <h1 className="text-2xl font-bold text-stone">Historia clínica y seguimiento</h1>
+        <p className="mt-1 text-sm text-stone/60 font-medium">
           Diligencie los campos y descargue el PDF o Word cuando esté listo.
         </p>
       </div>
@@ -207,7 +205,7 @@ export function HistoriaForm() {
       {/* ====== SECCIÓN 1: CONSENTIMIENTO ====== */}
       <Section number="1" title="Consentimiento informado">
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
+          <label className="mb-1 block text-sm font-medium text-stone">
             Yo (nombre completo)
           </label>
           <input
@@ -223,7 +221,7 @@ export function HistoriaForm() {
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Tipo de documento</label>
+            <label className="mb-1 block text-sm font-medium text-stone">Tipo de documento</label>
             <select
               value={data.consentimiento.tipoDocumento}
               onChange={(e) =>
@@ -239,7 +237,7 @@ export function HistoriaForm() {
             </select>
           </div>
           <div className="md:col-span-2">
-            <label className="mb-1 block text-sm font-medium text-slate-700">Número de documento</label>
+            <label className="mb-1 block text-sm font-medium text-stone">Número de documento</label>
             <input
               type="text"
               value={data.consentimiento.numeroDocumento}
@@ -252,16 +250,16 @@ export function HistoriaForm() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
+          <label className="mb-1 block text-sm font-medium text-stone">
             En pleno uso de mis facultades mentales, autorizo a la profesional
           </label>
-          <div className={inputClass + " bg-slate-50 font-semibold text-slate-900"}>
+          <div className={inputClass + " bg-blush font-semibold text-stone border-stone/20"}>
             Isabel Velasquez
           </div>
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">Procedimiento a realizar (Nuevo)</label>
+          <label className="mb-1 block text-sm font-bold text-stone">Procedimiento a realizar (Nuevo)</label>
           <textarea
             rows={2}
             value={data.consentimiento.procedimiento}
@@ -280,7 +278,7 @@ export function HistoriaForm() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+          <label className="mb-1 block text-sm font-bold text-stone">
             Riesgos y efectos secundarios informados (Nuevo)
           </label>
           <textarea
@@ -299,14 +297,14 @@ export function HistoriaForm() {
           />
         </div>
 
-        <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600">
+        <div className="rounded-lg border border-stone/10 bg-blush p-3 text-xs text-stone/60 font-medium italic">
           Con todo lo anterior, dejo constancia que entendí toda la información suministrada,
           y por ello acepto la realización del procedimiento.
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Fecha</label>
+            <label className="mb-1 block text-sm font-medium text-stone">Fecha</label>
             <input
               type="date"
               value={data.consentimiento.fecha}
@@ -328,7 +326,7 @@ export function HistoriaForm() {
 
       {/* ====== SECCIÓN 2: ANTECEDENTES PATOLÓGICOS PERSONALES ====== */}
       <Section number="2" title="Antecedentes patológicos personales">
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-stone/60 font-medium">
           Marque las enfermedades que <strong>el paciente</strong> ha sufrido o sufre actualmente.
         </p>
         <DiseaseChecklist
@@ -340,7 +338,7 @@ export function HistoriaForm() {
 
       {/* ====== SECCIÓN 3: ANTECEDENTES PATOLÓGICOS FAMILIARES ====== */}
       <Section number="3" title="Antecedentes patológicos familiares">
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-stone/60 font-medium">
           Marque las enfermedades que <strong>familiares directos</strong> han sufrido o sufren actualmente.
         </p>
         <DiseaseChecklist
@@ -350,7 +348,7 @@ export function HistoriaForm() {
         />
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+          <label className="mb-1 block text-sm font-bold text-stone">
             Observaciones generales patológicas (Nuevo)
           </label>
           <textarea
@@ -370,10 +368,10 @@ export function HistoriaForm() {
 
       {/* ====== SECCIÓN 4: MEDICAMENTOS ====== */}
       <Section number="4" title="Medicamentos">
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-stone/60 font-medium">
           Describa los medicamentos que toma en casa.
         </p>
-        <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">Medicamentos (Nuevo)</label>
+        <label className="mb-1 block text-sm font-bold text-stone">Medicamentos (Nuevo)</label>
         <textarea
           rows={4}
           value={data.medicamentos}
@@ -391,7 +389,7 @@ export function HistoriaForm() {
 
       {/* ====== SECCIÓN 5: ALERGIAS ====== */}
       <Section number="5" title="Alergias">
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-stone/60 font-medium">
           Marque las alergias medicamentosas presentadas.
         </p>
         <AllergyChecklist
@@ -399,7 +397,7 @@ export function HistoriaForm() {
           onChange={useFormStore.getState().setAlergicos}
         />
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+          <label className="mb-1 block text-sm font-bold text-stone">
             Observaciones y síntomas de alergias (Nuevo)
           </label>
           <textarea
@@ -419,7 +417,7 @@ export function HistoriaForm() {
 
       {/* ====== SECCIÓN 6: QUIRÚRGICOS ====== */}
       <Section number="6" title="Antecedentes quirúrgicos">
-        <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">Cirugías (Nuevo)</label>
+        <label className="mb-1 block text-sm font-bold text-stone">Cirugías (Nuevo)</label>
         <textarea
           rows={3}
           value={data.quirurgicos}
@@ -438,7 +436,7 @@ export function HistoriaForm() {
       {/* ====== SECCIÓN 7: CONDICIONES FINALES ====== */}
       <Section number="7" title="Condiciones finales">
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+          <label className="mb-1 block text-sm font-bold text-stone">
             ¿Conoce alguna condición que interfiera con la recuperación? (Nuevo)
           </label>
           <textarea
@@ -456,7 +454,7 @@ export function HistoriaForm() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
+          <label className="mb-1 block text-sm font-medium text-stone">
             ¿Sabe o sospecha estado de gestación?
           </label>
           <select
@@ -472,7 +470,7 @@ export function HistoriaForm() {
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Fecha</label>
+            <label className="mb-1 block text-sm font-medium text-stone">Fecha</label>
             <input
               type="date"
               value={data.fechaFinal}
@@ -494,7 +492,7 @@ export function HistoriaForm() {
       <Section number="8" title="Evaluación facial y sesiones">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Tipo de cutis</label>
+            <label className="mb-1 block text-sm font-medium text-stone">Tipo de cutis</label>
             <select
               value={data.tipoCutis}
               onChange={(e) => useFormStore.getState().setTipoCutis(e.target.value as "Normal" | "Seca" | "Grasa" | "Mixta")}
@@ -507,7 +505,7 @@ export function HistoriaForm() {
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Sesiones programadas</label>
+            <label className="mb-1 block text-sm font-medium text-stone">Sesiones programadas</label>
             <input
               type="number"
               min={1}
@@ -526,11 +524,11 @@ export function HistoriaForm() {
 
         {data.sesionesProgramadas > 0 && (
           <div className="mt-4">
-            <label className="mb-2 block text-sm font-medium text-slate-700">Fechas de sesiones</label>
+            <label className="mb-2 block text-sm font-medium text-stone font-bold uppercase tracking-widest text-[10px]">Fechas de sesiones</label>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
               {Array.from({ length: data.sesionesProgramadas }).map((_, i) => (
                 <div key={i}>
-                  <div className="mb-1 text-xs text-slate-500">Sesión {i + 1}</div>
+                  <div className="mb-1 text-xs text-stone/50 font-bold uppercase">Sesión {i + 1}</div>
                   <input
                     type="date"
                     value={data.fechasSesiones[i] || ''}
@@ -548,7 +546,7 @@ export function HistoriaForm() {
         )}
 
         <div className="mt-4">
-          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">
+          <label className="mb-1 block text-sm font-bold text-stone">
             Observaciones generales (Nuevo)
           </label>
           <textarea
@@ -568,12 +566,12 @@ export function HistoriaForm() {
 
       {/* ====== SECCIÓN 9: PUNTOS DE INYECCIÓN ====== */}
       <Section number="9" title="Puntos de inyección">
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-stone/60 font-medium">
           Haga click en los puntos para marcar dónde se aplicará la toxina.
         </p>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr_240px]">
-          <div className="flex justify-center">
+          <div className="flex justify-center rounded-3xl bg-blush/30 p-4 border border-stone/5">
             <FaceDiagram
               activeIds={activeIds}
               onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
@@ -582,16 +580,16 @@ export function HistoriaForm() {
           </div>
 
           <div className="space-y-3">
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-              <div className="text-xs uppercase tracking-wide text-slate-500">Total</div>
-              <div className="text-2xl font-semibold text-emerald-600">{totalPuntos}</div>
+            <div className="rounded-2xl border border-stone/10 bg-white p-4 shadow-sm">
+              <div className="text-[10px] uppercase tracking-widest font-bold text-stone/40">Total</div>
+              <div className="text-3xl font-bold text-sage">{totalPuntos}</div>
             </div>
 
-            <div className="rounded-lg border border-slate-200 p-3 overflow-hidden">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-600">
+            <div className="rounded-2xl border border-stone/10 bg-white p-4 overflow-hidden shadow-sm">
+              <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-stone/40">
                 Detalle por punto
               </div>
-              <div className="max-h-[400px] overflow-y-auto pr-2 space-y-4">
+              <div className="max-h-[400px] overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-sand scrollbar-track-transparent">
                 {ZONAS_INYECCION.map((zona) => {
                   const puntosEnZona = data.puntosInyeccion.filter(p => {
                     const def = INJECTION_POINTS.find(d => d.id === p.id);
@@ -601,14 +599,14 @@ export function HistoriaForm() {
                   if (puntosEnZona.length === 0) return null;
 
                   return (
-                    <div key={zona} className="border-b border-slate-100 pb-2 last:border-0">
-                      <div className="text-[10px] font-bold text-slate-400 uppercase mb-1">{zona}</div>
+                    <div key={zona} className="border-b border-stone/5 pb-2 last:border-0">
+                      <div className="text-[9px] font-black text-stone/30 uppercase mb-2 tracking-tighter">{zona}</div>
                       {puntosEnZona.map(p => {
                         const def = INJECTION_POINTS.find(d => d.id === p.id);
                         return (
-                          <div key={p.id} className="mb-2 last:mb-0">
+                          <div key={p.id} className="mb-3 last:mb-0">
                             <div className="flex items-center justify-between text-sm">
-                              <span className={p.activo ? 'font-semibold text-slate-900' : 'text-slate-400'}>
+                              <span className={p.activo ? 'font-bold text-stone' : 'text-stone/30'}>
                                 {def?.nombre}
                               </span>
                               <div className="flex items-center gap-2">
@@ -618,14 +616,14 @@ export function HistoriaForm() {
                                       type="number"
                                       min={0}
                                       placeholder="U"
-                                      className="w-12 rounded border border-slate-200 px-1 py-0.5 text-center text-xs"
+                                      className="w-12 rounded-lg border border-stone/10 bg-blush/30 px-1 py-1 text-center text-xs font-bold text-stone"
                                       value={p.unidades || ''}
                                       onChange={(e) => useFormStore.getState().setPuntoUnidades(p.id, parseInt(e.target.value) || 0)}
                                     />
                                       <button
                                         type="button"
                                         onClick={() => toggleHistory(p.id)}
-                                        className={`transition-colors ${openHistoryIds.has(p.id) ? 'text-blue-600' : 'text-slate-300 hover:text-blue-500'}`}
+                                        className={`transition-colors ${openHistoryIds.has(p.id) ? 'text-sage' : 'text-stone/20 hover:text-sage'}`}
                                         title="Ver historial de aplicaciones"
                                       >
                                         <Info size={14} />
@@ -633,7 +631,7 @@ export function HistoriaForm() {
                                       <button
                                         type="button"
                                         onClick={() => useFormStore.getState().removePuntoInyeccion(p.id)}
-                                        className="text-slate-300 hover:text-red-500 transition-colors"
+                                        className="text-stone/20 hover:text-red-400 transition-colors"
                                         title="Quitar punto"
                                       >
                                         <Trash2 size={14} />
@@ -644,12 +642,12 @@ export function HistoriaForm() {
                               </div>
                               
                               {openHistoryIds.has(p.id) && p.aplicacionesAnteriores.length > 0 && (
-                                <div className="mt-2 space-y-1.5 rounded-lg bg-blue-50/50 p-2 border border-blue-100">
-                                  <div className="text-[9px] font-bold uppercase text-blue-400">Historial de aplicaciones</div>
+                                <div className="mt-2 space-y-1.5 rounded-xl bg-sand/20 p-2 border border-stone/5">
+                                  <div className="text-[9px] font-bold uppercase tracking-widest text-stone/40">Aplicaciones previas</div>
                                   {p.aplicacionesAnteriores.map((ap, idx) => (
-                                    <div key={idx} className="text-[10px] text-blue-700 flex justify-between gap-2 border-b border-blue-100 last:border-0 pb-1 last:pb-0">
-                                      <span className="font-semibold">{ap.fecha}</span>
-                                      <span>{ap.unidades} U {ap.nota && <span className="italic text-blue-500 opacity-80">({ap.nota})</span>}</span>
+                                    <div key={idx} className="text-[10px] text-stone/80 flex justify-between gap-2 border-b border-stone/5 last:border-0 pb-1 last:pb-0">
+                                      <span className="font-bold">{ap.fecha}</span>
+                                      <span>{ap.unidades} U {ap.nota && <span className="italic text-stone/50 opacity-80">({ap.nota})</span>}</span>
                                     </div>
                                   ))}
                                 </div>
@@ -671,28 +669,28 @@ export function HistoriaForm() {
         <button
           type="button"
           onClick={handleDiscard}
-          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+          className="rounded-xl border border-stone/20 bg-white px-6 py-2.5 text-sm font-bold text-stone hover:bg-blush transition-all active:scale-95"
         >
           Descartar
         </button>
       </div>
 
-      {/* ====== BARRA INFERIOR FIJA: DESCARGAR PDF ====== */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
-          <div className="text-sm text-slate-600">
-            <span className="font-medium text-slate-900">{data.consentimiento.nombreCompleto || '—'}</span>
-            {' · '}
-            <span className="text-slate-500">{totalPuntos} puntos marcados</span>
-            {error && <span className="ml-3 text-red-600">{error}</span>}
-            {success && <span className="ml-3 font-semibold text-emerald-600">¡Guardado con éxito!</span>}
+      {/* ====== BARRA INFERIOR FIJA: ACCIONES ====== */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-stone/10 bg-white/90 px-4 py-4 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] backdrop-blur-xl">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
+          <div className="hidden sm:block">
+            <div className="text-xs font-black uppercase tracking-tighter text-stone/20">Paciente</div>
+            <div className="text-sm font-bold text-stone truncate max-w-[200px]">
+              {data.consentimiento.nombreCompleto || '—'}
+            </div>
           </div>
-          <div className="flex gap-2">
+          
+          <div className="flex gap-2 w-full sm:w-auto">
             <button
               type="button"
               onClick={handleSave}
               disabled={saving || generating || generatingWord}
-              className="rounded-lg bg-slate-800 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-slate-900 disabled:opacity-60"
+              className="flex-1 sm:flex-none rounded-xl bg-stone px-6 py-3 text-sm font-bold text-white shadow-lg shadow-stone/20 transition-all hover:bg-stone/90 active:scale-95 disabled:opacity-50"
             >
               {saving ? 'Guardando…' : '💾 Guardar'}
             </button>
@@ -700,17 +698,17 @@ export function HistoriaForm() {
               type="button"
               onClick={handleDownloadWord}
               disabled={generatingWord || generating}
-              className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 disabled:opacity-60"
+              className="flex-1 sm:flex-none rounded-xl border-2 border-sage bg-white px-6 py-3 text-sm font-bold text-sage transition-all hover:bg-sage hover:text-white active:scale-95 disabled:opacity-50"
             >
-              {generatingWord ? 'Generando Word…' : '📝 Descargar Word'}
+              {generatingWord ? '...' : '📝 Word'}
             </button>
             <button
               type="button"
               onClick={handleDownload}
               disabled={generating || generatingWord}
-              className="rounded-lg bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 disabled:opacity-60"
+              className="flex-1 sm:flex-none rounded-xl bg-sage px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sage/20 transition-all hover:bg-sage/90 active:scale-95 disabled:opacity-50"
             >
-              {generating ? 'Generando PDF…' : '📄 Descargar PDF'}
+              {generating ? '...' : '📄 PDF'}
             </button>
           </div>
         </div>
@@ -728,7 +726,7 @@ export function HistoriaForm() {
 }
 
 const inputClass =
-  'w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100';
+  'w-full rounded-xl border border-stone/10 bg-white px-3 py-2.5 text-stone font-medium focus:border-sage focus:outline-none focus:ring-4 focus:ring-sage/5 transition-all placeholder:text-stone/30';
 
 function HistoricalEntries({ 
   title, 
@@ -745,18 +743,18 @@ function HistoricalEntries({
   if (entries.length === 0) return null;
 
   return (
-    <div className="mt-4 space-y-3">
-      <div className="flex items-center gap-2">
-        <div className="h-px flex-1 bg-slate-200"></div>
-        <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{title}</h4>
-        <div className="h-px flex-1 bg-slate-200"></div>
+    <div className="mt-4 space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="h-px flex-1 bg-stone/5"></div>
+        <h4 className="text-[10px] font-black uppercase tracking-widest text-stone/20">{title}</h4>
+        <div className="h-px flex-1 bg-stone/5"></div>
       </div>
-      <div className="space-y-3">
+      <div className="space-y-4">
         {entries.map((entry, idx) => (
-          <div key={idx} className="relative rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:shadow-md">
-            <div className="mb-2 flex items-center justify-between text-[11px] font-bold text-slate-500">
-              <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2 py-0.5">
-                <Calendar size={12} className="text-slate-400" /> {entry.fecha}
+          <div key={idx} className="relative rounded-2xl border border-stone/10 bg-white p-4 shadow-sm transition-all hover:shadow-md">
+            <div className="mb-3 flex items-center justify-between text-[11px] font-bold text-stone/40">
+              <span className="flex items-center gap-1.5 rounded-full bg-sand/30 px-3 py-1">
+                <Calendar size={12} className="text-stone/30" /> {entry.fecha}
               </span>
               <button
                 type="button"
@@ -769,12 +767,12 @@ function HistoricalEntries({
                     setTempValue(entry.texto);
                   }
                 }}
-                className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 py-1 text-slate-600 transition-colors hover:bg-slate-50 hover:text-blue-600 active:scale-95"
+                className="flex items-center gap-1.5 rounded-lg border border-stone/10 px-2.5 py-1 text-stone/40 transition-colors hover:bg-blush hover:text-stone active:scale-95"
               >
                 {editingIndex === idx ? (
-                  <><Save size={14} className="text-emerald-500" /> Guardar cambios</>
+                  <><Save size={14} className="text-sage" /> Guardar</>
                 ) : (
-                  <><Edit2 size={14} /> Editar registro</>
+                  <><Edit2 size={14} /> Editar</>
                 )}
               </button>
             </div>
@@ -782,19 +780,19 @@ function HistoricalEntries({
             {editingIndex === idx ? (
               <textarea
                 autoFocus
-                className="w-full rounded-lg border border-blue-200 bg-blue-50/30 p-3 text-sm font-medium text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                className="w-full rounded-xl border border-sand bg-blush/20 p-3 text-sm font-bold text-stone focus:border-sage focus:outline-none focus:ring-4 focus:ring-sage/5"
                 rows={3}
                 value={tempValue}
                 onChange={(e) => setTempValue(e.target.value)}
               />
             ) : (
-              <div className="whitespace-pre-wrap text-[13px] leading-relaxed text-slate-700">
+              <div className="whitespace-pre-wrap text-[13px] leading-relaxed text-stone/80 font-medium">
                 {entry.texto}
               </div>
             )}
             
             {/* Indicador de registro fijo */}
-            <div className="absolute -left-1 top-1/2 h-8 w-1 -translate-y-1/2 rounded-full bg-slate-300"></div>
+            <div className="absolute -left-[2px] top-1/2 h-8 w-[4px] -translate-y-1/2 rounded-full bg-sand"></div>
           </div>
         ))}
       </div>
@@ -812,14 +810,14 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-5 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-slate-900">
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-sm font-bold text-white">
+    <section className="mb-6 rounded-3xl border border-stone/10 bg-white p-8 shadow-sm transition-all hover:shadow-md">
+      <h2 className="mb-6 flex items-center gap-3 text-xl font-bold text-stone">
+        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-sand text-sm font-black text-stone">
           {number}
         </span>
         {title}
       </h2>
-      <div className="space-y-4">{children}</div>
+      <div className="space-y-6">{children}</div>
     </section>
   );
 }
