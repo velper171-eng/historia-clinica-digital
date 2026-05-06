@@ -10,7 +10,7 @@ import { FaceDiagram } from './face-diagram';
 import { PdfDocument } from './pdf/pdf-document';
 import { INJECTION_POINTS, ZONAS_INYECCION } from '../lib/injection-points';
 import { supabase } from '../lib/supabase';
-import { Edit2, Save, Calendar, Trash2 } from 'lucide-react';
+import { Edit2, Save, Calendar, Trash2, Info } from 'lucide-react';
 
 export function HistoriaForm() {
   const data = useFormStore();
@@ -18,6 +18,14 @@ export function HistoriaForm() {
   const [generating, setGenerating] = useState(false);
   const [generatingWord, setGeneratingWord] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [openHistoryIds, setOpenHistoryIds] = useState<Set<string>>(new Set());
+
+  const toggleHistory = (id: string) => {
+    const next = new Set(openHistoryIds);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    setOpenHistoryIds(next);
+  };
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
@@ -615,35 +623,39 @@ export function HistoriaForm() {
                                       value={p.unidades || ''}
                                       onChange={(e) => useFormStore.getState().setPuntoUnidades(p.id, parseInt(e.target.value) || 0)}
                                     />
-                                    <button
-                                      type="button"
-                                      onClick={() => useFormStore.getState().removePuntoInyeccion(p.id)}
-                                      className="text-slate-300 hover:text-red-500 transition-colors"
-                                      title="Quitar punto"
-                                    >
-                                      <Trash2 size={14} />
-                                    </button>
-                                  </>
-                                )}
+                                      <button
+                                        type="button"
+                                        onClick={() => toggleHistory(p.id)}
+                                        className={`transition-colors ${openHistoryIds.has(p.id) ? 'text-blue-600' : 'text-slate-300 hover:text-blue-500'}`}
+                                        title="Ver historial de aplicaciones"
+                                      >
+                                        <Info size={14} />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => useFormStore.getState().removePuntoInyeccion(p.id)}
+                                        className="text-slate-300 hover:text-red-500 transition-colors"
+                                        title="Quitar punto"
+                                      >
+                                        <Trash2 size={14} />
+                                      </button>
+                                    </>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                            
-                            {p.aplicacionesAnteriores.length > 0 && (
-                              <div className="mt-1">
-                                <select 
-                                  className="w-full text-[10px] bg-blue-50 border-none rounded px-1 py-0.5 text-blue-700 focus:ring-0"
-                                  defaultValue=""
-                                >
-                                  <option value="" disabled>Consultar aplicaciones previas...</option>
+                              
+                              {openHistoryIds.has(p.id) && p.aplicacionesAnteriores.length > 0 && (
+                                <div className="mt-2 space-y-1.5 rounded-lg bg-blue-50/50 p-2 border border-blue-100">
+                                  <div className="text-[9px] font-bold uppercase text-blue-400">Historial de aplicaciones</div>
                                   {p.aplicacionesAnteriores.map((ap, idx) => (
-                                    <option key={idx} value={idx}>
-                                      {ap.fecha}: {ap.unidades} U {ap.nota ? `(${ap.nota})` : ''}
-                                    </option>
+                                    <div key={idx} className="text-[10px] text-blue-700 flex justify-between gap-2 border-b border-blue-100 last:border-0 pb-1 last:pb-0">
+                                      <span className="font-semibold">{ap.fecha}</span>
+                                      <span>{ap.unidades} U {ap.nota && <span className="italic text-blue-500 opacity-80">({ap.nota})</span>}</span>
+                                    </div>
                                   ))}
-                                </select>
-                              </div>
-                            )}
-                          </div>
+                                </div>
+                              )}
+                            </div>
                         );
                       })}
                     </div>
