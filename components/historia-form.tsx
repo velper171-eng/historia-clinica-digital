@@ -10,7 +10,7 @@ import { FaceDiagram } from './face-diagram';
 import { PdfDocument } from './pdf/pdf-document';
 import { INJECTION_POINTS, ZONAS_INYECCION } from '../lib/injection-points';
 import { supabase } from '../lib/supabase';
-import { Edit2, Save, Calendar } from 'lucide-react';
+import { Edit2, Save, Calendar, Trash2 } from 'lucide-react';
 
 export function HistoriaForm() {
   const data = useFormStore();
