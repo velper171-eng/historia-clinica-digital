@@ -3,6 +3,7 @@ import { Document, Packer, Paragraph, TextRun, ImageRun, HeadingLevel, Table, Ta
 import html2canvas from 'html2canvas';
 import type { HistoriaClinica } from './form-schema';
 import { ENFERMEDADES, ALERGIAS } from './form-schema';
+import { INJECTION_POINTS } from './injection-points';
 
 const sanitize = (s: string) =>
   s.replace(/[^a-z0-9\-_]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'sin-nombre';
