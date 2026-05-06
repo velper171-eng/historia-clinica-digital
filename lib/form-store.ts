@@ -96,6 +96,7 @@ type Store = HistoriaClinica & {
   togglePuntoInyeccion: (id: string) => void;
   setPuntoUnidades: (id: string, unidades: number | undefined) => void;
   setPuntoNota: (id: string, nota: string) => void;
+  removePuntoInyeccion: (id: string) => void;
   
   // Métodos para historial
   updateProcedimientoHistorico: (index: number, texto: string) => void;
@@ -149,13 +150,19 @@ export const useFormStore = create<Store>((set) => ({
   setPuntoUnidades: (id, unidades) =>
     set((s) => ({
       puntosInyeccion: s.puntosInyeccion.map((p) =>
-        p.id === id ? { ...p, unidades } : p
+        p.id === id ? { ...p, unidades: Math.max(0, unidades || 0) } : p
       ),
     })),
   setPuntoNota: (id, nota) =>
     set((s) => ({
       puntosInyeccion: s.puntosInyeccion.map((p) =>
         p.id === id ? { ...p, nota } : p
+      ),
+    })),
+  removePuntoInyeccion: (id) =>
+    set((s) => ({
+      puntosInyeccion: s.puntosInyeccion.map((p) =>
+        p.id === id ? { ...p, activo: false, unidades: undefined, nota: undefined } : p
       ),
     })),
 

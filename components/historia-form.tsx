@@ -604,15 +604,28 @@ export function HistoriaForm() {
                               <span className={p.activo ? 'font-semibold text-slate-900' : 'text-slate-400'}>
                                 {def?.nombre}
                               </span>
-                              {p.activo && (
-                                <input
-                                  type="number"
-                                  placeholder="U"
-                                  className="w-12 rounded border border-slate-200 px-1 py-0.5 text-center text-xs"
-                                  value={p.unidades || ''}
-                                  onChange={(e) => useFormStore.getState().setPuntoUnidades(p.id, parseInt(e.target.value) || 0)}
-                                />
-                              )}
+                              <div className="flex items-center gap-2">
+                                {p.activo && (
+                                  <>
+                                    <input
+                                      type="number"
+                                      min={0}
+                                      placeholder="U"
+                                      className="w-12 rounded border border-slate-200 px-1 py-0.5 text-center text-xs"
+                                      value={p.unidades || ''}
+                                      onChange={(e) => useFormStore.getState().setPuntoUnidades(p.id, parseInt(e.target.value) || 0)}
+                                    />
+                                    <button
+                                      type="button"
+                                      onClick={() => useFormStore.getState().removePuntoInyeccion(p.id)}
+                                      className="text-slate-300 hover:text-red-500 transition-colors"
+                                      title="Quitar punto"
+                                    >
+                                      <Trash2 size={14} />
+                                    </button>
+                                  </>
+                                )}
+                              </div>
                             </div>
                             
                             {p.aplicacionesAnteriores.length > 0 && (
