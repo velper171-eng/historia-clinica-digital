@@ -40,7 +40,7 @@ const initialState: HistoriaClinica = {
     tipoDocumento: 'CC',
     numeroDocumento: '',
     autorizadoA: 'Isabel Velasquez',
-    procedimiento: 'Aplicación de toxina botulínica',
+    procedimiento: '',
     riesgosInformados:
       'Dolor leve, eritema, edema, hematomas en los puntos de inyección, cefalea transitoria, ptosis palpebral, asimetría facial, reacción alérgica.',
     firma: '',

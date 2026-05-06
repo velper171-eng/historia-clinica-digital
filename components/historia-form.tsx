@@ -246,7 +246,7 @@ export function HistoriaForm() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Para la realización de</label>
+          <label className="mb-1 block text-sm font-medium text-slate-700">Procedimiento a realizar</label>
           <textarea
             rows={2}
             value={data.consentimiento.procedimiento}
