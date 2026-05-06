@@ -78,18 +78,61 @@ export function HistoriaForm() {
     setSuccess(false);
 
     try {
+      // Extraemos solo los campos de datos, excluyendo las funciones del store
+      const {
+        id,
+        consentimiento,
+        antecedentesPersonales,
+        antecedentesFamiliares,
+        observacionesPatologicos,
+        medicamentos,
+        alergicos,
+        observacionesAlergias,
+        quirurgicos,
+        condicionRecuperacion,
+        estadoGestacion,
+        tipoCutis,
+        sesionesProgramadas,
+        fechasSesiones,
+        observacionesGenerales,
+        firmaFinal,
+        fechaFinal,
+        puntosInyeccion,
+      } = data;
+
+      const cleanData = {
+        id,
+        consentimiento,
+        antecedentesPersonales,
+        antecedentesFamiliares,
+        observacionesPatologicos,
+        medicamentos,
+        alergicos,
+        observacionesAlergias,
+        quirurgicos,
+        condicionRecuperacion,
+        estadoGestacion,
+        tipoCutis,
+        sesionesProgramadas,
+        fechasSesiones,
+        observacionesGenerales,
+        firmaFinal,
+        fechaFinal,
+        puntosInyeccion,
+      };
+
       const payload = {
-        paciente_nombre: data.consentimiento.nombreCompleto,
-        paciente_documento: data.consentimiento.numeroDocumento,
-        datos: { ...data },
+        paciente_nombre: consentimiento.nombreCompleto,
+        paciente_documento: consentimiento.numeroDocumento,
+        datos: cleanData,
       };
 
       let result;
-      if (data.id) {
+      if (id) {
         // Actualizar existente
         result = await supabase
           .from('historias_clinicas')
-          .upsert({ id: data.id, ...payload })
+          .upsert({ id, ...payload })
           .select();
       } else {
         // Crear nuevo
@@ -109,8 +152,8 @@ export function HistoriaForm() {
       console.log('Guardado exitoso:', insertData);
       
       // Si era nuevo, guardar el ID retornado
-      if (!data.id && insertData && insertData[0]) {
-        useFormStore.getState().loadData({ ...data, id: insertData[0].id });
+      if (!id && insertData && insertData[0]) {
+        useFormStore.getState().loadData({ ...cleanData, id: insertData[0].id });
       }
 
       setSuccess(true);
