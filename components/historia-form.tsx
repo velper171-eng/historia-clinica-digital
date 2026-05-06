@@ -687,14 +687,18 @@ function HistoricalEntries({
   if (entries.length === 0) return null;
 
   return (
-    <div className="mt-4 space-y-2">
-      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">{title}</h4>
+    <div className="mt-4 space-y-3">
+      <div className="flex items-center gap-2">
+        <div className="h-px flex-1 bg-slate-200"></div>
+        <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{title}</h4>
+        <div className="h-px flex-1 bg-slate-200"></div>
+      </div>
       <div className="space-y-3">
         {entries.map((entry, idx) => (
-          <div key={idx} className="group relative rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-colors hover:border-slate-200 hover:bg-slate-50">
-            <div className="mb-1 flex items-center justify-between text-[10px] font-semibold text-slate-400">
-              <span className="flex items-center gap-1">
-                <Calendar size={12} /> {entry.fecha}
+          <div key={idx} className="relative rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:shadow-md">
+            <div className="mb-2 flex items-center justify-between text-[11px] font-bold text-slate-500">
+              <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2 py-0.5">
+                <Calendar size={12} className="text-slate-400" /> {entry.fecha}
               </span>
               <button
                 type="button"
@@ -707,12 +711,12 @@ function HistoricalEntries({
                     setTempValue(entry.texto);
                   }
                 }}
-                className="flex items-center gap-1 rounded-md px-2 py-1 text-blue-600 transition-colors hover:bg-blue-50"
+                className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 py-1 text-slate-600 transition-colors hover:bg-slate-50 hover:text-blue-600 active:scale-95"
               >
                 {editingIndex === idx ? (
-                  <><Save size={12} /> Guardar</>
+                  <><Save size={14} className="text-emerald-500" /> Guardar cambios</>
                 ) : (
-                  <><Edit2 size={12} /> Editar</>
+                  <><Edit2 size={14} /> Editar registro</>
                 )}
               </button>
             </div>
@@ -720,14 +724,19 @@ function HistoricalEntries({
             {editingIndex === idx ? (
               <textarea
                 autoFocus
-                className="w-full rounded-lg border border-blue-200 bg-white p-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-                rows={2}
+                className="w-full rounded-lg border border-blue-200 bg-blue-50/30 p-3 text-sm font-medium text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                rows={3}
                 value={tempValue}
                 onChange={(e) => setTempValue(e.target.value)}
               />
             ) : (
-              <p className="whitespace-pre-wrap text-sm text-slate-700">{entry.texto}</p>
+              <div className="whitespace-pre-wrap text-[13px] leading-relaxed text-slate-700">
+                {entry.texto}
+              </div>
             )}
+            
+            {/* Indicador de registro fijo */}
+            <div className="absolute -left-1 top-1/2 h-8 w-1 -translate-y-1/2 rounded-full bg-slate-300"></div>
           </div>
         ))}
       </div>
