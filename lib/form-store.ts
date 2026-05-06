@@ -111,6 +111,7 @@ type Store = HistoriaClinica & {
 
   loadData: (data: HistoriaClinica) => void;
   reset: () => void;
+  discardCurrentSession: () => void;
 };
 
 export const useFormStore = create<Store>((set) => ({
@@ -323,4 +324,24 @@ export const useFormStore = create<Store>((set) => ({
       }))
     })),
   reset: () => set(structuredClone(initialState)),
+  discardCurrentSession: () =>
+    set((s) => ({
+      consentimiento: { 
+        ...s.consentimiento, 
+        procedimiento: '',
+        riesgosInformados: initialState.consentimiento.riesgosInformados 
+      },
+      medicamentos: '',
+      quirurgicos: '',
+      observacionesPatologicos: '',
+      observacionesAlergias: '',
+      condicionRecuperacion: '',
+      observacionesGenerales: '',
+      puntosInyeccion: s.puntosInyeccion.map(p => ({
+        ...p,
+        activo: false,
+        unidades: undefined,
+        nota: undefined
+      }))
+    })),
 }));

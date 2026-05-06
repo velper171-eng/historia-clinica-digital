@@ -185,10 +185,9 @@ export function HistoriaForm() {
     }
   };
 
-  const handleReset = () => {
-    if (confirm('¿Seguro que desea descartar los datos y empezar una nueva historia clínica?')) {
-      reset();
-      if (typeof window !== 'undefined') window.location.reload();
+  const handleDiscard = () => {
+    if (confirm('¿Desea descartar los cambios realizados en esta sesión? Se mantendrá el historial previo.')) {
+      useFormStore.getState().discardCurrentSession();
     }
   };
 
@@ -671,10 +670,10 @@ export function HistoriaForm() {
       <div className="mt-6 flex justify-end">
         <button
           type="button"
-          onClick={handleReset}
+          onClick={handleDiscard}
           className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
         >
-          Descartar y empezar de nuevo
+          Descartar
         </button>
       </div>
 
