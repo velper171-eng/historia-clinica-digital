@@ -198,8 +198,8 @@ export function HistoriaForm() {
         <div className="mb-1 inline-block rounded-full bg-sand px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-stone">
           Isabel Velasquez
         </div>
-        <h1 className="text-2xl font-bold text-stone">Historia clínica y seguimiento</h1>
-        <p className="mt-1 text-sm text-stone/60 font-medium">
+        <h1 className="text-2xl font-black text-stone">Historia clínica y seguimiento</h1>
+        <p className="mt-1 text-sm text-stone/80 font-bold">
           Diligencie los campos y descargue el PDF o Word cuando esté listo.
         </p>
       </div>
@@ -812,8 +812,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-6 rounded-3xl border border-stone/10 bg-white p-8 shadow-sm transition-all hover:shadow-md">
-      <h2 className="mb-6 flex items-center gap-3 text-xl font-bold text-stone">
+    <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-8 shadow-sm transition-all hover:shadow-md">
+      <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-stone uppercase tracking-tight">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-sand text-sm font-black text-stone">
           {number}
         </span>

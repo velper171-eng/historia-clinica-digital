@@ -12,11 +12,12 @@
 
 @theme inline {
   --color-background: #F2EBE0;
-  --color-foreground: #4A4A4A;
-  --color-sage: #A7B7A4;
-  --color-stone: #9A8C84;
-  --color-sand: #E0D7CD;
+  --color-foreground: #2D2D2D;
+  --color-sage: #5F715B;
+  --color-stone: #4A3F35;
+  --color-sand: #D4C3B0;
   --color-blush: #F2EBE0;
+  --color-vibrant: #C18C5D;
   --font-sans: var(--font-geist-sans);
 }
 

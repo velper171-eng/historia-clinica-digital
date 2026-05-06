@@ -110,16 +110,16 @@ export function FaceDiagram({
               <g key={p.id}>
                 {/* Halo cuando activo */}
                 {isActive && (
-                  <circle cx={p.cx} cy={p.cy} r={22} fill="#A7B7A4" fillOpacity={0.3} className="animate-pulse" />
+                  <circle cx={p.cx} cy={p.cy} r={24} fill="#C18C5D" fillOpacity={0.4} className="animate-pulse" />
                 )}
                 <circle
                   cx={p.cx}
                   cy={p.cy}
-                  r={isHover || isActive ? 14 : 10}
-                  fill={isActive ? '#A7B7A4' : 'rgba(255,255,255,0.8)'}
-                  stroke={isActive ? '#fff' : '#A7B7A4'}
+                  r={isHover || isActive ? 15 : 10}
+                  fill={isActive ? '#C18C5D' : 'rgba(255,255,255,0.9)'}
+                  stroke={isActive ? '#fff' : '#5F715B'}
                   strokeWidth={isActive ? 4 : 2}
-                  style={{ cursor: readOnly ? 'default' : 'pointer', transition: 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)' }}
+                  style={{ cursor: readOnly ? 'default' : 'pointer', transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)' }}
                   onClick={() => !readOnly && onTogglePoint?.(p.id)}
                   onMouseEnter={() => setHoverId(p.id)}
                   onMouseLeave={() => setHoverId(null)}
@@ -128,8 +128,8 @@ export function FaceDiagram({
                 <circle
                   cx={p.cx}
                   cy={p.cy}
-                  r={isActive ? 4 : 2}
-                  fill={isActive ? '#fff' : '#A7B7A4'}
+                  r={isActive ? 5 : 2}
+                  fill={isActive ? '#fff' : '#5F715B'}
                   pointerEvents="none"
                 />
               </g>
@@ -139,7 +139,7 @@ export function FaceDiagram({
 
         {/* Tooltip */}
         {hoverId && (
-          <div className="pointer-events-none absolute left-1/2 bottom-8 -translate-x-1/2 rounded-full bg-stone/90 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-xl backdrop-blur-md border border-white/10">
+          <div className="pointer-events-none absolute left-1/2 bottom-8 -translate-x-1/2 rounded-full bg-stone px-6 py-2.5 text-[11px] font-black uppercase tracking-widest text-white shadow-2xl border border-white/20">
             {points.find(p => p.id === hoverId)?.zona} — {points.find(p => p.id === hoverId)?.nombre}
           </div>
         )}

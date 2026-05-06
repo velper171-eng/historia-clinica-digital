@@ -14,10 +14,10 @@ export default function Home() {
           <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-sage text-white shadow-lg shadow-sage/20">
             <ClipboardList size={32} />
           </div>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-stone md:text-5xl">
-            Historia Clínica Digital
+          <h1 className="mb-4 text-4xl font-black tracking-tight text-stone md:text-6xl">
+            Historia Clínica <span className="text-sage">Digital</span>
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-stone/80">
+          <p className="mx-auto max-w-2xl text-lg font-bold text-stone/80 sm:text-xl">
             Gestión profesional de registros clínicos para medicina estética. 
             Seguridad, precisión y rapidez en cada procedimiento.
           </p>
