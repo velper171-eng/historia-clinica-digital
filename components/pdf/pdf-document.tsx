@@ -124,6 +124,19 @@ function cellStyle(header: boolean): React.CSSProperties {
   };
 }
 
+function HistorySection({ entries }: { entries: { texto: string; fecha: string }[] }) {
+  if (!entries || entries.length === 0) return null;
+  return (
+    <div style={{ marginTop: 4, paddingLeft: 10, borderLeft: '2px solid #e2e8f0' }}>
+      {entries.map((e, idx) => (
+        <div key={idx} style={{ marginBottom: 4, fontSize: '9pt' }}>
+          <span style={{ fontWeight: 600, color: '#64748b' }}>[{formatDate(e.fecha)}]:</span> {e.texto}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function PdfDocument({ data }: Props) {
   const c = data.consentimiento;
   const activeIds = new Set(data.puntosInyeccion.filter((p) => p.activo).map((p) => p.id));
@@ -155,6 +168,7 @@ export function PdfDocument({ data }: Props) {
         <div style={{ marginTop: 12, marginBottom: 6, fontWeight: 600 }}>PARA LA REALIZACIÓN DE:</div>
         <div style={{ borderBottom: '1px solid #555', minHeight: 40, paddingBottom: 4 }}>
           {c.procedimiento}
+          <HistorySection entries={data.procedimientosAnteriores} />
         </div>
 
         <div style={{ marginTop: 14, marginBottom: 6 }}>
@@ -242,8 +256,7 @@ export function PdfDocument({ data }: Props) {
       <div id="pdf-page-3" style={PAGE_STYLE}>
         <h2 style={{ fontSize: '11pt', marginTop: 0, marginBottom: 6 }}>2. MEDICAMENTOSOS</h2>
         <div style={{ fontSize: '9.5pt', marginBottom: 4 }}>
-          Describa los medicamentos que toma en casa (por ejemplo medicamentos para el dolor,
-          la presión, el azúcar, anticoagulantes o inmunológicos).
+          Describa los medicamentos que toma en casa.
         </div>
         <div
           style={{
@@ -254,13 +267,14 @@ export function PdfDocument({ data }: Props) {
             fontSize: '10pt',
           }}
         >
-          {data.medicamentos || ' '}
+          {data.medicamentos}
+          <HistorySection entries={data.medicamentosAnteriores} />
+          {!data.medicamentos && data.medicamentosAnteriores.length === 0 && ' '}
         </div>
 
         <h2 style={{ fontSize: '11pt', marginTop: 14, marginBottom: 6 }}>3. ALÉRGICOS</h2>
         <div style={{ fontSize: '9.5pt', marginBottom: 4 }}>
-          Marque con una X si ha presentado alguna alergia medicamentosa. En caso de ser positivo,
-          describa en observaciones los síntomas que le ocasionó.
+          Marque con una X si ha presentado alguna alergia medicamentosa.
         </div>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '9.5pt' }}>
           <tbody>
@@ -309,7 +323,9 @@ export function PdfDocument({ data }: Props) {
             fontSize: '10pt',
           }}
         >
-          {data.quirurgicos || ' '}
+          {data.quirurgicos}
+          <HistorySection entries={data.quirurgicosAnteriores} />
+          {!data.quirurgicos && data.quirurgicosAnteriores.length === 0 && ' '}
         </div>
 
         <h2 style={{ fontSize: '11pt', marginTop: 14, marginBottom: 4 }}>POR ÚLTIMO</h2>
@@ -379,7 +395,6 @@ export function PdfDocument({ data }: Props) {
           {data.observacionesGenerales || ' '}
         </div>
 
-
         <SignatureBlock firma={data.firmaFinal} fecha={data.fechaFinal} />
 
         <div style={{ textAlign: 'center', marginTop: 18, fontSize: '8pt', color: '#555' }}>
@@ -402,25 +417,37 @@ export function PdfDocument({ data }: Props) {
           </div>
           <div style={{ flex: 1, fontSize: '9.5pt' }}>
             <div style={{ fontWeight: 700, marginBottom: 6 }}>
-              Total puntos marcados: {activeIds.size}
+              Resumen de aplicaciones:
             </div>
-            {Object.keys(puntosActivosPorZona).length === 0 ? (
-              <div style={{ color: '#666' }}>No se marcaron puntos.</div>
+            {data.puntosInyeccion.some(p => p.activo || p.aplicacionesAnteriores.length > 0) ? (
+              <div style={{ maxHeight: 600, overflow: 'hidden' }}>
+                {data.puntosInyeccion
+                  .filter(p => p.activo || p.aplicacionesAnteriores.length > 0)
+                  .map(p => {
+                    const def = INJECTION_POINTS.find(d => d.id === p.id);
+                    return (
+                      <div key={p.id} style={{ marginBottom: 6, borderBottom: '1px solid #eee', paddingBottom: 2 }}>
+                        <div style={{ fontWeight: 600, fontSize: '9pt' }}>
+                          {def?.zona} - {def?.nombre} {p.activo && <span style={{ color: '#059669' }}>(Actual: {p.unidades}U)</span>}
+                        </div>
+                        {p.aplicacionesAnteriores.map((ap, idx) => (
+                          <div key={idx} style={{ fontSize: '8pt', color: '#666', paddingLeft: 8 }}>
+                            • {formatDate(ap.fecha)}: {ap.unidades}U {ap.nota && `(${ap.nota})`}
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })
+                }
+              </div>
             ) : (
-              <ul style={{ paddingLeft: 16, margin: 0 }}>
-                {Object.entries(puntosActivosPorZona).map(([zona, lista]) => (
-                  <li key={zona} style={{ marginBottom: 4 }}>
-                    <strong>{zona}</strong> ({lista.length}):{' '}
-                    <span style={{ color: '#444' }}>{lista.join(', ')}</span>
-                  </li>
-                ))}
-              </ul>
+              <div style={{ color: '#666' }}>No se registraron aplicaciones.</div>
             )}
           </div>
         </div>
 
         <div style={{ marginTop: 18, fontSize: '9pt', color: '#555' }}>
-          Los puntos en color verde corresponden a las zonas donde fue aplicada la toxina botulínica.
+          Los puntos en color verde corresponden a las zonas donde fue aplicada la toxina botulínica en la sesión actual.
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 18, fontSize: '8pt', color: '#555' }}>

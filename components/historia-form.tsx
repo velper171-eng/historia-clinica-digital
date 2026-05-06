@@ -10,6 +10,7 @@ import { FaceDiagram } from './face-diagram';
 import { PdfDocument } from './pdf/pdf-document';
 import { INJECTION_POINTS, ZONAS_INYECCION } from '../lib/injection-points';
 import { supabase } from '../lib/supabase';
+import { Edit2, Save, Calendar } from 'lucide-react';
 
 export function HistoriaForm() {
   const data = useFormStore();
@@ -69,26 +70,30 @@ export function HistoriaForm() {
   };
 
   const handleSave = async () => {
-    console.log('Iniciando guardado...', {
-      url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-      key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Presente' : 'Faltante'
-    });
     setSaving(true);
     setError(null);
     setSuccess(false);
 
     try {
-      // Extraemos solo los campos de datos, excluyendo las funciones del store
+      // Primero "comiteamos" lo actual al historial si hay algo nuevo
+      useFormStore.getState().commitToHistory();
+      
+      // Obtenemos los datos actualizados después del commit
+      const updatedData = useFormStore.getState();
+
       const {
         id,
         consentimiento,
+        procedimientosAnteriores,
         antecedentesPersonales,
         antecedentesFamiliares,
         observacionesPatologicos,
         medicamentos,
+        medicamentosAnteriores,
         alergicos,
         observacionesAlergias,
         quirurgicos,
+        quirurgicosAnteriores,
         condicionRecuperacion,
         estadoGestacion,
         tipoCutis,
@@ -98,18 +103,21 @@ export function HistoriaForm() {
         firmaFinal,
         fechaFinal,
         puntosInyeccion,
-      } = data;
+      } = updatedData;
 
       const cleanData = {
         id,
         consentimiento,
+        procedimientosAnteriores,
         antecedentesPersonales,
         antecedentesFamiliares,
         observacionesPatologicos,
         medicamentos,
+        medicamentosAnteriores,
         alergicos,
         observacionesAlergias,
         quirurgicos,
+        quirurgicosAnteriores,
         condicionRecuperacion,
         estadoGestacion,
         tipoCutis,
@@ -129,13 +137,11 @@ export function HistoriaForm() {
 
       let result;
       if (id) {
-        // Actualizar existente
         result = await supabase
           .from('historias_clinicas')
           .upsert({ id, ...payload })
           .select();
       } else {
-        // Crear nuevo
         result = await supabase
           .from('historias_clinicas')
           .insert(payload)
@@ -144,14 +150,8 @@ export function HistoriaForm() {
 
       const { error: supabaseError, data: insertData } = result;
 
-      if (supabaseError) {
-        console.error('Error de Supabase:', supabaseError);
-        throw supabaseError;
-      }
+      if (supabaseError) throw supabaseError;
       
-      console.log('Guardado exitoso:', insertData);
-      
-      // Si era nuevo, guardar el ID retornado
       if (!id && insertData && insertData[0]) {
         useFormStore.getState().loadData({ ...cleanData, id: insertData[0].id });
       }
@@ -160,7 +160,7 @@ export function HistoriaForm() {
       setTimeout(() => setSuccess(false), 3000);
       alert('¡Historia clínica guardada con éxito!');
     } catch (e) {
-      console.error('Error capturado:', e);
+      console.error(e);
       const msg = e instanceof Error ? e.message : 'Error al guardar en la base de datos';
       setError(msg);
       alert('Error al guardar: ' + msg);
@@ -246,7 +246,7 @@ export function HistoriaForm() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Procedimiento a realizar</label>
+          <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">Procedimiento a realizar (Nuevo)</label>
           <textarea
             rows={2}
             value={data.consentimiento.procedimiento}
@@ -254,6 +254,13 @@ export function HistoriaForm() {
               useFormStore.getState().setConsentimiento({ procedimiento: e.target.value })
             }
             className={inputClass}
+            placeholder="Describa el procedimiento actual..."
+          />
+          
+          <HistoricalEntries 
+            title="Procedimientos anteriores"
+            entries={data.procedimientosAnteriores}
+            onEdit={(idx, val) => useFormStore.getState().updateProcedimientoHistorico(idx, val)}
           />
         </div>
 
@@ -340,12 +347,19 @@ export function HistoriaForm() {
         <p className="text-sm text-slate-600">
           Describa los medicamentos que toma en casa.
         </p>
+        <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">Medicamentos (Nuevo)</label>
         <textarea
           rows={4}
           value={data.medicamentos}
           onChange={(e) => useFormStore.getState().setMedicamentos(e.target.value)}
           className={inputClass}
           placeholder="Liste cada medicamento, dosis y frecuencia"
+        />
+
+        <HistoricalEntries 
+          title="Medicamentos anteriores"
+          entries={data.medicamentosAnteriores}
+          onEdit={(idx, val) => useFormStore.getState().updateMedicamentoHistorico(idx, val)}
         />
       </Section>
 
@@ -374,12 +388,19 @@ export function HistoriaForm() {
 
       {/* ====== SECCIÓN 6: QUIRÚRGICOS ====== */}
       <Section number="6" title="Antecedentes quirúrgicos">
+        <label className="mb-1 block text-sm font-medium text-slate-700 font-bold">Cirugías (Nuevo)</label>
         <textarea
           rows={3}
           value={data.quirurgicos}
           onChange={(e) => useFormStore.getState().setQuirurgicos(e.target.value)}
           className={inputClass}
           placeholder="Cirugías previas y detalles relevantes"
+        />
+
+        <HistoricalEntries 
+          title="Antecedentes quirúrgicos anteriores"
+          entries={data.quirurgicosAnteriores}
+          onEdit={(idx, val) => useFormStore.getState().updateQuirurgicoHistorico(idx, val)}
         />
       </Section>
 
@@ -525,30 +546,63 @@ export function HistoriaForm() {
               <div className="text-2xl font-semibold text-emerald-600">{totalPuntos}</div>
             </div>
 
-            <div className="rounded-lg border border-slate-200 p-3">
+            <div className="rounded-lg border border-slate-200 p-3 overflow-hidden">
               <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-600">
-                Por zona
+                Detalle por punto
               </div>
-              <ul className="space-y-1 text-sm">
+              <div className="max-h-[400px] overflow-y-auto pr-2 space-y-4">
                 {ZONAS_INYECCION.map((zona) => {
-                  const count = activosPorZona.get(zona) ?? 0;
+                  const puntosEnZona = data.puntosInyeccion.filter(p => {
+                    const def = INJECTION_POINTS.find(d => d.id === p.id);
+                    return def?.zona === zona && (p.activo || p.aplicacionesAnteriores.length > 0);
+                  });
+
+                  if (puntosEnZona.length === 0) return null;
+
                   return (
-                    <li key={zona} className="flex items-center justify-between">
-                      <span className={count > 0 ? 'text-slate-800' : 'text-slate-400'}>{zona}</span>
-                      <span
-                        className={[
-                          'rounded-full px-2 py-0.5 text-xs font-medium',
-                          count > 0
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : 'bg-slate-100 text-slate-500',
-                        ].join(' ')}
-                      >
-                        {count}
-                      </span>
-                    </li>
+                    <div key={zona} className="border-b border-slate-100 pb-2 last:border-0">
+                      <div className="text-[10px] font-bold text-slate-400 uppercase mb-1">{zona}</div>
+                      {puntosEnZona.map(p => {
+                        const def = INJECTION_POINTS.find(d => d.id === p.id);
+                        return (
+                          <div key={p.id} className="mb-2 last:mb-0">
+                            <div className="flex items-center justify-between text-sm">
+                              <span className={p.activo ? 'font-semibold text-slate-900' : 'text-slate-400'}>
+                                {def?.nombre}
+                              </span>
+                              {p.activo && (
+                                <input
+                                  type="number"
+                                  placeholder="U"
+                                  className="w-12 rounded border border-slate-200 px-1 py-0.5 text-center text-xs"
+                                  value={p.unidades || ''}
+                                  onChange={(e) => useFormStore.getState().setPuntoUnidades(p.id, parseInt(e.target.value) || 0)}
+                                />
+                              )}
+                            </div>
+                            
+                            {p.aplicacionesAnteriores.length > 0 && (
+                              <div className="mt-1">
+                                <select 
+                                  className="w-full text-[10px] bg-blue-50 border-none rounded px-1 py-0.5 text-blue-700 focus:ring-0"
+                                  defaultValue=""
+                                >
+                                  <option value="" disabled>Consultar aplicaciones previas...</option>
+                                  {p.aplicacionesAnteriores.map((ap, idx) => (
+                                    <option key={idx} value={idx}>
+                                      {ap.fecha}: {ap.unidades} U {ap.nota ? `(${ap.nota})` : ''}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
                   );
                 })}
-              </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -617,6 +671,69 @@ export function HistoriaForm() {
 
 const inputClass =
   'w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100';
+
+function HistoricalEntries({ 
+  title, 
+  entries, 
+  onEdit 
+}: { 
+  title: string; 
+  entries: { texto: string; fecha: string }[]; 
+  onEdit: (index: number, value: string) => void;
+}) {
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [tempValue, setTempValue] = useState('');
+
+  if (entries.length === 0) return null;
+
+  return (
+    <div className="mt-4 space-y-2">
+      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">{title}</h4>
+      <div className="space-y-3">
+        {entries.map((entry, idx) => (
+          <div key={idx} className="group relative rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-colors hover:border-slate-200 hover:bg-slate-50">
+            <div className="mb-1 flex items-center justify-between text-[10px] font-semibold text-slate-400">
+              <span className="flex items-center gap-1">
+                <Calendar size={12} /> {entry.fecha}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  if (editingIndex === idx) {
+                    onEdit(idx, tempValue);
+                    setEditingIndex(null);
+                  } else {
+                    setEditingIndex(idx);
+                    setTempValue(entry.texto);
+                  }
+                }}
+                className="flex items-center gap-1 rounded-md px-2 py-1 text-blue-600 transition-colors hover:bg-blue-50"
+              >
+                {editingIndex === idx ? (
+                  <><Save size={12} /> Guardar</>
+                ) : (
+                  <><Edit2 size={12} /> Editar</>
+                )}
+              </button>
+            </div>
+            
+            {editingIndex === idx ? (
+              <textarea
+                autoFocus
+                className="w-full rounded-lg border border-blue-200 bg-white p-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                rows={2}
+                value={tempValue}
+                onChange={(e) => setTempValue(e.target.value)}
+              />
+            ) : (
+              <p className="whitespace-pre-wrap text-sm text-slate-700">{entry.texto}</p>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function Section({
   number,

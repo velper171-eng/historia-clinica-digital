@@ -46,13 +46,16 @@ const initialState: HistoriaClinica = {
     firma: '',
     fecha: today(),
   },
+  procedimientosAnteriores: [],
   antecedentesPersonales: structuredClone(emptyDiseaseRecord),
   antecedentesFamiliares: structuredClone(emptyDiseaseRecord),
   observacionesPatologicos: '',
   medicamentos: '',
+  medicamentosAnteriores: [],
   alergicos: structuredClone(emptyAllergyRecord),
   observacionesAlergias: '',
   quirurgicos: '',
+  quirurgicosAnteriores: [],
   condicionRecuperacion: '',
   estadoGestacion: 'No',
   tipoCutis: 'Normal',
@@ -61,7 +64,11 @@ const initialState: HistoriaClinica = {
   observacionesGenerales: '',
   firmaFinal: '',
   fechaFinal: today(),
-  puntosInyeccion: INJECTION_POINTS.map((p) => ({ id: p.id, activo: false })),
+  puntosInyeccion: INJECTION_POINTS.map((p) => ({
+    id: p.id,
+    activo: false,
+    aplicacionesAnteriores: [],
+  })),
 };
 
 type Store = HistoriaClinica & {
@@ -84,6 +91,13 @@ type Store = HistoriaClinica & {
   togglePuntoInyeccion: (id: string) => void;
   setPuntoUnidades: (id: string, unidades: number | undefined) => void;
   setPuntoNota: (id: string, nota: string) => void;
+  
+  // Métodos para historial
+  updateProcedimientoHistorico: (index: number, texto: string) => void;
+  updateMedicamentoHistorico: (index: number, texto: string) => void;
+  updateQuirurgicoHistorico: (index: number, texto: string) => void;
+  commitToHistory: () => void;
+
   loadData: (data: HistoriaClinica) => void;
   reset: () => void;
 };
@@ -128,6 +142,71 @@ export const useFormStore = create<Store>((set) => ({
         p.id === id ? { ...p, nota } : p
       ),
     })),
+
+  updateProcedimientoHistorico: (index, texto) =>
+    set((s) => ({
+      procedimientosAnteriores: s.procedimientosAnteriores.map((p, i) =>
+        i === index ? { ...p, texto } : p
+      ),
+    })),
+  updateMedicamentoHistorico: (index, texto) =>
+    set((s) => ({
+      medicamentosAnteriores: s.medicamentosAnteriores.map((m, i) =>
+        i === index ? { ...m, texto } : m
+      ),
+    })),
+  updateQuirurgicoHistorico: (index, texto) =>
+    set((s) => ({
+      quirurgicosAnteriores: s.quirurgicosAnteriores.map((q, i) =>
+        i === index ? { ...q, texto } : q
+      ),
+    })),
+
+  commitToHistory: () =>
+    set((s) => {
+      const fecha = today();
+      const newProcedimientos = [...s.procedimientosAnteriores];
+      if (s.consentimiento.procedimiento.trim()) {
+        newProcedimientos.push({ texto: s.consentimiento.procedimiento, fecha });
+      }
+
+      const newMedicamentos = [...s.medicamentosAnteriores];
+      if (s.medicamentos.trim()) {
+        newMedicamentos.push({ texto: s.medicamentos, fecha });
+      }
+
+      const newQuirurgicos = [...s.quirurgicosAnteriores];
+      if (s.quirurgicos.trim()) {
+        newQuirurgicos.push({ texto: s.quirurgicos, fecha });
+      }
+
+      const newPuntos = s.puntosInyeccion.map((p) => {
+        if (p.activo && p.unidades) {
+          return {
+            ...p,
+            activo: false,
+            unidades: undefined,
+            nota: undefined,
+            aplicacionesAnteriores: [
+              ...p.aplicacionesAnteriores,
+              { unidades: p.unidades, fecha, nota: p.nota },
+            ],
+          };
+        }
+        return p;
+      });
+
+      return {
+        procedimientosAnteriores: newProcedimientos,
+        medicamentosAnteriores: newMedicamentos,
+        quirurgicosAnteriores: newQuirurgicos,
+        puntosInyeccion: newPuntos,
+        consentimiento: { ...s.consentimiento, procedimiento: '' },
+        medicamentos: '',
+        quirurgicos: '',
+      };
+    }),
+
   loadData: (data) => set({ ...structuredClone(data) }),
   reset: () => set(structuredClone(initialState)),
 }));

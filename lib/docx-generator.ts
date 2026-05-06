@@ -56,6 +56,18 @@ function createDiseaseTable(title: string, dataObj: Record<string, { presenta: b
   ];
 }
 
+function createHistoryItems(entries: { texto: string; fecha: string }[]) {
+  if (!entries || entries.length === 0) return [];
+  return entries.map(e => new Paragraph({
+    children: [
+      new TextRun({ text: `[${e.fecha}]: `, bold: true, color: "666666" }),
+      new TextRun({ text: e.texto }),
+    ],
+    indent: { left: 400 },
+    spacing: { after: 80 },
+  }));
+}
+
 export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   const children: (Paragraph | Table)[] = [];
 
@@ -67,7 +79,13 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   children.push(createField('Paciente', data.consentimiento.nombreCompleto));
   children.push(createField(`Identificado con ${data.consentimiento.tipoDocumento}`, data.consentimiento.numeroDocumento));
   children.push(createField('Autorizado a la profesional', data.consentimiento.autorizadoA));
-  children.push(createField('Procedimiento', data.consentimiento.procedimiento));
+  children.push(createField('Procedimiento actual', data.consentimiento.procedimiento));
+  
+  if (data.procedimientosAnteriores.length > 0) {
+    children.push(new Paragraph({ children: [new TextRun({ text: "Procedimientos anteriores:", bold: true })] }));
+    children.push(...createHistoryItems(data.procedimientosAnteriores));
+  }
+
   children.push(createField('Riesgos Informados', data.consentimiento.riesgosInformados));
   children.push(createField('Fecha', data.consentimiento.fecha));
 
@@ -79,7 +97,12 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
 
   // 3. Medicamentos y Alergias
   children.push(createHeading('3. Medicamentos y Alergias'));
-  children.push(createField('Medicamentos en casa', data.medicamentos));
+  children.push(createField('Medicamentos actuales', data.medicamentos));
+  
+  if (data.medicamentosAnteriores.length > 0) {
+    children.push(new Paragraph({ children: [new TextRun({ text: "Medicamentos anteriores:", bold: true })] }));
+    children.push(...createHistoryItems(data.medicamentosAnteriores));
+  }
   
   const alergiasTexto = ALERGIAS.map(a => `${a.label}: ${data.alergicos[a.key as keyof typeof data.alergicos] ? 'Sí' : 'No'}`).join(', ');
   const alergiasOtros = `Otros: ${data.alergicos.otros.presenta ? 'Sí (' + data.alergicos.otros.descripcion + ')' : 'No'}`;
@@ -88,7 +111,12 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
 
   // 4. Quirúrgicos
   children.push(createHeading('4. Quirúrgicos'));
-  children.push(createField('Antecedentes Quirúrgicos', data.quirurgicos));
+  children.push(createField('Antecedentes Quirúrgicos actuales', data.quirurgicos));
+
+  if (data.quirurgicosAnteriores.length > 0) {
+    children.push(new Paragraph({ children: [new TextRun({ text: "Antecedentes quirúrgicos anteriores:", bold: true })] }));
+    children.push(...createHistoryItems(data.quirurgicosAnteriores));
+  }
 
   // 5. Condiciones Finales, Cutis y Sesiones
   children.push(createHeading('5. Condiciones Finales y Sesiones'));
@@ -106,6 +134,29 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   // 6. Diagrama Facial
   children.push(createHeading('6. Puntos de Aplicación (Diagrama Facial)'));
   
+  // Resumen de aplicaciones para el Word
+  const resumenAplicaciones = data.puntosInyeccion
+    .filter(p => p.activo || p.aplicacionesAnteriores.length > 0)
+    .map(p => {
+      const def = INJECTION_POINTS.find(d => d.id === p.id);
+      let t = `${def?.zona} - ${def?.nombre}`;
+      if (p.activo) t += ` (Actual: ${p.unidades}U)`;
+      if (p.aplicacionesAnteriores.length > 0) {
+        t += ` [Previos: ${p.aplicacionesAnteriores.map(a => `${a.fecha} ${a.unidades}U`).join(', ')}]`;
+      }
+      return t;
+    });
+
+  if (resumenAplicaciones.length > 0) {
+    children.push(new Paragraph({
+      children: [new TextRun({ text: "Detalle de aplicaciones:", bold: true })],
+      spacing: { before: 200 }
+    }));
+    resumenAplicaciones.forEach(text => {
+      children.push(new Paragraph({ text: `• ${text}`, spacing: { after: 60 }, indent: { left: 240 } }));
+    });
+  }
+
   // Capturar imagen del diagrama
   const elemento = document.getElementById('pdf-page-4');
   if (elemento) {
@@ -135,7 +186,8 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
             height: height * ratio
           }
         })
-      ]
+      ],
+      spacing: { before: 400 }
     }));
   }
 

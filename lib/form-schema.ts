@@ -44,18 +44,35 @@ export const puntoInyeccionSchema = z.object({
   activo: z.boolean(),
   unidades: z.number().optional(),
   nota: z.string().optional(),
+  aplicacionesAnteriores: z.array(z.object({
+    unidades: z.number(),
+    fecha: z.string(),
+    nota: z.string().optional(),
+  })).default([]),
 });
 
 export const historiaClinicaSchema = z.object({
   id: z.string().optional(),
   consentimiento: consentimientoSchema,
+  procedimientosAnteriores: z.array(z.object({
+    texto: z.string(),
+    fecha: z.string(),
+  })).default([]),
   antecedentesPersonales: diseaseRecordSchema,
   antecedentesFamiliares: diseaseRecordSchema,
   observacionesPatologicos: z.string().default(''),
   medicamentos: z.string().default(''),
+  medicamentosAnteriores: z.array(z.object({
+    texto: z.string(),
+    fecha: z.string(),
+  })).default([]),
   alergicos: allergyRecordSchema,
   observacionesAlergias: z.string().default(''),
   quirurgicos: z.string().default(''),
+  quirurgicosAnteriores: z.array(z.object({
+    texto: z.string(),
+    fecha: z.string(),
+  })).default([]),
   condicionRecuperacion: z.string().default(''),
   estadoGestacion: z.enum(['Sí', 'No', 'No aplica']).default('No'),
   tipoCutis: z.enum(['Normal', 'Seca', 'Grasa', 'Mixta']).default('Normal'),
