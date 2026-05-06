@@ -89,9 +89,9 @@ export function AuthGate({ children }: AuthGateProps) {
             </button>
           </form>
 
-          <div className="border-t border-stone/5 bg-blush/30 px-8 py-5 flex items-center justify-center gap-2 text-[10px] text-stone/30 uppercase tracking-widest font-black">
-            <ShieldCheck size={14} className="text-sage" />
-            Conexión Segura Isabel Velasquez
+          <div className="border-t border-stone/5 bg-blush/30 px-8 py-5 flex items-center justify-center gap-2 text-[10px] text-stone uppercase tracking-widest font-black">
+            <ShieldCheck size={14} className="text-stone" />
+            Conexión Segura
           </div>
         </div>
       </div>
