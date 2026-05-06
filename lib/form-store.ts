@@ -34,6 +34,7 @@ const emptyAllergyRecord: AllergyRecord = {
 const today = () => new Date().toISOString().slice(0, 10);
 
 const initialState: HistoriaClinica = {
+  id: undefined,
   consentimiento: {
     nombreCompleto: '',
     tipoDocumento: 'CC',
@@ -83,6 +84,7 @@ type Store = HistoriaClinica & {
   togglePuntoInyeccion: (id: string) => void;
   setPuntoUnidades: (id: string, unidades: number | undefined) => void;
   setPuntoNota: (id: string, nota: string) => void;
+  loadData: (data: HistoriaClinica) => void;
   reset: () => void;
 };
 
@@ -126,5 +128,6 @@ export const useFormStore = create<Store>((set) => ({
         p.id === id ? { ...p, nota } : p
       ),
     })),
+  loadData: (data) => set({ ...structuredClone(data) }),
   reset: () => set(structuredClone(initialState)),
 }));

@@ -47,6 +47,7 @@ export const puntoInyeccionSchema = z.object({
 });
 
 export const historiaClinicaSchema = z.object({
+  id: z.string().optional(),
   consentimiento: consentimientoSchema,
   antecedentesPersonales: diseaseRecordSchema,
   antecedentesFamiliares: diseaseRecordSchema,

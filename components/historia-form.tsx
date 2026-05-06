@@ -78,11 +78,28 @@ export function HistoriaForm() {
     setSuccess(false);
 
     try {
-      const { error: supabaseError, data: insertData } = await supabase.from('historias_clinicas').insert({
+      const payload = {
         paciente_nombre: data.consentimiento.nombreCompleto,
         paciente_documento: data.consentimiento.numeroDocumento,
-        datos: data,
-      }).select();
+        datos: { ...data },
+      };
+
+      let result;
+      if (data.id) {
+        // Actualizar existente
+        result = await supabase
+          .from('historias_clinicas')
+          .upsert({ id: data.id, ...payload })
+          .select();
+      } else {
+        // Crear nuevo
+        result = await supabase
+          .from('historias_clinicas')
+          .insert(payload)
+          .select();
+      }
+
+      const { error: supabaseError, data: insertData } = result;
 
       if (supabaseError) {
         console.error('Error de Supabase:', supabaseError);
@@ -90,6 +107,12 @@ export function HistoriaForm() {
       }
       
       console.log('Guardado exitoso:', insertData);
+      
+      // Si era nuevo, guardar el ID retornado
+      if (!data.id && insertData && insertData[0]) {
+        useFormStore.getState().loadData({ ...data, id: insertData[0].id });
+      }
+
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
       alert('¡Historia clínica guardada con éxito!');
