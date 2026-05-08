@@ -48,7 +48,7 @@ export function AllergyChecklist({ value, onChange }: Props) {
                 <input
                   type="text"
                   placeholder="Especifique la alergia"
-                  className="mt-1 w-full rounded-xl border border-stone/10 bg-blush/30 px-3 py-1.5 text-xs font-medium text-stone focus:border-sage focus:outline-none transition-all placeholder:text-stone/20"
+                  className="mt-1 w-full min-w-0 rounded-xl border border-stone/10 bg-blush/30 px-3 py-1.5 text-xs font-medium text-stone focus:border-sage focus:outline-none transition-all placeholder:text-stone/20"
                   value={value.otros.descripcion}
                   onChange={(e) =>
                     onChange({

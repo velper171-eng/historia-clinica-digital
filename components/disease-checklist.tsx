@@ -51,7 +51,7 @@ export function DiseaseChecklist({ value, onChange, idPrefix }: Props) {
                   <input
                     type="text"
                     placeholder="Detalle (opcional)"
-                    className="w-full rounded-xl border border-stone/10 bg-blush/30 px-3 py-1.5 text-xs font-medium text-stone focus:border-sage focus:outline-none transition-all placeholder:text-stone/20"
+                    className="w-full min-w-0 rounded-xl border border-stone/10 bg-blush/30 px-3 py-1.5 text-xs font-medium text-stone focus:border-sage focus:outline-none transition-all placeholder:text-stone/20"
                     value={entry.observacion}
                     onChange={(e) =>
                       onChange({
