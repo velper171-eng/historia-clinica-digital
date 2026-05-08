@@ -30,6 +30,34 @@ const emptyAllergyRecord: AllergyRecord = {
   anestesicosLocales: false,
   otros: { presenta: false, descripcion: '' },
 };
+ 
+const emptyAntropometria = {
+  masaCorporal: '',
+  talla: '',
+  edad: '',
+  plTriceps: '',
+  plSubescapular: '',
+  plBiceps: '',
+  plCrestaIliaca: '',
+  plSupraespinal: '',
+  plAbdominal: '',
+  plMuslo: '',
+  plPierna: '',
+  prBrazoRelajado: '',
+  prBrazoFlexionado: '',
+  prCintura: '',
+  prCaderas: '',
+  prMusloMedio: '',
+  prPierna: '',
+  dHumero: '',
+  dBiestiloideo: '',
+  dFemur: '',
+  dc: '',
+  porcentajeGrasa: '',
+  endomorfia: '',
+  mesomorfia: '',
+  ectomorfia: '',
+};
 
 const today = () => new Date().toISOString().slice(0, 10);
 
@@ -39,6 +67,7 @@ const initialState: HistoriaClinica = {
     nombreCompleto: '',
     tipoDocumento: 'CC',
     numeroDocumento: '',
+    fechaNacimiento: '',
     autorizadoA: 'Isabel Velasquez',
     procedimiento: '',
     riesgosInformados:
@@ -74,6 +103,8 @@ const initialState: HistoriaClinica = {
     activo: false,
     aplicacionesAnteriores: [],
   })),
+  antropometria: { ...emptyAntropometria },
+  antropometriaHistorial: {},
 };
 
 type Store = HistoriaClinica & {
@@ -97,6 +128,8 @@ type Store = HistoriaClinica & {
   setPuntoUnidades: (id: string, unidades: number | undefined) => void;
   setPuntoNota: (id: string, nota: string) => void;
   removePuntoInyeccion: (id: string) => void;
+  setAntropometria: (data: Partial<Store['antropometria']>) => void;
+  setFechaNacimiento: (fecha: string) => void;
   
   // Métodos para historial
   updateProcedimientoHistorico: (index: number, texto: string) => void;
@@ -166,6 +199,28 @@ export const useFormStore = create<Store>((set) => ({
         p.id === id ? { ...p, activo: false, unidades: undefined, nota: undefined } : p
       ),
     })),
+  setAntropometria: (data) =>
+    set((s) => ({ antropometria: { ...s.antropometria, ...data } })),
+  
+  setFechaNacimiento: (fecha: string) => {
+    set((s) => {
+      let edadStr = s.antropometria.edad;
+      if (fecha) {
+        const birthDate = new Date(fecha);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        edadStr = age >= 0 ? age.toString() : '';
+      }
+      return {
+        consentimiento: { ...s.consentimiento, fechaNacimiento: fecha },
+        antropometria: { ...s.antropometria, edad: edadStr }
+      };
+    });
+  },
 
   updateProcedimientoHistorico: (index, texto) =>
     set((s) => ({
@@ -278,6 +333,14 @@ export const useFormStore = create<Store>((set) => ({
         return p;
       });
 
+      const newAntroHistorial = { ...s.antropometriaHistorial };
+      Object.entries(s.antropometria).forEach(([key, valor]) => {
+        if (typeof valor === 'string' && valor.trim()) {
+          if (!newAntroHistorial[key]) newAntroHistorial[key] = [];
+          newAntroHistorial[key] = [...newAntroHistorial[key], { valor, fecha }];
+        }
+      });
+
       return {
         procedimientosAnteriores: newProcedimientos,
         medicamentosAnteriores: newMedicamentos,
@@ -287,6 +350,7 @@ export const useFormStore = create<Store>((set) => ({
         condicionRecuperacionAnteriores: newCondiciones,
         observacionesGeneralesAnteriores: newObsGral,
         puntosInyeccion: newPuntos,
+        antropometriaHistorial: newAntroHistorial,
         consentimiento: { 
           ...s.consentimiento, 
           procedimiento: '',
@@ -321,7 +385,9 @@ export const useFormStore = create<Store>((set) => ({
       puntosInyeccion: (data.puntosInyeccion || s.puntosInyeccion).map(p => ({
         ...p,
         aplicacionesAnteriores: p.aplicacionesAnteriores || []
-      }))
+      })),
+      antropometria: data.antropometria || structuredClone(emptyAntropometria),
+      antropometriaHistorial: data.antropometriaHistorial || {},
     })),
   reset: () => set(structuredClone(initialState)),
   discardCurrentSession: () =>
@@ -342,6 +408,7 @@ export const useFormStore = create<Store>((set) => ({
         activo: false,
         unidades: undefined,
         nota: undefined
-      }))
+      })),
+      antropometria: structuredClone(emptyAntropometria),
     })),
 }));

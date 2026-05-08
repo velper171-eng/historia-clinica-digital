@@ -32,6 +32,7 @@ export const consentimientoSchema = z.object({
   nombreCompleto: z.string().min(3, 'Ingresa el nombre completo'),
   tipoDocumento: z.enum(['CC', 'CE', 'Pasaporte']),
   numeroDocumento: z.string().min(4, 'Número de documento inválido'),
+  fechaNacimiento: z.string().default(''),
   autorizadoA: z.string().min(3, 'Indica el profesional o clínica autorizada'),
   procedimiento: z.string().min(3, 'Describe el procedimiento'),
   riesgosInformados: z.string().min(10, 'Describe los riesgos informados'),
@@ -53,6 +54,38 @@ export const puntoInyeccionSchema = z.object({
     fecha: z.string(),
     nota: z.string().optional(),
   })).default([]),
+});
+
+export const antropometriaSchema = z.object({
+  masaCorporal: z.string().default(''),
+  talla: z.string().default(''),
+  edad: z.string().default(''),
+  // Pliegues
+  plTriceps: z.string().default(''),
+  plSubescapular: z.string().default(''),
+  plBiceps: z.string().default(''),
+  plCrestaIliaca: z.string().default(''),
+  plSupraespinal: z.string().default(''),
+  plAbdominal: z.string().default(''),
+  plMuslo: z.string().default(''),
+  plPierna: z.string().default(''),
+  // Perímetros
+  prBrazoRelajado: z.string().default(''),
+  prBrazoFlexionado: z.string().default(''),
+  prCintura: z.string().default(''),
+  prCaderas: z.string().default(''),
+  prMusloMedio: z.string().default(''),
+  prPierna: z.string().default(''),
+  // Diámetros
+  dHumero: z.string().default(''),
+  dBiestiloideo: z.string().default(''),
+  dFemur: z.string().default(''),
+  // Resultados calculados
+  dc: z.string().default(''),
+  porcentajeGrasa: z.string().default(''),
+  endomorfia: z.string().default(''),
+  mesomorfia: z.string().default(''),
+  ectomorfia: z.string().default(''),
 });
 
 export const historiaClinicaSchema = z.object({
@@ -102,12 +135,18 @@ export const historiaClinicaSchema = z.object({
   firmaFinal: z.string().min(1, 'La firma final es obligatoria'),
   fechaFinal: z.string().min(1, 'Selecciona la fecha'),
   puntosInyeccion: z.array(puntoInyeccionSchema),
+  antropometria: antropometriaSchema,
+  antropometriaHistorial: z.record(z.array(z.object({
+    valor: z.string(),
+    fecha: z.string(),
+  }))).default({}),
 });
 
 export type Consentimiento = z.infer<typeof consentimientoSchema>;
 export type DiseaseRecord = z.infer<typeof diseaseRecordSchema>;
 export type AllergyRecord = z.infer<typeof allergyRecordSchema>;
 export type PuntoInyeccion = z.infer<typeof puntoInyeccionSchema>;
+export type Antropometria = z.infer<typeof antropometriaSchema>;
 export type HistoriaClinica = z.infer<typeof historiaClinicaSchema>;
 
 export const ENFERMEDADES = [
