@@ -1262,7 +1262,7 @@ export function HistoriaForm() {
 }
 
 const inputClass =
-  'block w-full min-w-0 rounded-xl border border-stone/10 bg-white px-3 py-2 text-sm text-stone font-medium focus:border-sage focus:outline-none focus:ring-4 focus:ring-sage/5 transition-all placeholder:text-stone/30';
+  'block w-full max-w-full min-w-0 rounded-xl border border-stone/10 bg-white px-2 sm:px-3 py-2 text-sm text-stone font-medium focus:border-sage focus:outline-none focus:ring-4 focus:ring-sage/5 transition-all placeholder:text-stone/30';
 
 function HistoricalEntries({ 
   title, 
