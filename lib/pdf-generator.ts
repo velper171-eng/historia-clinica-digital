@@ -21,6 +21,9 @@ export async function generarHistoriaClinicaPDF(data: HistoriaClinica) {
       throw new Error(`No se encontró el elemento #${id}`);
     }
 
+    // Pequeño retardo para asegurar renderizado
+    await new Promise(r => setTimeout(r, 100));
+
     const canvas = await html2canvas(elemento, {
       scale: 1.5,
       backgroundColor: '#ffffff',
