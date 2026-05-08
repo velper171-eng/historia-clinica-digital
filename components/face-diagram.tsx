@@ -21,7 +21,9 @@ export function FaceDiagram({
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [gender, setGender] = useState<Gender>('mujer');
 
-  const faceImage = gender === 'mujer' ? '/face-female-with-dots.png' : '/face-male-with-dots.png';
+  const faceImage = readOnly
+    ? (gender === 'mujer' ? '/face-female-v2.png' : '/face-male-v2.png')
+    : (gender === 'mujer' ? '/face-female-with-dots.png' : '/face-male-with-dots.png');
   const points = gender === 'mujer' ? INJECTION_POINTS_MAP.mujer : INJECTION_POINTS_MAP.hombre;
 
   return (
