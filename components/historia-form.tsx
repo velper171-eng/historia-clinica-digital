@@ -757,7 +757,7 @@ export function HistoriaForm() {
         {data.sesionesProgramadas > 0 && (
           <div className="mt-4">
             <label className="mb-2 block text-sm font-medium text-stone font-bold uppercase tracking-widest text-[10px]">Fechas de sesiones</label>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+            <div className="grid grid-cols-1 gap-3 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
               {Array.from({ length: data.sesionesProgramadas }).map((_, i) => (
                 <div key={i}>
                   <div className="mb-1 text-xs text-stone/50 font-bold uppercase">Sesión {i + 1}</div>
