@@ -1346,7 +1346,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-4 sm:p-8 shadow-sm transition-all hover:shadow-md">
+    <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-6 sm:p-8 shadow-sm transition-all hover:shadow-md">
       <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-stone uppercase tracking-tight font-serif">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-sand text-sm font-black text-stone font-serif">
           {number}
