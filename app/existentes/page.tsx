@@ -130,17 +130,17 @@ export default function ExistentesPage() {
                 <div
                   key={record.id}
                   onClick={() => handleSelect(record)}
-                  className="group flex w-full cursor-pointer items-center justify-between rounded-2xl border border-stone/10 bg-white p-5 text-left shadow-sm transition-all hover:border-sage hover:shadow-md active:scale-[0.99]"
+                  className="group flex w-full cursor-pointer flex-col sm:flex-row items-start sm:items-center justify-between rounded-2xl border border-stone/10 bg-white p-5 text-left shadow-sm transition-all hover:border-sage hover:shadow-md active:scale-[0.99] gap-4"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sand/30 text-sage group-hover:bg-sage group-hover:text-white transition-colors">
+                  <div className="flex items-center gap-4 w-full">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sand/30 text-sage group-hover:bg-sage group-hover:text-white transition-colors">
                       <User size={24} />
                     </div>
-                    <div>
-                      <h3 className="font-bold text-stone">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-bold text-stone truncate">
                         {record.paciente_nombre || 'Sin nombre'}
                       </h3>
-                      <div className="flex items-center gap-3 text-sm text-stone/50 font-medium">
+                      <div className="flex flex-wrap items-center gap-3 text-[11px] sm:text-sm text-stone/50 font-medium">
                         <span className="flex items-center gap-1">
                           Doc: {record.paciente_documento || '—'}
                         </span>
@@ -151,7 +151,7 @@ export default function ExistentesPage() {
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-0 border-stone/5">
                     <button
                       onClick={(e) => handleDelete(e, record.id, record.paciente_nombre)}
                       className="flex h-10 w-10 items-center justify-center rounded-xl text-stone/20 transition-colors hover:bg-red-50 hover:text-red-600"
@@ -160,7 +160,7 @@ export default function ExistentesPage() {
                       <Trash2 size={20} />
                     </button>
                     <div className="flex items-center gap-2 text-stone/20 group-hover:text-sage transition-colors">
-                      <span className="text-xs font-bold uppercase opacity-0 group-hover:opacity-100 transition-opacity tracking-tighter">Continuar</span>
+                      <span className="text-xs font-bold uppercase opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity tracking-tighter">Continuar</span>
                       <ChevronRight size={20} />
                     </div>
                   </div>

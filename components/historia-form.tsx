@@ -1219,31 +1219,33 @@ export function HistoriaForm() {
           </div>
         </div>
           
-          <div className="flex gap-2 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <button
               type="button"
               onClick={handleSave}
               disabled={saving || generating || generatingWord}
-              className="flex-1 sm:flex-none rounded-xl bg-stone px-6 py-3 text-sm font-bold text-white shadow-lg shadow-stone/20 transition-all hover:bg-stone/90 active:scale-95 disabled:opacity-50"
+              className="flex-1 sm:flex-none rounded-xl bg-stone px-4 sm:px-6 py-3 text-sm font-bold text-white shadow-lg shadow-stone/20 transition-all hover:bg-stone/90 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {saving ? 'Guardando…' : '💾 Guardar'}
+              <Save size={18} /> {saving ? 'Guardando…' : 'Guardar'}
             </button>
-            <button
-              type="button"
-              onClick={handleDownloadWord}
-              disabled={generatingWord || generating}
-              className="flex-1 sm:flex-none rounded-xl border-2 border-sage bg-white px-6 py-3 text-sm font-bold text-sage transition-all hover:bg-sage hover:text-white active:scale-95 disabled:opacity-50"
-            >
-              {generatingWord ? '...' : '📝 Word'}
-            </button>
-            <button
-              type="button"
-              onClick={handleDownload}
-              disabled={generating || generatingWord}
-              className="flex-1 sm:flex-none rounded-xl bg-sage px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sage/20 transition-all hover:bg-sage/90 active:scale-95 disabled:opacity-50"
-            >
-              {generating ? '...' : '📄 PDF'}
-            </button>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={handleDownloadWord}
+                disabled={generatingWord || generating}
+                className="flex-1 sm:flex-none rounded-xl border-2 border-sage bg-white px-4 sm:px-6 py-3 text-sm font-bold text-sage transition-all hover:bg-sage hover:text-white active:scale-95 disabled:opacity-50"
+              >
+                {generatingWord ? '...' : '📝 Word'}
+              </button>
+              <button
+                type="button"
+                onClick={handleDownload}
+                disabled={generating || generatingWord}
+                className="flex-1 sm:flex-none rounded-xl bg-sage px-4 sm:px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sage/20 transition-all hover:bg-sage/90 active:scale-95 disabled:opacity-50"
+              >
+                {generating ? '...' : '📄 PDF'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1344,7 +1346,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-8 shadow-sm transition-all hover:shadow-md">
+    <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-4 sm:p-8 shadow-sm transition-all hover:shadow-md">
       <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-stone uppercase tracking-tight font-serif">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-sand text-sm font-black text-stone font-serif">
           {number}

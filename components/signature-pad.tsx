@@ -20,6 +20,28 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
     }
   }, [value]);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      const container = containerRef.current;
+      const sig = sigRef.current;
+      if (!container || !sig) return;
+      
+      const canvas = sig.getCanvas();
+      const { width } = container.getBoundingClientRect();
+      
+      // Solo ajustamos si el ancho es diferente para evitar loops
+      if (canvas.width !== width) {
+        canvas.width = width;
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleEnd = () => {
     const sig = sigRef.current;
     if (!sig) return;
@@ -47,14 +69,12 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
           Limpiar
         </button>
       </div>
-      <div className="rounded-2xl border-2 border-dashed border-stone/20 bg-blush/10">
+      <div ref={containerRef} className="rounded-2xl border-2 border-dashed border-stone/20 bg-blush/10 overflow-hidden">
         <SignatureCanvas
           ref={sigRef}
           penColor="#4A4A4A"
           canvasProps={{
-            className: 'w-full h-40 rounded-2xl cursor-crosshair',
-            width: 600,
-            height: 160,
+            className: 'w-full h-40 cursor-crosshair block',
           }}
           onEnd={handleEnd}
         />

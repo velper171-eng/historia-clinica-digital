@@ -11,8 +11,9 @@ type Props = {
 
 export function DiseaseChecklist({ value, onChange, idPrefix }: Props) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-stone/10 bg-white shadow-sm">
-      <table className="w-full text-sm">
+    <div className="rounded-2xl border border-stone/10 bg-white shadow-sm overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[600px]">
         <thead className="bg-sand/30">
           <tr>
             <th className="px-3 py-3 text-left text-[10px] font-black uppercase tracking-widest text-stone/50">Enfermedad</th>
@@ -64,7 +65,8 @@ export function DiseaseChecklist({ value, onChange, idPrefix }: Props) {
             );
           })}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }
