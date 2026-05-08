@@ -1,24 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F2EBE0; /* Blush / Off-white */
-  --foreground: #4A4A4A;
+  --background: #F9F7F2; /* Ultra-clean Cream */
+  --foreground: #4A3F35; /* Bronze / Charcoal */
   
-  --sage: #A7B7A4;
-  --stone: #9A8C84;
-  --sand: #E0D7CD;
-  --blush: #F2EBE0;
+  --sage: #C5A059; /* Branding Gold */
+  --stone: #5E503F; /* Deep Bronze */
+  --sand: #E7D2A7; /* Soft Gold / Sand */
+  --blush: #F9F7F2; /* Cream */
 }
 
 @theme inline {
-  --color-background: #F2EBE0;
+  --color-background: #F9F7F2;
   --color-foreground: #2D2D2D;
-  --color-sage: #5F715B;
-  --color-stone: #4A3F35;
-  --color-sand: #D4C3B0;
-  --color-blush: #F2EBE0;
-  --color-vibrant: #C18C5D;
+  --color-sage: #C5A059; /* RELIV GOLD */
+  --color-stone: #4A3F35; /* RELIV BRONZE */
+  --color-sand: #E7D2A7; /* RELIV SAND */
+  --color-blush: #F9F7F2; /* RELIV CREAM */
+  --color-vibrant: #D4AF37;
   --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-playfair);
 }
 
 body {

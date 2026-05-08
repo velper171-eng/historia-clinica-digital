@@ -391,7 +391,7 @@ export function HistoriaForm() {
           }`}>
             Isabel Velasquez
           </div>
-          <h1 className="text-xl font-black">Historia clínica y seguimiento</h1>
+          <h1 className="text-xl font-black font-serif">Historia clínica y seguimiento</h1>
           <p className={`mt-1 text-xs font-bold ${activeTab === 'historia' ? 'text-white/70' : 'text-stone/60'}`}>
             Diligencie los campos y descargue el PDF o Word cuando esté listo.
           </p>
@@ -405,7 +405,7 @@ export function HistoriaForm() {
             : 'bg-transparent text-stone hover:bg-sage/5'
           }`}
         >
-          <h1 className="text-xl font-black">Valoración Antropométrica y Composición Corporal</h1>
+          <h1 className="text-xl font-black font-serif">Valoración Antropométrica y Composición Corporal</h1>
           <p className={`mt-1 text-xs font-bold ${activeTab === 'antropometria' ? 'text-white/70' : 'text-stone/60'}`}>
             Evaluación de medidas corporales y composición.
           </p>
@@ -1317,8 +1317,8 @@ function Section({
 }) {
   return (
     <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-8 shadow-sm transition-all hover:shadow-md">
-      <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-stone uppercase tracking-tight">
-        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-sand text-sm font-black text-stone">
+      <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-stone uppercase tracking-tight font-serif">
+        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-sand text-sm font-black text-stone font-serif">
           {number}
         </span>
         {title}

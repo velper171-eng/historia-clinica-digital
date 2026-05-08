@@ -18,7 +18,7 @@ export default function Home() {
               className="h-48 w-auto object-contain drop-shadow-2xl mix-blend-multiply" 
             />
           </div>
-          <h1 className="mb-4 text-4xl font-black tracking-tight text-stone md:text-6xl">
+          <h1 className="mb-4 text-4xl font-black tracking-tight text-stone md:text-6xl font-serif">
             Historia Clínica <span className="text-sage">Digital</span>
           </h1>
           <p className="mx-auto max-w-2xl text-lg font-bold text-stone/80 sm:text-xl">
