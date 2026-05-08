@@ -86,6 +86,14 @@ export const antropometriaSchema = z.object({
   endomorfia: z.string().default(''),
   mesomorfia: z.string().default(''),
   ectomorfia: z.string().default(''),
+  // Evaluaciones descriptivas
+  evaluacionSaludable: z.string().default(''),
+  evaluacionGrasa: z.string().default(''),
+  evaluacionRespuestaCalorica: z.string().default(''),
+  evaluacionSensibilidadDigestiva: z.string().default(''),
+  evaluacionMargenMuscular: z.string().default(''),
+  evaluacionFaseDefinicion: z.string().default(''),
+  evaluacionVolumen: z.string().default(''),
 });
 
 export const historiaClinicaSchema = z.object({

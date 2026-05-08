@@ -217,6 +217,30 @@ export function HistoriaForm() {
     return configs[somatotipoPredominante];
   }, [somatotipoPredominante]);
 
+  useEffect(() => {
+    if (evaluacion) {
+      if (
+        data.antropometria.evaluacionSaludable !== evaluacion.saludable ||
+        data.antropometria.evaluacionGrasa !== evaluacion.acumulacionGrasa ||
+        data.antropometria.evaluacionRespuestaCalorica !== evaluacion.respuestaExcesos ||
+        data.antropometria.evaluacionSensibilidadDigestiva !== evaluacion.sensibilidadDigestiva ||
+        data.antropometria.evaluacionMargenMuscular !== evaluacion.margenMuscular ||
+        data.antropometria.evaluacionFaseDefinicion !== evaluacion.faseDefinicion ||
+        data.antropometria.evaluacionVolumen !== evaluacion.volumen
+      ) {
+        useFormStore.getState().setAntropometria({
+          evaluacionSaludable: evaluacion.saludable,
+          evaluacionGrasa: evaluacion.acumulacionGrasa,
+          evaluacionRespuestaCalorica: evaluacion.respuestaExcesos,
+          evaluacionSensibilidadDigestiva: evaluacion.sensibilidadDigestiva,
+          evaluacionMargenMuscular: evaluacion.margenMuscular,
+          evaluacionFaseDefinicion: evaluacion.faseDefinicion,
+          evaluacionVolumen: evaluacion.volumen
+        });
+      }
+    }
+  }, [evaluacion]);
+
   const handleDownload = async () => {
     setGenerating(true);
     setError(null);

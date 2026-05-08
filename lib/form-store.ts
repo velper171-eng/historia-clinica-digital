@@ -57,6 +57,14 @@ const emptyAntropometria = {
   endomorfia: '',
   mesomorfia: '',
   ectomorfia: '',
+  // Evaluaciones descriptivas
+  evaluacionSaludable: '',
+  evaluacionGrasa: '',
+  evaluacionRespuestaCalorica: '',
+  evaluacionSensibilidadDigestiva: '',
+  evaluacionMargenMuscular: '',
+  evaluacionFaseDefinicion: '',
+  evaluacionVolumen: '',
 };
 
 const today = () => new Date().toISOString().slice(0, 10);
