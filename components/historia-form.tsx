@@ -366,6 +366,16 @@ export function HistoriaForm() {
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-6 pb-32">
+      {/* LOGO EMPRESARIAL */}
+      <div className="mb-10 flex flex-col items-center justify-center animate-in fade-in slide-in-from-top-4 duration-1000">
+        <img 
+          src="/logo-reliv.png" 
+          alt="RELIV Centro de Bienestar" 
+          className="h-32 w-auto object-contain transition-transform hover:scale-105 duration-500" 
+        />
+        <div className="mt-4 h-1 w-20 rounded-full bg-gradient-to-r from-transparent via-sand to-transparent opacity-50" />
+      </div>
+
       {/* ====== HEADER ====== */}
       <div className="mb-6 rounded-3xl border border-stone/10 bg-white p-2 shadow-sm flex flex-col md:flex-row gap-2">
         <button
@@ -1171,12 +1181,15 @@ export function HistoriaForm() {
       {/* ====== BARRA INFERIOR FIJA: ACCIONES ====== */}
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-stone/10 bg-white/90 px-4 py-4 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
-          <div className="hidden sm:block">
+        <div className="flex items-center gap-4">
+          <img src="/logo-reliv.png" alt="" className="h-10 w-auto object-contain opacity-80" />
+          <div className="hidden sm:block border-l border-stone/10 pl-4">
             <div className="text-xs font-black uppercase tracking-tighter text-stone/20">Paciente</div>
             <div className="text-sm font-bold text-stone truncate max-w-[200px]">
               {data.consentimiento.nombreCompleto || '—'}
             </div>
           </div>
+        </div>
           
           <div className="flex gap-2 w-full sm:w-auto">
             <button
