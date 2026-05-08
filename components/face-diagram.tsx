@@ -25,7 +25,7 @@ export function FaceDiagram({
   const points = gender === 'mujer' ? INJECTION_POINTS_MAP.mujer : INJECTION_POINTS_MAP.hombre;
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
       {/* Selector de género */}
       <div
         style={{
@@ -80,8 +80,14 @@ export function FaceDiagram({
 
       {/* Diagrama facial */}
       <div
-        className="relative inline-block overflow-hidden rounded-[40px] shadow-2xl shadow-stone/10 border border-stone/5"
-        style={{ width, aspectRatio: '800/1000' }}
+        id="face-diagram-container"
+        className="relative inline-block overflow-hidden rounded-[40px]"
+        style={{ 
+          width, 
+          aspectRatio: '800/1000',
+          boxShadow: '0 25px 50px -12px rgba(94, 80, 63, 0.1)',
+          border: '1px solid rgba(94, 80, 63, 0.05)'
+        }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -110,7 +116,7 @@ export function FaceDiagram({
               <g key={p.id}>
                 {/* Halo cuando activo */}
                 {isActive && (
-                  <circle cx={p.cx} cy={p.cy} r={24} fill="#C18C5D" fillOpacity={0.4} className="animate-pulse" />
+                  <circle cx={p.cx} cy={p.cy} r={24} fill="#C18C5D" fillOpacity={0.4} className={readOnly ? '' : 'animate-pulse'} />
                 )}
                 <circle
                   cx={p.cx}
@@ -137,9 +143,28 @@ export function FaceDiagram({
           })}
         </svg>
 
-        {/* Tooltip */}
-        {hoverId && (
-          <div className="pointer-events-none absolute left-1/2 bottom-8 -translate-x-1/2 rounded-full bg-stone px-6 py-2.5 text-[11px] font-black uppercase tracking-widest text-white shadow-2xl border border-white/20">
+        {/* Tooltip (oculto en PDF) */}
+        {!readOnly && hoverId && (
+          <div 
+            style={{
+              pointerEvents: 'none',
+              position: 'absolute',
+              left: '50%',
+              bottom: '32px',
+              transform: 'translateX(-50%)',
+              borderRadius: '9999px',
+              background: '#4A3F35',
+              padding: '10px 24px',
+              fontSize: '11px',
+              fontWeight: 900,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              color: '#fff',
+              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              whiteSpace: 'nowrap'
+            }}
+          >
             {points.find(p => p.id === hoverId)?.zona} — {points.find(p => p.id === hoverId)?.nombre}
           </div>
         )}

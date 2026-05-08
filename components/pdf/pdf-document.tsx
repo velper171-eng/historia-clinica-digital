@@ -473,14 +473,14 @@ export function PdfDocument({ data }: Props) {
           VALORACIÓN ANTROPOMÉTRICA
         </h1>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-          <div>
+        <div style={{ display: 'flex', gap: 20 }}>
+          <div style={{ flex: 1 }}>
             <h2 style={{ fontSize: '11pt', borderBottom: '1px solid #C5A059', paddingBottom: 4, color: '#C5A059' }}>Medidas Básicas</h2>
             <FieldLine label="Edad" value={`${data.antropometria.edad} años`} />
             <FieldLine label="Talla" value={`${data.antropometria.talla} cm`} />
             <FieldLine label="Masa Corporal" value={`${data.antropometria.masaCorporal} kg`} />
           </div>
-          <div>
+          <div style={{ flex: 1 }}>
             <h2 style={{ fontSize: '11pt', borderBottom: '1px solid #C5A059', paddingBottom: 4, color: '#C5A059' }}>Composición</h2>
             <FieldLine label="Densidad Corporal (DC)" value={data.antropometria.dc} />
             <FieldLine label="% Grasa Corporal" value={`${data.antropometria.porcentajeGrasa}%`} />
@@ -488,28 +488,28 @@ export function PdfDocument({ data }: Props) {
         </div>
 
         <h2 style={{ fontSize: '11pt', borderBottom: '1px solid #C5A059', paddingBottom: 4, color: '#C5A059', marginTop: 14 }}>Pliegues Cutáneos (mm)</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, fontSize: '9pt' }}>
-          <FieldLine label="Tríceps" value={data.antropometria.plTriceps} />
-          <FieldLine label="Subescapular" value={data.antropometria.plSubescapular} />
-          <FieldLine label="Bíceps" value={data.antropometria.plBiceps} />
-          <FieldLine label="Cresta Ilíaca" value={data.antropometria.plCrestaIliaca} />
-          <FieldLine label="Supraespinal" value={data.antropometria.plSupraespinal} />
-          <FieldLine label="Abdominal" value={data.antropometria.plAbdominal} />
-          <FieldLine label="Muslo frontal" value={data.antropometria.plMuslo} />
-          <FieldLine label="Pierna medial" value={data.antropometria.plPierna} />
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, fontSize: '9pt' }}>
+          <div style={{ width: '31%' }}><FieldLine label="Tríceps" value={data.antropometria.plTriceps} /></div>
+          <div style={{ width: '31%' }}><FieldLine label="Subescapular" value={data.antropometria.plSubescapular} /></div>
+          <div style={{ width: '31%' }}><FieldLine label="Bíceps" value={data.antropometria.plBiceps} /></div>
+          <div style={{ width: '31%' }}><FieldLine label="Cresta Ilíaca" value={data.antropometria.plCrestaIliaca} /></div>
+          <div style={{ width: '31%' }}><FieldLine label="Supraespinal" value={data.antropometria.plSupraespinal} /></div>
+          <div style={{ width: '31%' }}><FieldLine label="Abdominal" value={data.antropometria.plAbdominal} /></div>
+          <div style={{ width: '31%' }}><FieldLine label="Muslo frontal" value={data.antropometria.plMuslo} /></div>
+          <div style={{ width: '31%' }}><FieldLine label="Pierna medial" value={data.antropometria.plPierna} /></div>
         </div>
 
         <h2 style={{ fontSize: '11pt', borderBottom: '1px solid #C5A059', paddingBottom: 4, color: '#C5A059', marginTop: 14 }}>Somatotipo Heath-Carter</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginBottom: 14 }}>
-          <div style={{ textAlign: 'center', padding: 8, background: '#F9F7F2', borderRadius: 8 }}>
+        <div style={{ display: 'flex', gap: 20, marginBottom: 14 }}>
+          <div style={{ flex: 1, textAlign: 'center', padding: 8, background: '#F9F7F2', borderRadius: 8 }}>
             <div style={{ fontSize: '8pt', fontWeight: 700, color: '#4A3F35' }}>ENDOMORFIA</div>
             <div style={{ fontSize: '16pt', fontWeight: 900, color: '#B6A27F' }}>{data.antropometria.endomorfia}</div>
           </div>
-          <div style={{ textAlign: 'center', padding: 8, background: '#F9F7F2', borderRadius: 8 }}>
+          <div style={{ flex: 1, textAlign: 'center', padding: 8, background: '#F9F7F2', borderRadius: 8 }}>
             <div style={{ fontSize: '8pt', fontWeight: 700, color: '#4A3F35' }}>MESOMORFIA</div>
             <div style={{ fontSize: '16pt', fontWeight: 900, color: '#B6A27F' }}>{data.antropometria.mesomorfia}</div>
           </div>
-          <div style={{ textAlign: 'center', padding: 8, background: '#F9F7F2', borderRadius: 8 }}>
+          <div style={{ flex: 1, textAlign: 'center', padding: 8, background: '#F9F7F2', borderRadius: 8 }}>
             <div style={{ fontSize: '8pt', fontWeight: 700, color: '#4A3F35' }}>ECTOMORFIA</div>
             <div style={{ fontSize: '16pt', fontWeight: 900, color: '#B6A27F' }}>{data.antropometria.ectomorfia}</div>
           </div>
@@ -518,14 +518,14 @@ export function PdfDocument({ data }: Props) {
         {/* RECOMENDACIONES CLÍNICAS */}
         <div style={{ background: '#F9F7F2', border: '1px solid #E7D2A7', borderRadius: 12, padding: 12 }}>
           <h3 style={{ fontSize: '10pt', fontWeight: 900, marginBottom: 8, textTransform: 'uppercase' }}>Diagnóstico y Recomendaciones</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: '8.5pt' }}>
-            <div><strong>Estado Saludable:</strong> {data.antropometria.evaluacionSaludable || 'N/A'}</div>
-            <div><strong>Tendencia Grasa:</strong> {data.antropometria.evaluacionGrasa || 'N/A'}</div>
-            <div><strong>Respuesta Calórica:</strong> {data.antropometria.evaluacionRespuestaCalorica || 'N/A'}</div>
-            <div><strong>Sensibilidad Digestiva:</strong> {data.antropometria.evaluacionSensibilidadDigestiva || 'N/A'}</div>
-            <div><strong>Margen Muscular:</strong> {data.antropometria.evaluacionMargenMuscular || 'N/A'}</div>
-            <div><strong>Fase de Definición:</strong> {data.antropometria.evaluacionFaseDefinicion || 'N/A'}</div>
-            <div><strong>Tipo de Volumen:</strong> {data.antropometria.evaluacionVolumen || 'N/A'}</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, fontSize: '8.5pt' }}>
+            <div style={{ width: '48%' }}><strong>Estado Saludable:</strong> {data.antropometria.evaluacionSaludable || 'N/A'}</div>
+            <div style={{ width: '48%' }}><strong>Tendencia Grasa:</strong> {data.antropometria.evaluacionGrasa || 'N/A'}</div>
+            <div style={{ width: '48%' }}><strong>Respuesta Calórica:</strong> {data.antropometria.evaluacionRespuestaCalorica || 'N/A'}</div>
+            <div style={{ width: '48%' }}><strong>Sensibilidad Digestiva:</strong> {data.antropometria.evaluacionSensibilidadDigestiva || 'N/A'}</div>
+            <div style={{ width: '48%' }}><strong>Margen Muscular:</strong> {data.antropometria.evaluacionMargenMuscular || 'N/A'}</div>
+            <div style={{ width: '48%' }}><strong>Fase de Definición:</strong> {data.antropometria.evaluacionFaseDefinicion || 'N/A'}</div>
+            <div style={{ width: '48%' }}><strong>Tipo de Volumen:</strong> {data.antropometria.evaluacionVolumen || 'N/A'}</div>
           </div>
         </div>
 
