@@ -11,8 +11,12 @@ export default function Home() {
     <main className="flex min-h-[calc(100vh-64px)] flex-col items-center justify-center bg-blush px-6 py-12">
       <div className="w-full max-w-4xl">
         <div className="mb-12 text-center">
-          <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-sage text-white shadow-lg shadow-sage/20">
-            <ClipboardList size={32} />
+          <div className="mb-8 flex justify-center animate-in fade-in zoom-in duration-1000">
+            <img 
+              src="/logo-reliv.png" 
+              alt="RELIV Centro de Bienestar" 
+              className="h-48 w-auto object-contain drop-shadow-2xl" 
+            />
           </div>
           <h1 className="mb-4 text-4xl font-black tracking-tight text-stone md:text-6xl">
             Historia Clínica <span className="text-sage">Digital</span>
