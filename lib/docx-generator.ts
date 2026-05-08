@@ -211,6 +211,50 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
     }));
   }
 
+  // 7. Valoración Antropométrica
+  children.push(createHeading('7. Valoración Antropométrica'));
+  children.push(createField('Edad', `${data.antropometria.edad} años`));
+  children.push(createField('Talla', `${data.antropometria.talla} cm`));
+  children.push(createField('Masa Corporal', `${data.antropometria.masaCorporal} kg`));
+  children.push(createField('Densidad Corporal (DC)', data.antropometria.dc));
+  children.push(createField('% Grasa Corporal', `${data.antropometria.porcentajeGrasa}%`));
+
+  children.push(new Paragraph({
+    children: [new TextRun({ text: "Pliegues Cutáneos (mm):", bold: true })],
+    spacing: { before: 200, after: 100 }
+  }));
+  const pliegues = [
+    `Tríceps: ${data.antropometria.plTriceps}`,
+    `Subescapular: ${data.antropometria.plSubescapular}`,
+    `Bíceps: ${data.antropometria.plBiceps}`,
+    `Cresta Ilíaca: ${data.antropometria.plCrestaIliaca}`,
+    `Supraespinal: ${data.antropometria.plSupraespinal}`,
+    `Abdominal: ${data.antropometria.plAbdominal}`,
+    `Muslo: ${data.antropometria.plMuslo}`,
+    `Pierna: ${data.antropometria.plPierna}`
+  ];
+  pliegues.forEach(p => children.push(new Paragraph({ text: `• ${p}`, indent: { left: 240 }, spacing: { after: 40 } })));
+
+  children.push(new Paragraph({
+    children: [new TextRun({ text: "Somatotipo Heath-Carter:", bold: true })],
+    spacing: { before: 200, after: 100 }
+  }));
+  children.push(createField('Endomorfia', data.antropometria.endomorfia));
+  children.push(createField('Mesomorfia', data.antropometria.mesomorfia));
+  children.push(createField('Ectomorfia', data.antropometria.ectomorfia));
+
+  children.push(new Paragraph({
+    children: [new TextRun({ text: "Diagnóstico y Recomendaciones:", bold: true })],
+    spacing: { before: 200, after: 100 }
+  }));
+  children.push(createField('Estado Saludable', data.antropometria.evaluacionSaludable));
+  children.push(createField('Tendencia Grasa', data.antropometria.evaluacionGrasa));
+  children.push(createField('Respuesta Calórica', data.antropometria.evaluacionRespuestaCalorica));
+  children.push(createField('Sensibilidad Digestiva', data.antropometria.evaluacionSensibilidadDigestiva));
+  children.push(createField('Margen Muscular', data.antropometria.evaluacionMargenMuscular));
+  children.push(createField('Fase de Definición', data.antropometria.evaluacionFaseDefinicion));
+  children.push(createField('Tipo de Volumen', data.antropometria.evaluacionVolumen));
+
   // Generar documento
   const doc = new Document({
     sections: [{

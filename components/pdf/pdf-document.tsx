@@ -463,7 +463,74 @@ export function PdfDocument({ data }: Props) {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 18, fontSize: '8pt', color: '#555' }}>
-          Página 4 de 4
+          Página 4 de 5
+        </div>
+      </div>
+
+      {/* ====== PÁGINA 5: VALORACIÓN ANTROPOMÉTRICA ====== */}
+      <div id="pdf-page-5" style={PAGE_STYLE}>
+        <h1 style={{ textAlign: 'center', fontSize: '13pt', marginBottom: 14, marginTop: 4 }}>
+          VALORACIÓN ANTROPOMÉTRICA
+        </h1>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          <div>
+            <h2 style={{ fontSize: '11pt', borderBottom: '1px solid #C5A059', paddingBottom: 4, color: '#C5A059' }}>Medidas Básicas</h2>
+            <FieldLine label="Edad" value={`${data.antropometria.edad} años`} />
+            <FieldLine label="Talla" value={`${data.antropometria.talla} cm`} />
+            <FieldLine label="Masa Corporal" value={`${data.antropometria.masaCorporal} kg`} />
+          </div>
+          <div>
+            <h2 style={{ fontSize: '11pt', borderBottom: '1px solid #C5A059', paddingBottom: 4, color: '#C5A059' }}>Composición</h2>
+            <FieldLine label="Densidad Corporal (DC)" value={data.antropometria.dc} />
+            <FieldLine label="% Grasa Corporal" value={`${data.antropometria.porcentajeGrasa}%`} />
+          </div>
+        </div>
+
+        <h2 style={{ fontSize: '11pt', borderBottom: '1px solid #C5A059', paddingBottom: 4, color: '#C5A059', marginTop: 14 }}>Pliegues Cutáneos (mm)</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, fontSize: '9pt' }}>
+          <FieldLine label="Tríceps" value={data.antropometria.plTriceps} />
+          <FieldLine label="Subescapular" value={data.antropometria.plSubescapular} />
+          <FieldLine label="Bíceps" value={data.antropometria.plBiceps} />
+          <FieldLine label="Cresta Ilíaca" value={data.antropometria.plCrestaIliaca} />
+          <FieldLine label="Supraespinal" value={data.antropometria.plSupraespinal} />
+          <FieldLine label="Abdominal" value={data.antropometria.plAbdominal} />
+          <FieldLine label="Muslo frontal" value={data.antropometria.plMuslo} />
+          <FieldLine label="Pierna medial" value={data.antropometria.plPierna} />
+        </div>
+
+        <h2 style={{ fontSize: '11pt', borderBottom: '1px solid #C5A059', paddingBottom: 4, color: '#C5A059', marginTop: 14 }}>Somatotipo Heath-Carter</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginBottom: 14 }}>
+          <div style={{ textAlign: 'center', padding: 8, background: '#F9F7F2', borderRadius: 8 }}>
+            <div style={{ fontSize: '8pt', fontWeight: 700, color: '#4A3F35' }}>ENDOMORFIA</div>
+            <div style={{ fontSize: '16pt', fontWeight: 900, color: '#B6A27F' }}>{data.antropometria.endomorfia}</div>
+          </div>
+          <div style={{ textAlign: 'center', padding: 8, background: '#F9F7F2', borderRadius: 8 }}>
+            <div style={{ fontSize: '8pt', fontWeight: 700, color: '#4A3F35' }}>MESOMORFIA</div>
+            <div style={{ fontSize: '16pt', fontWeight: 900, color: '#B6A27F' }}>{data.antropometria.mesomorfia}</div>
+          </div>
+          <div style={{ textAlign: 'center', padding: 8, background: '#F9F7F2', borderRadius: 8 }}>
+            <div style={{ fontSize: '8pt', fontWeight: 700, color: '#4A3F35' }}>ECTOMORFIA</div>
+            <div style={{ fontSize: '16pt', fontWeight: 900, color: '#B6A27F' }}>{data.antropometria.ectomorfia}</div>
+          </div>
+        </div>
+
+        {/* RECOMENDACIONES CLÍNICAS */}
+        <div style={{ background: '#F9F7F2', border: '1px solid #E7D2A7', borderRadius: 12, padding: 12 }}>
+          <h3 style={{ fontSize: '10pt', fontWeight: 900, marginBottom: 8, textTransform: 'uppercase' }}>Diagnóstico y Recomendaciones</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: '8.5pt' }}>
+            <div><strong>Estado Saludable:</strong> {data.antropometria.evaluacionSaludable || 'N/A'}</div>
+            <div><strong>Tendencia Grasa:</strong> {data.antropometria.evaluacionGrasa || 'N/A'}</div>
+            <div><strong>Respuesta Calórica:</strong> {data.antropometria.evaluacionRespuestaCalorica || 'N/A'}</div>
+            <div><strong>Sensibilidad Digestiva:</strong> {data.antropometria.evaluacionSensibilidadDigestiva || 'N/A'}</div>
+            <div><strong>Margen Muscular:</strong> {data.antropometria.evaluacionMargenMuscular || 'N/A'}</div>
+            <div><strong>Fase de Definición:</strong> {data.antropometria.evaluacionFaseDefinicion || 'N/A'}</div>
+            <div><strong>Tipo de Volumen:</strong> {data.antropometria.evaluacionVolumen || 'N/A'}</div>
+          </div>
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: 22, fontSize: '8pt', color: '#555' }}>
+          Página 5 de 5
         </div>
       </div>
     </div>

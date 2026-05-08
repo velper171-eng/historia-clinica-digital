@@ -4,7 +4,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import type { HistoriaClinica } from './form-schema';
 
-const PAGE_IDS = ['pdf-page-1', 'pdf-page-2', 'pdf-page-3', 'pdf-page-4'];
+const PAGE_IDS = ['pdf-page-1', 'pdf-page-2', 'pdf-page-3', 'pdf-page-4', 'pdf-page-5'];
 
 const sanitize = (s: string) =>
   s.replace(/[^a-z0-9\-_]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'sin-nombre';
