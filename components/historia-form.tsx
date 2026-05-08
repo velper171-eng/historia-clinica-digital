@@ -48,6 +48,9 @@ export function HistoriaForm() {
   }, [data.puntosInyeccion]);
 
   const totalPuntos = activeIds.size;
+  
+  // Cast para evitar errores de tipo en el historial dinámico
+  const antroHist = data.antropometriaHistorial as Record<string, { valor: string; fecha: string }[]>;
 
   const resultadosCalculados = useMemo(() => {
     const sumPliegues = [
@@ -871,20 +874,20 @@ export function HistoriaForm() {
                 label="Masa Corporal (kg)" 
                 value={data.antropometria.masaCorporal} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ masaCorporal: v })} 
-                history={data.antropometriaHistorial.masaCorporal}
+                history={antroHist.masaCorporal}
               />
               <AntroField 
                 label="Talla (cm)" 
                 value={data.antropometria.talla} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ talla: v })} 
-                history={data.antropometriaHistorial.talla}
+                history={antroHist.talla}
               />
               <AntroField 
                 label="Edad" 
                 value={data.antropometria.edad} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ edad: v })} 
                 readOnly={true}
-                history={data.antropometriaHistorial.edad}
+                history={antroHist.edad}
               />
             </div>
           </Section>
@@ -898,49 +901,49 @@ export function HistoriaForm() {
                 label="PL Triceps" 
                 value={data.antropometria.plTriceps} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ plTriceps: v })} 
-                history={data.antropometriaHistorial.plTriceps}
+                history={antroHist.plTriceps}
               />
               <AntroField 
                 label="PL Subescapular" 
                 value={data.antropometria.plSubescapular} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ plSubescapular: v })} 
-                history={data.antropometriaHistorial.plSubescapular}
+                history={antroHist.plSubescapular}
               />
               <AntroField 
                 label="PL Biceps" 
                 value={data.antropometria.plBiceps} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ plBiceps: v })} 
-                history={data.antropometriaHistorial.plBiceps}
+                history={antroHist.plBiceps}
               />
               <AntroField 
                 label="PL Cresta Iliaca" 
                 value={data.antropometria.plCrestaIliaca} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ plCrestaIliaca: v })} 
-                history={data.antropometriaHistorial.plCrestaIliaca}
+                history={antroHist.plCrestaIliaca}
               />
               <AntroField 
                 label="PL Supraespinal" 
                 value={data.antropometria.plSupraespinal} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ plSupraespinal: v })} 
-                history={data.antropometriaHistorial.plSupraespinal}
+                history={antroHist.plSupraespinal}
               />
               <AntroField 
                 label="PL Abdominal" 
                 value={data.antropometria.plAbdominal} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ plAbdominal: v })} 
-                history={data.antropometriaHistorial.plAbdominal}
+                history={antroHist.plAbdominal}
               />
               <AntroField 
                 label="PL Muslo" 
                 value={data.antropometria.plMuslo} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ plMuslo: v })} 
-                history={data.antropometriaHistorial.plMuslo}
+                history={antroHist.plMuslo}
               />
               <AntroField 
                 label="PL Pierna" 
                 value={data.antropometria.plPierna} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ plPierna: v })} 
-                history={data.antropometriaHistorial.plPierna}
+                history={antroHist.plPierna}
               />
             </div>
           </Section>
@@ -954,37 +957,37 @@ export function HistoriaForm() {
                 label="PR Brazo Relajado" 
                 value={data.antropometria.prBrazoRelajado} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ prBrazoRelajado: v })} 
-                history={data.antropometriaHistorial.prBrazoRelajado}
+                history={antroHist.prBrazoRelajado}
               />
               <AntroField 
                 label="PR Brazo Flexionado y Contraído" 
                 value={data.antropometria.prBrazoFlexionado} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ prBrazoFlexionado: v })} 
-                history={data.antropometriaHistorial.prBrazoFlexionado}
+                history={antroHist.prBrazoFlexionado}
               />
               <AntroField 
                 label="PR Cintura" 
                 value={data.antropometria.prCintura} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ prCintura: v })} 
-                history={data.antropometriaHistorial.prCintura}
+                history={antroHist.prCintura}
               />
               <AntroField 
                 label="PR Caderas" 
                 value={data.antropometria.prCaderas} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ prCaderas: v })} 
-                history={data.antropometriaHistorial.prCaderas}
+                history={antroHist.prCaderas}
               />
               <AntroField 
                 label="PR Muslo Medio" 
                 value={data.antropometria.prMusloMedio} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ prMusloMedio: v })} 
-                history={data.antropometriaHistorial.prMusloMedio}
+                history={antroHist.prMusloMedio}
               />
               <AntroField 
                 label="PR Pierna" 
                 value={data.antropometria.prPierna} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ prPierna: v })} 
-                history={data.antropometriaHistorial.prPierna}
+                history={antroHist.prPierna}
               />
             </div>
           </Section>
@@ -998,19 +1001,19 @@ export function HistoriaForm() {
                 label="D Humero" 
                 value={data.antropometria.dHumero} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ dHumero: v })} 
-                history={data.antropometriaHistorial.dHumero}
+                history={antroHist.dHumero}
               />
               <AntroField 
                 label="D Biestiloideo" 
                 value={data.antropometria.dBiestiloideo} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ dBiestiloideo: v })} 
-                history={data.antropometriaHistorial.dBiestiloideo}
+                history={antroHist.dBiestiloideo}
               />
               <AntroField 
                 label="D Femur" 
                 value={data.antropometria.dFemur} 
                 onChange={(v) => useFormStore.getState().setAntropometria({ dFemur: v })} 
-                history={data.antropometriaHistorial.dFemur}
+                history={antroHist.dFemur}
               />
             </div>
           </Section>
@@ -1034,7 +1037,7 @@ export function HistoriaForm() {
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                    <LabelWithHistory 
                     label="" 
-                    history={data.antropometriaHistorial.dc}
+                    history={antroHist.dc}
                     onRestore={(v) => useFormStore.getState().setAntropometria({ dc: v })}
                   />
                 </div>
@@ -1049,7 +1052,7 @@ export function HistoriaForm() {
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                    <LabelWithHistory 
                     label="" 
-                    history={data.antropometriaHistorial.porcentajeGrasa}
+                    history={antroHist.porcentajeGrasa}
                     onRestore={(v) => useFormStore.getState().setAntropometria({ porcentajeGrasa: v })}
                   />
                 </div>
@@ -1080,7 +1083,7 @@ export function HistoriaForm() {
                 <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity scale-75">
                    <LabelWithHistory 
                     label="" 
-                    history={data.antropometriaHistorial.endomorfia}
+                    history={antroHist.endomorfia}
                     onRestore={(v) => useFormStore.getState().setAntropometria({ endomorfia: v })}
                   />
                 </div>
@@ -1097,7 +1100,7 @@ export function HistoriaForm() {
                 <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity scale-75">
                    <LabelWithHistory 
                     label="" 
-                    history={data.antropometriaHistorial.mesomorfia}
+                    history={antroHist.mesomorfia}
                     onRestore={(v) => useFormStore.getState().setAntropometria({ mesomorfia: v })}
                   />
                 </div>
@@ -1114,7 +1117,7 @@ export function HistoriaForm() {
                 <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity scale-75">
                    <LabelWithHistory 
                     label="" 
-                    history={data.antropometriaHistorial.ectomorfia}
+                    history={antroHist.ectomorfia}
                     onRestore={(v) => useFormStore.getState().setAntropometria({ ectomorfia: v })}
                   />
                 </div>

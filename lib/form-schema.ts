@@ -136,7 +136,7 @@ export const historiaClinicaSchema = z.object({
   fechaFinal: z.string().min(1, 'Selecciona la fecha'),
   puntosInyeccion: z.array(puntoInyeccionSchema),
   antropometria: antropometriaSchema,
-  antropometriaHistorial: z.record(z.array(z.object({
+  antropometriaHistorial: z.record(z.string(), z.array(z.object({
     valor: z.string(),
     fecha: z.string(),
   }))).default({}),
