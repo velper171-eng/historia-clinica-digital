@@ -249,7 +249,9 @@ export function HistoriaForm() {
       await generarHistoriaClinicaPDF(data);
     } catch (e) {
       console.error(e);
-      setError(e instanceof Error ? e.message : 'Error al generar el PDF');
+      const errorMsg = e instanceof Error ? e.message : 'Error desconocido';
+      setError(`Error al generar el PDF: ${errorMsg}`);
+      alert(`Error al generar el PDF: ${errorMsg}`);
     } finally {
       setGenerating(false);
     }
@@ -264,7 +266,9 @@ export function HistoriaForm() {
       await generarHistoriaClinicaWord(data);
     } catch (e) {
       console.error(e);
-      setError(e instanceof Error ? e.message : 'Error al generar el Word');
+      const errorMsg = e instanceof Error ? e.message : 'Error desconocido';
+      setError(`Error al generar el Word: ${errorMsg}`);
+      alert(`Error al generar el Word: ${errorMsg}`);
     } finally {
       setGeneratingWord(false);
     }
