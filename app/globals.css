@@ -4,7 +4,7 @@
   --background: #F9F7F2; /* Ultra-clean Cream */
   --foreground: #4A3F35; /* Bronze / Charcoal */
   
-  --sage: #C5A059; /* Branding Gold */
+  --sage: #B6A27F; /* Soft Champagne Gold */
   --stone: #5E503F; /* Deep Bronze */
   --sand: #E7D2A7; /* Soft Gold / Sand */
   --blush: #F9F7F2; /* Cream */
@@ -13,7 +13,7 @@
 @theme inline {
   --color-background: #F9F7F2;
   --color-foreground: #2D2D2D;
-  --color-sage: #C5A059; /* RELIV GOLD */
+  --color-sage: #B6A27F; /* RELIV SOFT GOLD */
   --color-stone: #4A3F35; /* RELIV BRONZE */
   --color-sand: #E7D2A7; /* RELIV SAND */
   --color-blush: #F9F7F2; /* RELIV CREAM */
