@@ -1064,8 +1064,8 @@ export function HistoriaForm() {
               </div>
             </div>
 
-            <div className="absolute bottom-0 left-0 p-4 opacity-20 pointer-events-none grayscale brightness-150">
-              <img src="/body_composition_illustration_1778261574757.png" alt="" className="h-48 w-auto object-contain" />
+            <div className="absolute bottom-0 left-0 p-4 opacity-40 pointer-events-none">
+              <img src="/body_composition_illustration_1778261574757.png" alt="" className="h-56 w-auto object-contain" />
             </div>
 
             <hr className="my-8 border-sage/10" />
@@ -1127,8 +1127,8 @@ export function HistoriaForm() {
               </div>
             </div>
 
-            <div className="absolute top-1/2 right-0 -translate-y-1/2 p-4 opacity-10 pointer-events-none grayscale brightness-125">
-              <img src="/somatotype_shapes_illustration_1778261591632.png" alt="" className="h-40 w-auto object-contain" />
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 p-4 opacity-30 pointer-events-none">
+              <img src="/somatotype_shapes_illustration_1778261591632.png" alt="" className="h-48 w-auto object-contain" />
             </div>
 
             {evaluacion && (
