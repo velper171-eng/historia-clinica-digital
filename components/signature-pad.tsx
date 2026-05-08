@@ -29,18 +29,28 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
       if (!container || !sig) return;
       
       const canvas = sig.getCanvas();
-      const { width } = container.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       
-      // Solo ajustamos si el ancho es diferente para evitar loops
-      if (canvas.width !== width) {
-        canvas.width = width;
+      // Ajustamos el canvas para que coincida con el tamaño visual exacto
+      // Usamos el ratio de píxeles para que se vea nítido en pantallas retina/iPad
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      
+      if (canvas.width !== rect.width * ratio || canvas.height !== rect.height * ratio) {
+        canvas.width = rect.width * ratio;
+        canvas.height = rect.height * ratio;
+        canvas.getContext('2d')?.scale(ratio, ratio);
+        
+        // Al redimensionar el canvas se borra, así que intentamos recargar el valor si existe
+        if (value) {
+          sig.fromDataURL(value);
+        }
       }
     };
 
     window.addEventListener('resize', handleResize);
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [value]);
 
   const handleEnd = () => {
     const sig = sigRef.current;

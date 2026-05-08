@@ -547,7 +547,7 @@ export function HistoriaForm() {
           y por ello acepto la realización del procedimiento.
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="min-w-0">
             <label className="mb-1 block text-sm font-medium text-stone">Fecha</label>
             <input
@@ -700,7 +700,7 @@ export function HistoriaForm() {
           </select>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="min-w-0">
             <label className="mb-1 block text-sm font-medium text-stone">Fecha</label>
             <input
@@ -722,7 +722,7 @@ export function HistoriaForm() {
 
       {/* ====== SECCIÓN 8: EVALUACIÓN FACIAL Y SESIONES ====== */}
       <Section number="8" title="Evaluación facial y sesiones">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div>
             <label className="mb-1 block text-sm font-medium text-stone">Tipo de cutis</label>
             <select
