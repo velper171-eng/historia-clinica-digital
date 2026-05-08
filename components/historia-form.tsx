@@ -804,7 +804,7 @@ export function HistoriaForm() {
             <FaceDiagram
               activeIds={activeIds}
               onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
-              width={460}
+              width={typeof window !== 'undefined' && window.innerWidth < 480 ? 300 : 460}
             />
           </div>
 
@@ -1262,7 +1262,7 @@ export function HistoriaForm() {
 }
 
 const inputClass =
-  'w-full min-w-0 flex-1 rounded-xl border border-stone/10 bg-white px-3 py-2.5 text-stone font-medium focus:border-sage focus:outline-none focus:ring-4 focus:ring-sage/5 transition-all placeholder:text-stone/30 box-border';
+  'block w-full min-w-0 rounded-xl border border-stone/10 bg-white px-3 py-2 text-sm text-stone font-medium focus:border-sage focus:outline-none focus:ring-4 focus:ring-sage/5 transition-all placeholder:text-stone/30';
 
 function HistoricalEntries({ 
   title, 
@@ -1346,7 +1346,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-4 sm:p-8 shadow-sm transition-all hover:shadow-md">
+    <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-4 sm:p-8 shadow-sm transition-all hover:shadow-md overflow-hidden">
       <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-stone uppercase tracking-tight font-serif">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-sand text-sm font-black text-stone font-serif">
           {number}
