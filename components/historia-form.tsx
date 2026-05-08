@@ -461,7 +461,7 @@ export function HistoriaForm() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div>
+          <div className="min-w-0">
             <label className="mb-1 block text-sm font-medium text-stone">Tipo de documento</label>
             <select
               value={data.consentimiento.tipoDocumento}
@@ -477,7 +477,7 @@ export function HistoriaForm() {
               <option value="Pasaporte">Pasaporte</option>
             </select>
           </div>
-          <div>
+          <div className="min-w-0">
             <label className="mb-1 block text-sm font-medium text-stone">Número de documento</label>
             <input
               type="text"
@@ -488,7 +488,7 @@ export function HistoriaForm() {
               className={inputClass}
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <label className="mb-1 block text-sm font-medium text-stone">Fecha de nacimiento</label>
             <input
               type="date"
@@ -548,7 +548,7 @@ export function HistoriaForm() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
+          <div className="min-w-0">
             <label className="mb-1 block text-sm font-medium text-stone">Fecha</label>
             <input
               type="date"
@@ -559,7 +559,7 @@ export function HistoriaForm() {
               className={inputClass}
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <SignaturePad
               value={data.consentimiento.firma}
               onChange={(firma) => useFormStore.getState().setConsentimiento({ firma })}
@@ -701,7 +701,7 @@ export function HistoriaForm() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
+          <div className="min-w-0">
             <label className="mb-1 block text-sm font-medium text-stone">Fecha</label>
             <input
               type="date"
@@ -710,7 +710,7 @@ export function HistoriaForm() {
               className={inputClass}
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <SignaturePad
               value={data.firmaFinal}
               onChange={useFormStore.getState().setFirmaFinal}
@@ -1346,7 +1346,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-4 sm:p-8 shadow-sm transition-all hover:shadow-md overflow-hidden">
+    <section className="mb-6 rounded-3xl border border-stone/20 bg-white p-4 sm:p-8 shadow-sm transition-all hover:shadow-md">
       <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-stone uppercase tracking-tight font-serif">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-sand text-sm font-black text-stone font-serif">
           {number}
