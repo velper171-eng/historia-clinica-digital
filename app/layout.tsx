@@ -13,9 +13,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Historia Clínica Digital",
+  title: "Historia Clínica Digital | Reliv Centro de Bienestar",
   description:
-    "Gestión integral de historias clínicas para medicina estética: consentimientos, antecedentes y mapeo facial interactivo.",
+    "Gestión integral de historias clínicas para medicina estética: consentimientos, antecedentes y mapeo facial interactivo. Reliv Centro de Bienestar.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({
