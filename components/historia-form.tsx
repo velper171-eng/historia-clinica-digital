@@ -1257,81 +1257,99 @@ export function HistoriaForm() {
                 </h3>
                 
                 <div className="grid grid-cols-1 gap-y-6 gap-x-8 sm:grid-cols-2 lg:grid-cols-4 border-b border-black/5 pb-6 mb-6">
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase opacity-40 tracking-widest mb-1">TMB (BMR)</span>
-                    <span className="text-base font-black">{evaluacion.tmb} <span className="text-[10px] opacity-40">kcal/día</span></span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase opacity-40 tracking-widest mb-1">Gasto Energético (GET)</span>
-                    <span className="text-base font-black">{evaluacion.get} <span className="text-[10px] opacity-40">kcal/día</span></span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase opacity-40 tracking-widest mb-1">Cociente Grasa/Magra</span>
-                    <span className="text-base font-black">{evaluacion.cociente} <span className="text-[10px] opacity-40">Ratio</span></span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase opacity-40 tracking-widest mb-1">IAC (Adiposidad)</span>
-                    <span className="text-base font-black">{evaluacion.iac} <span className="text-[10px] opacity-40">Indice</span></span>
-                  </div>
+                  <EvaluationItem 
+                    label="TMB (BMR)" 
+                    value={<>{evaluacion.tmb} <span className="text-[10px] opacity-40">kcal/día</span></>}
+                    info="Gasto calórico mínimo necesario para mantener funciones vitales en reposo absoluto."
+                  />
+                  <EvaluationItem 
+                    label="Gasto Energético (GET)" 
+                    value={<>{evaluacion.get} <span className="text-[10px] opacity-40">kcal/día</span></>}
+                    info="Estimación del gasto calórico total diario incluyendo el factor de actividad física."
+                  />
+                  <EvaluationItem 
+                    label="Cociente Grasa/Magra" 
+                    value={<>{evaluacion.cociente} <span className="text-[10px] opacity-40">Ratio</span></>}
+                    info="Relación entre el tejido graso y la masa muscular. Un ratio menor indica mejor calidad de composición corporal."
+                  />
+                  <EvaluationItem 
+                    label="IAC (Adiposidad)" 
+                    value={<>{evaluacion.iac} <span className="text-[10px] opacity-40">Indice</span></>}
+                    info="Métrica alternativa al IMC que estima el porcentaje de grasa basado en la circunferencia de la cadera y estatura."
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 gap-y-6 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Clasificación Somatocarta</span>
-                    <span className="text-sm font-bold">{evaluacion.somatocarta}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Predominancia Genética</span>
-                    <span className="text-sm font-bold">{evaluacion.predominancia}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Prioridad Nutricional</span>
-                    <span className="text-sm font-bold">{evaluacion.prioridad}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Sugerencia Proteína</span>
-                    <span className="text-sm font-bold">{evaluacion.proteina}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Sugerencia Carbohidratos</span>
-                    <span className="text-sm font-bold">{evaluacion.carbohidratos}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Enfoque Entrenamiento</span>
-                    <span className="text-sm font-bold">{evaluacion.entrenamiento}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Tasa Cambio Semanal</span>
-                    <span className="text-sm font-bold">{evaluacion.tasaCambio}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Estado Saludable</span>
-                    <span className="text-sm font-bold">{evaluacion.saludable}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Acumulación de Grasa</span>
-                    <span className="text-sm font-bold">{evaluacion.acumulacionGrasa}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Respuesta a Excesos</span>
-                    <span className="text-sm font-bold">{evaluacion.respuestaExcesos}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Sensibilidad Digestiva</span>
-                    <span className="text-sm font-bold">{evaluacion.sensibilidadDigestiva}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Margen Muscular</span>
-                    <span className="text-sm font-bold">{evaluacion.margenMuscular}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Fase de Definición</span>
-                    <span className="text-sm font-bold">{evaluacion.faseDefinicion}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase opacity-50">Tipo de Volumen</span>
-                    <span className="text-sm font-bold">{evaluacion.volumen}</span>
-                  </div>
+                  <EvaluationItem 
+                    label="Clasificación Somatocarta" 
+                    value={evaluacion.somatocarta}
+                    info="Identificación del biotipo predominante del paciente (Endomorfo, Mesomorfo o Ectomorfo)."
+                  />
+                  <EvaluationItem 
+                    label="Predominancia Genética" 
+                    value={evaluacion.predominancia}
+                    info="Distribución numérica de los tres componentes del somatotipo según Heath-Carter."
+                  />
+                  <EvaluationItem 
+                    label="Prioridad Nutricional" 
+                    value={evaluacion.prioridad}
+                    info="Enfoque dietético recomendado (Déficit, Superávit o Recomposición) según estado actual."
+                  />
+                  <EvaluationItem 
+                    label="Sugerencia Proteína" 
+                    value={evaluacion.proteina}
+                    info="Gramos de proteína recomendados por kilogramo de masa magra para preservar o aumentar tejido muscular."
+                  />
+                  <EvaluationItem 
+                    label="Sugerencia Carbohidratos" 
+                    value={evaluacion.carbohidratos}
+                    info="Estrategia de consumo de CH basada en la sensibilidad a la insulina y el biotipo."
+                  />
+                  <EvaluationItem 
+                    label="Enfoque Entrenamiento" 
+                    value={evaluacion.entrenamiento}
+                    info="Volumen e intensidad recomendados según la recuperación y potencial muscular detectado."
+                  />
+                  <EvaluationItem 
+                    label="Tasa Cambio Semanal" 
+                    value={evaluacion.tasaCambio}
+                    info="Objetivo de pérdida o ganancia de peso recomendado para mantener la salud metabólica."
+                  />
+                  <EvaluationItem 
+                    label="Estado Saludable" 
+                    value={evaluacion.saludable}
+                    info="Evaluación general del equilibrio metabólico y cardiovascular actual."
+                  />
+                  <EvaluationItem 
+                    label="Acumulación de Grasa" 
+                    value={evaluacion.acumulacionGrasa}
+                    info="Tendencia natural del cuerpo a almacenar energía en forma de tejido adiposo."
+                  />
+                  <EvaluationItem 
+                    label="Respuesta a Excesos" 
+                    value={evaluacion.respuestaExcesos}
+                    info="Capacidad metabólica para procesar superávits calóricos ocasionales."
+                  />
+                  <EvaluationItem 
+                    label="Sensibilidad Digestiva" 
+                    value={evaluacion.sensibilidadDigestiva}
+                    info="Tolerancia gastrointestinal común asociada a este biotipo específico."
+                  />
+                  <EvaluationItem 
+                    label="Margen Muscular" 
+                    value={evaluacion.margenMuscular}
+                    info="Potencial genético detectado para la hipertrofia y desarrollo de fuerza."
+                  />
+                  <EvaluationItem 
+                    label="Fase de Definición" 
+                    value={evaluacion.faseDefinicion}
+                    info="Nivel de exigencia y estrategia recomendada para periodos de pérdida de grasa."
+                  />
+                  <EvaluationItem 
+                    label="Tipo de Volumen" 
+                    value={evaluacion.volumen}
+                    info="Estrategia recomendada para periodos de ganancia muscular (Controlado vs Agresivo)."
+                  />
                 </div>
               </div>
             )}
@@ -1577,7 +1595,7 @@ function LabelWithHistory({
 
   return (
     <div className="relative flex items-center justify-between mb-1">
-      <label className="block text-sm font-bold text-stone">
+      <label className="block text-[10px] font-bold uppercase opacity-50">
         {label}
       </label>
       <div className="relative">
@@ -1591,7 +1609,7 @@ function LabelWithHistory({
           }`}
           title={history.length > 0 ? "Ver historial" : "Sin historial previo"}
         >
-          <Info size={14} />
+          <Calendar size={14} />
         </button>
 
         {showHistory && history.length > 0 && (
@@ -1621,6 +1639,50 @@ function LabelWithHistory({
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function EvaluationItem({ 
+  label, 
+  value, 
+  info 
+}: { 
+  label: string; 
+  value: string | React.ReactNode; 
+  info: string; 
+}) {
+  const [showInfo, setShowInfo] = useState(false);
+
+  return (
+    <div className="flex flex-col relative group">
+      <div className="flex items-center gap-1.5 mb-1">
+        <span className="text-[10px] font-bold uppercase opacity-40 tracking-wider">{label}</span>
+        <button 
+          type="button"
+          onClick={() => setShowInfo(!showInfo)}
+          className={`transition-colors p-0.5 rounded-md ${showInfo ? 'text-sage bg-sage/10' : 'text-stone/20 hover:text-sage hover:bg-sage/5'}`}
+        >
+          <Info size={11} />
+        </button>
+      </div>
+      <div className="text-sm font-bold leading-tight">{value}</div>
+      
+      {showInfo && (
+        <div className="absolute left-0 top-full z-[100] mt-2 w-56 rounded-xl border border-stone/10 bg-white p-3 shadow-xl animate-in fade-in slide-in-from-top-1 duration-200">
+          <div className="mb-1 text-[9px] font-black uppercase tracking-widest text-sage">Descripción</div>
+          <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+            {info}
+          </p>
+          <button 
+            type="button" 
+            onClick={() => setShowInfo(false)}
+            className="mt-2 w-full rounded-lg bg-stone/5 py-1 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10"
+          >
+            Cerrar
+          </button>
+        </div>
+      )}
     </div>
   );
 }
