@@ -41,8 +41,7 @@ export default function Home() {
               Nueva Historia Clínica
             </h2>
             <p className="mb-6 text-stone/70">
-              Inicie un nuevo registro desde cero. Incluye consentimiento informado, 
-              antecedentes y mapeo facial interactivo.
+              Inicie el protocolo de evaluación para nuevos pacientes. Este módulo integra el diligenciamiento de anamnesis, consentimiento informado legalmente vinculante y herramientas de mapeo facial de alta precisión.
             </p>
             <div className="mt-auto flex items-center font-semibold text-sage transition-transform group-hover:translate-x-1">
               Comenzar ahora <ArrowRight className="ml-2" size={18} />
@@ -61,8 +60,7 @@ export default function Home() {
               Historias Existentes
             </h2>
             <p className="mb-6 text-stone/70">
-              Busque registros anteriores para seguimiento. Edite o descargue 
-              documentos de pacientes ya registrados en el sistema.
+              Acceda a la base de datos centralizada para el seguimiento evolutivo de pacientes. Permite la edición técnica de registros previos, revisión de antecedentes y exportación de documentación clínica en formatos oficiales
             </p>
             <div className="mt-auto flex items-center font-semibold text-stone transition-transform group-hover:translate-x-1">
               Buscar paciente <ArrowRight className="ml-2" size={18} />
