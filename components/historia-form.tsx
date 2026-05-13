@@ -180,10 +180,43 @@ export function HistoriaForm() {
 
   const evaluacion = useMemo(() => {
     if (!somatotipoPredominante) return null;
+
+    const masa = parseFloat(data.antropometria.masaCorporal) || 0;
+    const grasaPerc = parseFloat(data.antropometria.porcentajeGrasa) || 0;
+    const talla = (parseFloat(data.antropometria.talla) || 0) / 100; // metros
+    const edad = parseFloat(data.antropometria.edad) || 0;
+    const prCaderas = parseFloat(data.antropometria.prCaderas) || 0;
+
+    // 1. Perfil Metabólico
+    const masaGrasa = (masa * grasaPerc) / 100;
+    const masaMagra = masa - masaGrasa;
     
+    // Katch-McArdle (independiente de sexo si tenemos masa magra)
+    const tmb = masaMagra > 0 ? (370 + (21.6 * masaMagra)) : 0;
+    const get = tmb * 1.4; // Factor moderado base
+    const cociente = masaMagra > 0 ? (masaGrasa / masaMagra).toFixed(2) : '0';
+
+    // 2. IAC
+    let iac = '0';
+    if (prCaderas > 0 && talla > 0) {
+      iac = ((prCaderas / Math.pow(talla, 1.5)) - 18).toFixed(2);
+    }
+
+    // 3. Somatocarta (Descripción según predominancia)
+    const endo = parseFloat(data.antropometria.endomorfia) || 0;
+    const meso = parseFloat(data.antropometria.mesomorfia) || 0;
+    const ecto = parseFloat(data.antropometria.ectomorfia) || 0;
+
     const configs = {
       endomorfia: {
         titulo: 'Endomorfia Predominante',
+        somatocarta: 'Endo-mesomorfo / Endomorfo puro',
+        predominancia: `${endo} (Endo) / ${meso} (Meso) / ${ecto} (Ecto)`,
+        prioridad: grasaPerc > 20 ? 'Déficit Calórico / Recomposición' : 'Mantenimiento',
+        proteina: (masaMagra * 2.2).toFixed(1) + 'g - 2.5g',
+        carbohidratos: 'Carga moderada-baja (Sensibilidad Digestiva)',
+        entrenamiento: 'Alta intensidad / Frecuencia elevada',
+        tasaCambio: '0.5% - 1.0% peso/semana',
         saludable: 'Variable (Vigilancia metabólica)',
         acumulacionGrasa: 'Alta tendencia a acumular',
         respuestaExcesos: 'Rápida ganancia de grasa',
@@ -196,6 +229,13 @@ export function HistoriaForm() {
       },
       mesomorfia: {
         titulo: 'Mesomorfia Predominante',
+        somatocarta: 'Mesomorfo equilibrado',
+        predominancia: `${endo} (Endo) / ${meso} (Meso) / ${ecto} (Ecto)`,
+        prioridad: 'Recomposición / Superávit controlado',
+        proteina: (masaMagra * 2.0).toFixed(1) + 'g - 2.3g',
+        carbohidratos: 'Carga moderada (Ciclo de CH)',
+        entrenamiento: 'Volumen alto / Enfoque en hipertrofia',
+        tasaCambio: '0.25% - 0.5% peso/semana',
         saludable: 'Excelente (Estado atlético óptimo)',
         acumulacionGrasa: 'Moderada / Equilibrada',
         respuestaExcesos: 'Respuesta metabólica balanceada',
@@ -208,6 +248,13 @@ export function HistoriaForm() {
       },
       ectomorfia: {
         titulo: 'Ectomorfia Predominante',
+        somatocarta: 'Ecto-mesomorfo / Ectomorfo puro',
+        predominancia: `${endo} (Endo) / ${meso} (Meso) / ${ecto} (Ecto)`,
+        prioridad: 'Superávit Calórico (Bulking)',
+        proteina: (masaMagra * 1.8).toFixed(1) + 'g - 2.1g',
+        carbohidratos: 'Carga alta (Estrategia pre/post)',
+        entrenamiento: 'Bajo volumen / Alta intensidad (Fuerza)',
+        tasaCambio: '0.2% - 0.3% peso/semana',
         saludable: 'Bueno (Vigilancia calórica)',
         acumulacionGrasa: 'Muy baja tendencia a acumular',
         respuestaExcesos: 'Resistente a la ganancia de grasa',
@@ -219,8 +266,16 @@ export function HistoriaForm() {
         iconoClase: 'bg-sky-500',
       }
     };
-    return configs[somatotipoPredominante];
-  }, [somatotipoPredominante]);
+
+    const res = configs[somatotipoPredominante];
+    return {
+      ...res,
+      tmb: tmb.toFixed(0),
+      get: get.toFixed(0),
+      cociente,
+      iac
+    };
+  }, [somatotipoPredominante, data.antropometria]);
 
   useEffect(() => {
     if (evaluacion) {
@@ -231,7 +286,18 @@ export function HistoriaForm() {
         data.antropometria.evaluacionSensibilidadDigestiva !== evaluacion.sensibilidadDigestiva ||
         data.antropometria.evaluacionMargenMuscular !== evaluacion.margenMuscular ||
         data.antropometria.evaluacionFaseDefinicion !== evaluacion.faseDefinicion ||
-        data.antropometria.evaluacionVolumen !== evaluacion.volumen
+        data.antropometria.evaluacionVolumen !== evaluacion.volumen ||
+        data.antropometria.perfilTMB !== evaluacion.tmb ||
+        data.antropometria.perfilGET !== evaluacion.get ||
+        data.antropometria.perfilCocienteGrasaMasaMagra !== evaluacion.cociente ||
+        data.antropometria.analisisClasificacionSomatocarta !== evaluacion.somatocarta ||
+        data.antropometria.analisisPredominanciaGenetica !== evaluacion.predominancia ||
+        data.antropometria.tendenciaPrioridadNutricional !== evaluacion.prioridad ||
+        data.antropometria.tendenciaSugerenciaProteina !== evaluacion.proteina ||
+        data.antropometria.tendenciaSugerenciaCarbohidratos !== evaluacion.carbohidratos ||
+        data.antropometria.tendenciaEnfoqueEntrenamiento !== evaluacion.entrenamiento ||
+        data.antropometria.seguimientoTasaCambioSemanal !== evaluacion.tasaCambio ||
+        data.antropometria.seguimientoIAC !== evaluacion.iac
       ) {
         useFormStore.getState().setAntropometria({
           evaluacionSaludable: evaluacion.saludable,
@@ -240,7 +306,18 @@ export function HistoriaForm() {
           evaluacionSensibilidadDigestiva: evaluacion.sensibilidadDigestiva,
           evaluacionMargenMuscular: evaluacion.margenMuscular,
           evaluacionFaseDefinicion: evaluacion.faseDefinicion,
-          evaluacionVolumen: evaluacion.volumen
+          evaluacionVolumen: evaluacion.volumen,
+          perfilTMB: evaluacion.tmb,
+          perfilGET: evaluacion.get,
+          perfilCocienteGrasaMasaMagra: evaluacion.cociente,
+          analisisClasificacionSomatocarta: evaluacion.somatocarta,
+          analisisPredominanciaGenetica: evaluacion.predominancia,
+          tendenciaPrioridadNutricional: evaluacion.prioridad,
+          tendenciaSugerenciaProteina: evaluacion.proteina,
+          tendenciaSugerenciaCarbohidratos: evaluacion.carbohidratos,
+          tendenciaEnfoqueEntrenamiento: evaluacion.entrenamiento,
+          seguimientoTasaCambioSemanal: evaluacion.tasaCambio,
+          seguimientoIAC: evaluacion.iac
         });
       }
     }
@@ -1179,7 +1256,54 @@ export function HistoriaForm() {
                   Evaluación del Estado y Tendencias
                 </h3>
                 
-                <div className="grid grid-cols-1 gap-y-4 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-y-6 gap-x-8 sm:grid-cols-2 lg:grid-cols-4 border-b border-black/5 pb-6 mb-6">
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black uppercase opacity-40 tracking-widest mb-1">TMB (BMR)</span>
+                    <span className="text-base font-black">{evaluacion.tmb} <span className="text-[10px] opacity-40">kcal/día</span></span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black uppercase opacity-40 tracking-widest mb-1">Gasto Energético (GET)</span>
+                    <span className="text-base font-black">{evaluacion.get} <span className="text-[10px] opacity-40">kcal/día</span></span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black uppercase opacity-40 tracking-widest mb-1">Cociente Grasa/Magra</span>
+                    <span className="text-base font-black">{evaluacion.cociente} <span className="text-[10px] opacity-40">Ratio</span></span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black uppercase opacity-40 tracking-widest mb-1">IAC (Adiposidad)</span>
+                    <span className="text-base font-black">{evaluacion.iac} <span className="text-[10px] opacity-40">Indice</span></span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-y-6 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase opacity-50">Clasificación Somatocarta</span>
+                    <span className="text-sm font-bold">{evaluacion.somatocarta}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase opacity-50">Predominancia Genética</span>
+                    <span className="text-sm font-bold">{evaluacion.predominancia}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase opacity-50">Prioridad Nutricional</span>
+                    <span className="text-sm font-bold">{evaluacion.prioridad}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase opacity-50">Sugerencia Proteína</span>
+                    <span className="text-sm font-bold">{evaluacion.proteina}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase opacity-50">Sugerencia Carbohidratos</span>
+                    <span className="text-sm font-bold">{evaluacion.carbohidratos}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase opacity-50">Enfoque Entrenamiento</span>
+                    <span className="text-sm font-bold">{evaluacion.entrenamiento}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase opacity-50">Tasa Cambio Semanal</span>
+                    <span className="text-sm font-bold">{evaluacion.tasaCambio}</span>
+                  </div>
                   <div className="flex flex-col">
                     <span className="text-[10px] font-bold uppercase opacity-50">Estado Saludable</span>
                     <span className="text-sm font-bold">{evaluacion.saludable}</span>

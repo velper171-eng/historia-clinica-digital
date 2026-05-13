@@ -66,6 +66,19 @@ const emptyAntropometria = {
   evaluacionMargenMuscular: '',
   evaluacionFaseDefinicion: '',
   evaluacionVolumen: '',
+  // Nuevos campos
+  perfilTMB: '',
+  perfilGET: '',
+  perfilCocienteGrasaMasaMagra: '',
+  analisisClasificacionSomatocarta: '',
+  analisisPredominanciaGenetica: '',
+  analisisVarianzaPrototipo: '',
+  tendenciaPrioridadNutricional: '',
+  tendenciaSugerenciaProteina: '',
+  tendenciaSugerenciaCarbohidratos: '',
+  tendenciaEnfoqueEntrenamiento: '',
+  seguimientoTasaCambioSemanal: '',
+  seguimientoIAC: '',
 };
 
 const today = () => new Date().toISOString().slice(0, 10);
