@@ -1260,22 +1260,22 @@ export function HistoriaForm() {
                   <EvaluationItem 
                     label="TMB (BMR)" 
                     value={<>{evaluacion.tmb} <span className="text-[10px] opacity-40">kcal/día</span></>}
-                    info="Gasto calórico mínimo necesario para mantener funciones vitales en reposo absoluto."
+                    info="Es la cantidad de calorías que tu cuerpo quema simplemente por existir y mantener tus órganos funcionando (corazón, pulmones, cerebro) mientras estás en reposo total. Es tu 'costo de mantenimiento' básico sin contar ninguna actividad física."
                   />
                   <EvaluationItem 
                     label="Gasto Energético (GET)" 
                     value={<>{evaluacion.get} <span className="text-[10px] opacity-40">kcal/día</span></>}
-                    info="Estimación del gasto calórico total diario incluyendo el factor de actividad física."
+                    info="Representa el total de energía que gastas en un día completo, sumando tu metabolismo basal más el movimiento diario y el ejercicio. Es la cifra clave: si comes más de esto ganarás peso, y si comes menos, perderás."
                   />
                   <EvaluationItem 
                     label="Cociente Grasa/Magra" 
                     value={<>{evaluacion.cociente} <span className="text-[10px] opacity-40">Ratio</span></>}
-                    info="Relación entre el tejido graso y la masa muscular. Un ratio menor indica mejor calidad de composición corporal."
+                    info="Esta cifra nos dice cuánta grasa tienes en comparación con tu músculo. Un número más bajo significa que tienes una composición más atlética y 'limpia'. Es mejor indicador de salud que el peso simple porque separa el tejido bueno (músculo) del excedente (grasa)."
                   />
                   <EvaluationItem 
                     label="IAC (Adiposidad)" 
                     value={<>{evaluacion.iac} <span className="text-[10px] opacity-40">Indice</span></>}
-                    info="Métrica alternativa al IMC que estima el porcentaje de grasa basado en la circunferencia de la cadera y estatura."
+                    info="Es una forma de medir qué tanta grasa tienes usando la medida de tus caderas y tu estatura. A diferencia del IMC común, el IAC no se confunde si tienes mucho músculo, siendo más preciso para entender tu nivel de grasa real."
                   />
                 </div>
 
@@ -1283,72 +1283,72 @@ export function HistoriaForm() {
                   <EvaluationItem 
                     label="Clasificación Somatocarta" 
                     value={evaluacion.somatocarta}
-                    info="Identificación del biotipo predominante del paciente (Endomorfo, Mesomorfo o Ectomorfo)."
+                    info="Es tu 'mapa genético' corporal. Nos indica si tu cuerpo tiende a ser más robusto (Endo), atlético/muscular (Meso) o delgado/fino (Ecto). Saber esto nos ayuda a personalizar tu dieta y entrenamiento según cómo responde tu cuerpo naturalmente."
                   />
                   <EvaluationItem 
                     label="Predominancia Genética" 
                     value={evaluacion.predominancia}
-                    info="Distribución numérica de los tres componentes del somatotipo según Heath-Carter."
+                    info="Son los valores numéricos que definen tu estructura física. El primer número es tu tendencia a ganar grasa, el segundo tu facilidad para ganar músculo y el tercero tu nivel de delgadez. Nos da una visión exacta de tu punto de partida biológico."
                   />
                   <EvaluationItem 
                     label="Prioridad Nutricional" 
                     value={evaluacion.prioridad}
-                    info="Enfoque dietético recomendado (Déficit, Superávit o Recomposición) según estado actual."
+                    info="Define el objetivo principal de tu alimentación ahora mismo. Puede ser 'Déficit' para perder grasa, 'Superávit' para ganar músculo, o 'Recomposición' para hacer ambas cosas a la vez, buscando siempre la mejor versión de tu metabolismo."
                   />
                   <EvaluationItem 
                     label="Sugerencia Proteína" 
                     value={evaluacion.proteina}
-                    info="Gramos de proteína recomendados por kilogramo de masa magra para preservar o aumentar tejido muscular."
+                    info="La proteína es el 'ladrillo' que construye y mantiene tus músculos. Calculamos esta cantidad para asegurar que, incluso si estás perdiendo grasa, no pierdas tu masa muscular, manteniéndote fuerte y con un metabolismo activo."
                   />
                   <EvaluationItem 
                     label="Sugerencia Carbohidratos" 
                     value={evaluacion.carbohidratos}
-                    info="Estrategia de consumo de CH basada en la sensibilidad a la insulina y el biotipo."
+                    info="Los carbohidratos son tu combustible principal. Ajustamos su cantidad según cómo tu cuerpo procesa el azúcar y cuánta energía necesitas para tus entrenamientos, evitando que se almacenen como grasa innecesaria."
                   />
                   <EvaluationItem 
                     label="Enfoque Entrenamiento" 
                     value={evaluacion.entrenamiento}
-                    info="Volumen e intensidad recomendados según la recuperación y potencial muscular detectado."
+                    info="Te indica cómo deberías entrenar para obtener resultados óptimos según tu tipo de cuerpo. Algunos necesitan más repeticiones y poco descanso, mientras que otros necesitan levantar más peso y descansar más para progresar sin agotarse."
                   />
                   <EvaluationItem 
                     label="Tasa Cambio Semanal" 
                     value={evaluacion.tasaCambio}
-                    info="Objetivo de pérdida o ganancia de peso recomendado para mantener la salud metabólica."
+                    info="Es la velocidad recomendada para que cambie tu peso. Perder o ganar peso demasiado rápido suele ser contraproducente (se pierde músculo o se gana mucha grasa). Esta cifra asegura que tus cambios sean saludables y duraderos."
                   />
                   <EvaluationItem 
                     label="Estado Saludable" 
                     value={evaluacion.saludable}
-                    info="Evaluación general del equilibrio metabólico y cardiovascular actual."
+                    info="Una mirada general a cómo se encuentra tu equilibrio interno. Analizamos si tus niveles actuales de grasa y músculo están en un rango que favorece la longevidad y previene enfermedades metabólicas."
                   />
                   <EvaluationItem 
                     label="Acumulación de Grasa" 
                     value={evaluacion.acumulacionGrasa}
-                    info="Tendencia natural del cuerpo a almacenar energía en forma de tejido adiposo."
+                    info="Explica con qué facilidad tu cuerpo guarda energía de reserva. Algunas personas acumulan grasa muy rápido ante pequeños excesos, mientras que otras son más resistentes. Entender esto nos permite ajustar tu dieta con precisión."
                   />
                   <EvaluationItem 
                     label="Respuesta a Excesos" 
                     value={evaluacion.respuestaExcesos}
-                    info="Capacidad metabólica para procesar superávits calóricos ocasionales."
+                    info="Es la capacidad de tu metabolismo para 'quemar' o procesar una comida muy grande o un día de excesos. Nos dice si tu cuerpo es flexible y se recupera rápido o si tiende a almacenar esos excedentes inmediatamente."
                   />
                   <EvaluationItem 
                     label="Sensibilidad Digestiva" 
                     value={evaluacion.sensibilidadDigestiva}
-                    info="Tolerancia gastrointestinal común asociada a este biotipo específico."
+                    info="Indica qué tan delicado es tu sistema digestivo. Ciertos biotipos procesan mejor las grasas, otros los carbohidratos. Saber esto ayuda a elegir alimentos que no te causen inflamación o pesadez."
                   />
                   <EvaluationItem 
                     label="Margen Muscular" 
                     value={evaluacion.margenMuscular}
-                    info="Potencial genético detectado para la hipertrofia y desarrollo de fuerza."
+                    info="Es tu potencial natural para desarrollar fuerza y tamaño muscular. Algunas personas tienen una base genética que les permite ganar músculo muy rápido, mientras que otras necesitan un trabajo más específico y paciente."
                   />
                   <EvaluationItem 
                     label="Fase de Definición" 
                     value={evaluacion.faseDefinicion}
-                    info="Nivel de exigencia y estrategia recomendada para periodos de pérdida de grasa."
+                    info="Describe cómo debería ser tu estrategia cuando quieras marcar tus músculos y perder grasa. Te indica si debes ser muy estricto con las calorías o si puedes permitirte un enfoque más flexible según tu facilidad para perder tejido adiposo."
                   />
                   <EvaluationItem 
                     label="Tipo de Volumen" 
                     value={evaluacion.volumen}
-                    info="Estrategia recomendada para periodos de ganancia muscular (Controlado vs Agresivo)."
+                    info="Te guía sobre cómo ganar masa muscular de forma inteligente. Un volumen 'controlado' busca ganar músculo sin ganar grasa, mientras que uno 'agresivo' aprovecha una gran capacidad metabólica para crecer al máximo."
                   />
                 </div>
               </div>
