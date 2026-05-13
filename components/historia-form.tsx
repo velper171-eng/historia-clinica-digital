@@ -211,8 +211,12 @@ export function HistoriaForm() {
       endomorfia: {
         titulo: 'Endomorfia Predominante',
         somatocarta: 'Endo-mesomorfo / Endomorfo puro',
+        somatocartaInfo: "Como endomorfo, tu cuerpo tiene una estructura ósea más ancha y una gran facilidad natural para almacenar energía. Esto significa que ganas peso con facilidad, pero también posees una base de fuerza muy sólida. Tu metabolismo responde mejor a dietas bajas en carbohidratos y entrenamientos de alta intensidad.",
         predominancia: `${endo} (Endo) / ${meso} (Meso) / ${ecto} (Ecto)`,
         prioridad: grasaPerc > 20 ? 'Déficit Calórico / Recomposición' : 'Mantenimiento',
+        prioridadInfo: grasaPerc > 20 
+          ? "Dado tu porcentaje de grasa actual, nuestra prioridad es el 'Déficit Calórico'. Esto significa comer ligeramente menos de lo que gastas para que tu cuerpo use la grasa acumulada como energía, manteniendo siempre tu músculo activo."
+          : "Tu nivel de grasa es saludable. La prioridad es el 'Mantenimiento', enfocándonos en mejorar tu rendimiento y calidad muscular sin cambios bruscos en el peso.",
         proteina: (masaMagra * 2.2).toFixed(1) + 'g - 2.5g',
         carbohidratos: 'Carga moderada-baja (Sensibilidad Digestiva)',
         entrenamiento: 'Alta intensidad / Frecuencia elevada',
@@ -230,8 +234,10 @@ export function HistoriaForm() {
       mesomorfia: {
         titulo: 'Mesomorfia Predominante',
         somatocarta: 'Mesomorfo equilibrado',
+        somatocartaInfo: "Como mesomorfo, posees 'la genética del atleta'. Tu cuerpo gana músculo con facilidad y mantiene niveles de grasa bajos sin un esfuerzo extremo. Tienes una estructura ósea media y hombros anchos, lo que te permite responder de forma excelente a casi cualquier tipo de entrenamiento de fuerza.",
         predominancia: `${endo} (Endo) / ${meso} (Meso) / ${ecto} (Ecto)`,
         prioridad: 'Recomposición / Superávit controlado',
+        prioridadInfo: "Tu cuerpo es ideal para la 'Recomposición'. Podemos buscar ganar músculo y perder grasa simultáneamente o enfocarnos en un 'Superávit Controlado' para maximizar tus ganancias musculares sin ganar grasa innecesaria.",
         proteina: (masaMagra * 2.0).toFixed(1) + 'g - 2.3g',
         carbohidratos: 'Carga moderada (Ciclo de CH)',
         entrenamiento: 'Volumen alto / Enfoque en hipertrofia',
@@ -249,8 +255,10 @@ export function HistoriaForm() {
       ectomorfia: {
         titulo: 'Ectomorfia Predominante',
         somatocarta: 'Ecto-mesomorfo / Ectomorfo puro',
+        somatocartaInfo: "Como ectomorfo, tu cuerpo es naturalmente delgado y con extremidades largas. Tienes un metabolismo 'muy rápido' que quema energía constantemente, lo que te protege de la ganancia de grasa pero hace que ganar músculo sea un reto que requiere una alimentación muy abundante y enfocada.",
         predominancia: `${endo} (Endo) / ${meso} (Meso) / ${ecto} (Ecto)`,
         prioridad: 'Superávit Calórico (Bulking)',
+        prioridadInfo: "Tu metabolismo es muy resistente, por lo que necesitamos un 'Superávit Calórico' agresivo. Debes comer significativamente más de lo que gastas para darle a tu cuerpo el material necesario para construir nuevo tejido muscular.",
         proteina: (masaMagra * 1.8).toFixed(1) + 'g - 2.1g',
         carbohidratos: 'Carga alta (Estrategia pre/post)',
         entrenamiento: 'Bajo volumen / Alta intensidad (Fuerza)',
@@ -1283,17 +1291,17 @@ export function HistoriaForm() {
                   <EvaluationItem 
                     label="Clasificación Somatocarta" 
                     value={evaluacion.somatocarta}
-                    info="Es tu 'mapa genético' corporal. Nos indica si tu cuerpo tiende a ser más robusto (Endo), atlético/muscular (Meso) o delgado/fino (Ecto). Saber esto nos ayuda a personalizar tu dieta y entrenamiento según cómo responde tu cuerpo naturalmente."
+                    info={`Es tu 'mapa genético' corporal. ${evaluacion.somatocartaInfo}`}
                   />
                   <EvaluationItem 
                     label="Predominancia Genética" 
                     value={evaluacion.predominancia}
-                    info="Son los valores numéricos que definen tu estructura física. El primer número es tu tendencia a ganar grasa, el segundo tu facilidad para ganar músculo y el tercero tu nivel de delgadez. Nos da una visión exacta de tu punto de partida biológico."
+                    info="Son los valores numéricos que definen tu estructura física. El primer número es tu tendencia a ganar grasa (Endomorfia), el segundo tu facilidad para ganar músculo (Mesomorfia) y el tercero tu nivel de delgadez (Ectomorfia). Esta combinación nos da una visión exacta de tu punto de partida biológico."
                   />
                   <EvaluationItem 
                     label="Prioridad Nutricional" 
                     value={evaluacion.prioridad}
-                    info="Define el objetivo principal de tu alimentación ahora mismo. Puede ser 'Déficit' para perder grasa, 'Superávit' para ganar músculo, o 'Recomposición' para hacer ambas cosas a la vez, buscando siempre la mejor versión de tu metabolismo."
+                    info={`Define el objetivo principal de tu alimentación ahora mismo. ${evaluacion.prioridadInfo}`}
                   />
                   <EvaluationItem 
                     label="Sugerencia Proteína" 
@@ -1669,18 +1677,23 @@ function EvaluationItem({
       <div className="text-sm font-bold leading-tight">{value}</div>
       
       {showInfo && (
-        <div className="absolute left-0 top-full z-[100] mt-2 w-56 rounded-xl border border-stone/10 bg-white p-3 shadow-xl animate-in fade-in slide-in-from-top-1 duration-200">
-          <div className="mb-1 text-[9px] font-black uppercase tracking-widest text-sage">Descripción</div>
-          <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
-            {info}
-          </p>
+        <div className="absolute left-0 bottom-full z-[100] mb-2 w-64 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1">Descripción Detallada</div>
+          <div className="max-h-60 overflow-y-auto pr-1 custom-scrollbar">
+            <p className="text-[12px] leading-relaxed text-stone/80 font-medium">
+              {info}
+            </p>
+          </div>
           <button 
             type="button" 
             onClick={() => setShowInfo(false)}
-            className="mt-2 w-full rounded-lg bg-stone/5 py-1 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10"
+            className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[10px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors"
           >
-            Cerrar
+            Entendido
           </button>
+          
+          {/* Flecha del tooltip */}
+          <div className="absolute -bottom-1 left-4 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
         </div>
       )}
     </div>
