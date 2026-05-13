@@ -7,14 +7,18 @@ type Gender = 'mujer' | 'hombre';
 
 type Props = {
   activeIds: Set<string>;
+  historyIds?: Set<string>;
   onTogglePoint?: (id: string) => void;
+  onToggleHistory?: (id: string) => void;
   readOnly?: boolean;
   width?: number;
 };
 
 export function FaceDiagram({
   activeIds,
+  historyIds = new Set(),
   onTogglePoint,
+  onToggleHistory,
   readOnly = false,
   width = 400,
 }: Props) {
@@ -118,26 +122,68 @@ export function FaceDiagram({
                 {isActive && (
                   <circle cx={p.cx} cy={p.cy} r={24} fill="#C18C5D" fillOpacity={0.4} className={readOnly ? '' : 'animate-pulse'} />
                 )}
-                <circle
-                  cx={p.cx}
-                  cy={p.cy}
-                  r={isHover || isActive ? 15 : 10}
-                  fill={isActive ? '#C18C5D' : 'rgba(255,255,255,0.9)'}
-                  stroke={isActive ? '#fff' : '#5F715B'}
-                  strokeWidth={isActive ? 4 : 2}
-                  style={{ cursor: readOnly ? 'default' : 'pointer', transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)' }}
-                  onClick={() => !readOnly && onTogglePoint?.(p.id)}
-                  onMouseEnter={() => setHoverId(p.id)}
-                  onMouseLeave={() => setHoverId(null)}
-                />
-                {/* Punto interno para mejor visibilidad */}
-                <circle
-                  cx={p.cx}
-                  cy={p.cy}
-                  r={isActive ? 5 : 2}
-                  fill={isActive ? '#fff' : '#5F715B'}
-                  pointerEvents="none"
-                />
+                
+                {/* Círculo base: solo visible si activo o hover */}
+                {(isActive || isHover) && (
+                  <circle
+                    cx={p.cx}
+                    cy={p.cy}
+                    r={isHover || isActive ? 15 : 10}
+                    fill={isActive ? '#C18C5D' : 'rgba(255,255,255,0.9)'}
+                    stroke={isActive ? '#fff' : '#5F715B'}
+                    strokeWidth={isActive ? 4 : 2}
+                    style={{ cursor: readOnly ? 'default' : 'pointer', transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)' }}
+                    onClick={() => !readOnly && onTogglePoint?.(p.id)}
+                    onMouseEnter={() => setHoverId(p.id)}
+                    onMouseLeave={() => setHoverId(null)}
+                  />
+                )}
+
+                {/* Área de clic invisible si el círculo base no está: permite activar puntos desde el diagrama siempre */}
+                {(!isActive && !isHover) && (
+                  <circle
+                    cx={p.cx}
+                    cy={p.cy}
+                    r={20}
+                    fill="transparent"
+                    style={{ cursor: readOnly ? 'default' : 'pointer' }}
+                    onClick={() => !readOnly && onTogglePoint?.(p.id)}
+                    onMouseEnter={() => setHoverId(p.id)}
+                    onMouseLeave={() => setHoverId(null)}
+                  />
+                )}
+
+                {/* Punto interno: solo visible si activo o hover */}
+                {(isActive || isHover) && (
+                  <circle
+                    cx={p.cx}
+                    cy={p.cy}
+                    r={isActive ? 5 : 2}
+                    fill={isActive ? '#fff' : '#5F715B'}
+                    pointerEvents="none"
+                  />
+                )}
+                
+                {/* Indicador de historial (siempre visible) */}
+                {historyIds.has(p.id) && (
+                  <g 
+                    transform={`translate(${p.cx + 8}, ${p.cy - 12})`} 
+                    style={{ cursor: 'pointer' }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleHistory?.(p.id);
+                    }}
+                  >
+                    <circle r={7} fill="#A7B7A4" stroke="#fff" strokeWidth={1} />
+                    <text 
+                      y={2} 
+                      textAnchor="middle" 
+                      style={{ fontSize: '8px', fontWeight: 'bold', fill: '#fff', fontFamily: 'serif' }}
+                    >
+                      i
+                    </text>
+                  </g>
+                )}
               </g>
             );
           })}

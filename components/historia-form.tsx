@@ -35,6 +35,11 @@ export function HistoriaForm() {
     [data.puntosInyeccion]
   );
 
+  const historyIds = useMemo(
+    () => new Set(data.puntosInyeccion.filter((p) => p.aplicacionesAnteriores.length > 0).map((p) => p.id)),
+    [data.puntosInyeccion]
+  );
+
   const activosPorZona = useMemo(() => {
     const map = new Map<string, number>();
     for (const z of ZONAS_INYECCION) map.set(z, 0);
@@ -803,7 +808,9 @@ export function HistoriaForm() {
           <div className="flex justify-center rounded-3xl bg-blush/30 p-4 border border-stone/5">
             <FaceDiagram
               activeIds={activeIds}
+              historyIds={historyIds}
               onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
+              onToggleHistory={toggleHistory}
               width={typeof window !== 'undefined' && window.innerWidth < 480 ? 300 : 460}
             />
           </div>
@@ -840,34 +847,38 @@ export function HistoriaForm() {
                               </span>
                               <div className="flex items-center gap-2">
                                 {p.activo && (
-                                  <>
-                                    <input
-                                      type="number"
-                                      min={0}
-                                      placeholder="U"
-                                      className="w-12 rounded-lg border border-stone/10 bg-blush/30 px-1 py-1 text-center text-xs font-bold text-stone"
-                                      value={p.unidades || ''}
-                                      onChange={(e) => useFormStore.getState().setPuntoUnidades(p.id, parseInt(e.target.value) || 0)}
-                                    />
-                                      <button
-                                        type="button"
-                                        onClick={() => toggleHistory(p.id)}
-                                        className={`transition-colors ${openHistoryIds.has(p.id) ? 'text-sage' : 'text-stone/20 hover:text-sage'}`}
-                                        title="Ver historial de aplicaciones"
-                                      >
-                                        <Info size={14} />
-                                      </button>
-                                      <button
-                                        type="button"
-                                        onClick={() => useFormStore.getState().removePuntoInyeccion(p.id)}
-                                        className="text-stone/20 hover:text-red-400 transition-colors"
-                                        title="Quitar punto"
-                                      >
-                                        <Trash2 size={14} />
-                                      </button>
-                                    </>
-                                  )}
-                                </div>
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    placeholder="U"
+                                    className="w-12 rounded-lg border border-stone/10 bg-blush/30 px-1 py-1 text-center text-xs font-bold text-stone"
+                                    value={p.unidades || ''}
+                                    onChange={(e) => useFormStore.getState().setPuntoUnidades(p.id, parseInt(e.target.value) || 0)}
+                                  />
+                                )}
+                                
+                                {p.aplicacionesAnteriores.length > 0 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleHistory(p.id)}
+                                    className={`transition-colors ${openHistoryIds.has(p.id) ? 'text-sage' : 'text-stone/20 hover:text-sage'}`}
+                                    title="Ver historial de aplicaciones"
+                                  >
+                                    <Info size={14} />
+                                  </button>
+                                )}
+
+                                {p.activo && (
+                                  <button
+                                    type="button"
+                                    onClick={() => useFormStore.getState().removePuntoInyeccion(p.id)}
+                                    className="text-stone/20 hover:text-red-400 transition-colors"
+                                    title="Quitar punto"
+                                  >
+                                    <Trash2 size={14} />
+                                  </button>
+                                )}
+                              </div>
                               </div>
                               
                               {openHistoryIds.has(p.id) && p.aplicacionesAnteriores.length > 0 && (

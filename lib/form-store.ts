@@ -329,16 +329,19 @@ export const useFormStore = create<Store>()(
           }
 
           const newPuntos = s.puntosInyeccion.map((p) => {
-            if (p.activo && p.unidades) {
+            if (p.activo) {
+              const hasUnits = p.unidades && p.unidades > 0;
               return {
                 ...p,
                 activo: false,
                 unidades: undefined,
                 nota: undefined,
-                aplicacionesAnteriores: [
-                  ...p.aplicacionesAnteriores,
-                  { unidades: p.unidades, fecha, nota: p.nota },
-                ],
+                aplicacionesAnteriores: hasUnits
+                  ? [
+                      ...p.aplicacionesAnteriores,
+                      { unidades: p.unidades!, fecha, nota: p.nota },
+                    ]
+                  : p.aplicacionesAnteriores,
               };
             }
             return p;
