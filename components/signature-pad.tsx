@@ -66,6 +66,8 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
       return;
     }
     onChange(sig.toDataURL('image/png'));
+    // Bloqueo automático al terminar el trazo para cumplir con "cuando se firme se bloquee"
+    setIsLocked(true);
   };
 
   const clear = () => {
@@ -85,16 +87,6 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
       <div className="mb-2 flex items-center justify-between">
         <label className="text-sm font-bold text-stone">{label}</label>
         <div className="flex gap-4">
-          {value && !isLocked && (
-            <button
-              type="button"
-              onClick={lock}
-              className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-sage hover:text-sage/80 transition-colors"
-            >
-              <LockOpen size={10} />
-              Fijar Firma
-            </button>
-          )}
           <button
             type="button"
             onClick={clear}
