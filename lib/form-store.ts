@@ -394,6 +394,9 @@ export const useFormStore = create<Store>()(
           },
           puntosInyeccion: (data.puntosInyeccion || s.puntosInyeccion).map(p => ({
             ...p,
+            activo: false,
+            unidades: undefined,
+            nota: undefined,
             aplicacionesAnteriores: p.aplicacionesAnteriores || []
           })),
           antropometria: data.antropometria || structuredClone(emptyAntropometria),

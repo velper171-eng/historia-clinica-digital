@@ -808,9 +808,7 @@ export function HistoriaForm() {
           <div className="flex justify-center rounded-3xl bg-blush/30 p-4 border border-stone/5">
             <FaceDiagram
               activeIds={activeIds}
-              historyIds={historyIds}
               onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
-              onToggleHistory={toggleHistory}
               width={typeof window !== 'undefined' && window.innerWidth < 480 ? 300 : 460}
             />
           </div>
