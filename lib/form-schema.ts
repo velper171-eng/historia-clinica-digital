@@ -94,6 +94,19 @@ export const antropometriaSchema = z.object({
   evaluacionMargenMuscular: z.string().default(''),
   evaluacionFaseDefinicion: z.string().default(''),
   evaluacionVolumen: z.string().default(''),
+  // Nuevos campos
+  perfilTMB: z.string().default(''),
+  perfilGET: z.string().default(''),
+  perfilCocienteGrasaMasaMagra: z.string().default(''),
+  analisisClasificacionSomatocarta: z.string().default(''),
+  analisisPredominanciaGenetica: z.string().default(''),
+  analisisVarianzaPrototipo: z.string().default(''),
+  tendenciaPrioridadNutricional: z.string().default(''),
+  tendenciaSugerenciaProteina: z.string().default(''),
+  tendenciaSugerenciaCarbohidratos: z.string().default(''),
+  tendenciaEnfoqueEntrenamiento: z.string().default(''),
+  seguimientoTasaCambioSemanal: z.string().default(''),
+  seguimientoIAC: z.string().default(''),
 });
 
 export const historiaClinicaSchema = z.object({
