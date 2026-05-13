@@ -122,47 +122,26 @@ export function FaceDiagram({
                 {isActive && (
                   <circle cx={p.cx} cy={p.cy} r={24} fill="#C18C5D" fillOpacity={0.4} className={readOnly ? '' : 'animate-pulse'} />
                 )}
-                
-                {/* Círculo base: solo visible si activo o hover */}
-                {(isActive || isHover) && (
-                  <circle
-                    cx={p.cx}
-                    cy={p.cy}
-                    r={isHover || isActive ? 15 : 10}
-                    fill={isActive ? '#C18C5D' : 'rgba(255,255,255,0.9)'}
-                    stroke={isActive ? '#fff' : '#5F715B'}
-                    strokeWidth={isActive ? 4 : 2}
-                    style={{ cursor: readOnly ? 'default' : 'pointer', transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)' }}
-                    onClick={() => !readOnly && onTogglePoint?.(p.id)}
-                    onMouseEnter={() => setHoverId(p.id)}
-                    onMouseLeave={() => setHoverId(null)}
-                  />
-                )}
-
-                {/* Área de clic invisible si el círculo base no está: permite activar puntos desde el diagrama siempre */}
-                {(!isActive && !isHover) && (
-                  <circle
-                    cx={p.cx}
-                    cy={p.cy}
-                    r={20}
-                    fill="transparent"
-                    style={{ cursor: readOnly ? 'default' : 'pointer' }}
-                    onClick={() => !readOnly && onTogglePoint?.(p.id)}
-                    onMouseEnter={() => setHoverId(p.id)}
-                    onMouseLeave={() => setHoverId(null)}
-                  />
-                )}
-
-                {/* Punto interno: solo visible si activo o hover */}
-                {(isActive || isHover) && (
-                  <circle
-                    cx={p.cx}
-                    cy={p.cy}
-                    r={isActive ? 5 : 2}
-                    fill={isActive ? '#fff' : '#5F715B'}
-                    pointerEvents="none"
-                  />
-                )}
+                <circle
+                  cx={p.cx}
+                  cy={p.cy}
+                  r={isHover || isActive ? 15 : 10}
+                  fill={isActive ? '#C18C5D' : 'rgba(255,255,255,0.9)'}
+                  stroke={isActive ? '#fff' : '#5F715B'}
+                  strokeWidth={isActive ? 4 : 2}
+                  style={{ cursor: readOnly ? 'default' : 'pointer', transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)' }}
+                  onClick={() => !readOnly && onTogglePoint?.(p.id)}
+                  onMouseEnter={() => setHoverId(p.id)}
+                  onMouseLeave={() => setHoverId(null)}
+                />
+                {/* Punto interno para mejor visibilidad */}
+                <circle
+                  cx={p.cx}
+                  cy={p.cy}
+                  r={isActive ? 5 : 2}
+                  fill={isActive ? '#fff' : '#5F715B'}
+                  pointerEvents="none"
+                />
                 
                 {/* Indicador de historial (siempre visible) */}
                 {historyIds.has(p.id) && (
