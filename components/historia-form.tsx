@@ -889,13 +889,31 @@ export function HistoriaForm() {
           Haga click en los puntos para marcar dónde se aplicará la toxina.
         </p>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr_240px]">
-          <div className="flex justify-center rounded-3xl bg-blush/30 p-4 border border-stone/5">
-            <FaceDiagram
-              activeIds={activeIds}
-              onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
-              width={typeof window !== 'undefined' && window.innerWidth < 480 ? 300 : 460}
-            />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_240px]">
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Rostro Femenino */}
+              <div className="flex flex-col items-center gap-4 rounded-3xl bg-blush/30 p-6 border border-stone/5">
+                <div className="text-[10px] font-black uppercase tracking-widest text-sage bg-white px-4 py-1.5 rounded-full shadow-sm">Rostro Femenino</div>
+                <FaceDiagram
+                  activeIds={activeIds}
+                  onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
+                  gender="mujer"
+                  width={340}
+                />
+              </div>
+
+              {/* Rostro Masculino */}
+              <div className="flex flex-col items-center gap-4 rounded-3xl bg-stone/5 p-6 border border-stone/5">
+                <div className="text-[10px] font-black uppercase tracking-widest text-stone/40 bg-white px-4 py-1.5 rounded-full shadow-sm">Rostro Masculino</div>
+                <FaceDiagram
+                  activeIds={activeIds}
+                  onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
+                  gender="hombre"
+                  width={340}
+                />
+              </div>
+            </div>
           </div>
 
           <div className="space-y-3">
@@ -927,6 +945,9 @@ export function HistoriaForm() {
                             <div className="flex items-center justify-between text-sm">
                               <span className={p.activo ? 'font-bold text-stone' : 'text-stone/30'}>
                                 {def?.nombre}
+                                <span className="ml-2 text-[8px] opacity-30 px-1.5 py-0.5 rounded-md bg-stone/10 font-black">
+                                  {def?.id.startsWith('m-') ? '♀ F' : '♂ M'}
+                                </span>
                               </span>
                               <div className="flex items-center gap-2">
                                 {p.activo && (

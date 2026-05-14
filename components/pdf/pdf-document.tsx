@@ -423,37 +423,58 @@ export function PdfDocument({ data }: Props) {
           Paciente: <strong>{c.nombreCompleto || '—'}</strong> · {c.tipoDocumento} {c.numeroDocumento}
         </div>
 
-        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-          <div style={{ flex: '0 0 380px' }}>
-            <FaceDiagram activeIds={activeIds} readOnly width={380} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '8pt', fontWeight: 700, color: '#9A8C84', marginBottom: 4 }}>ROSTRO FEMENINO</div>
+              <FaceDiagram activeIds={activeIds} readOnly width={320} gender="mujer" />
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '8pt', fontWeight: 700, color: '#9A8C84', marginBottom: 4 }}>ROSTRO MASCULINO</div>
+              <FaceDiagram activeIds={activeIds} readOnly width={320} gender="hombre" />
+            </div>
           </div>
+          
           <div style={{ flex: 1, fontSize: '9.5pt' }}>
-            <div style={{ fontWeight: 700, marginBottom: 6 }}>
-              Resumen de aplicaciones:
+            <div style={{ fontWeight: 700, marginBottom: 8, borderBottom: '2px solid #E0D7CD', paddingBottom: 4 }}>
+              Resumen Detallado de Aplicaciones:
             </div>
             {data.puntosInyeccion.some(p => p.activo || p.aplicacionesAnteriores.length > 0) ? (
-              <div style={{ maxHeight: 600, overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 {data.puntosInyeccion
                   .filter(p => p.activo || p.aplicacionesAnteriores.length > 0)
                   .map(p => {
                     const def = INJECTION_POINTS.find(d => d.id === p.id);
+                    const isFemenino = p.id.startsWith('m-');
                     return (
-                      <div key={p.id} style={{ marginBottom: 6, borderBottom: '1px solid #eee', paddingBottom: 2 }}>
-                        <div style={{ fontWeight: 600, fontSize: '9pt' }}>
-                          {def?.zona} - {def?.nombre} {p.activo && <span style={{ color: '#059669' }}>(Actual: {p.unidades}U)</span>}
+                      <div key={p.id} style={{ marginBottom: 8, borderBottom: '1px solid #f0f0f0', paddingBottom: 4 }}>
+                        <div style={{ fontWeight: 700, fontSize: '9pt', color: '#4A3F35' }}>
+                          <span style={{ color: isFemenino ? '#C18C5D' : '#5F715B', marginRight: 4 }}>
+                            [{isFemenino ? '♀ F' : '♂ M'}]
+                          </span>
+                          {def?.zona} - {def?.nombre}
                         </div>
-                        {p.aplicacionesAnteriores.map((ap, idx) => (
-                          <div key={idx} style={{ fontSize: '8pt', color: '#666', paddingLeft: 8 }}>
-                            • {formatDate(ap.fecha)}: {ap.unidades}U {ap.nota && `(${ap.nota})`}
+                        {p.activo && (
+                          <div style={{ fontSize: '9pt', color: '#059669', fontWeight: 700, marginTop: 2 }}>
+                            Sesión Actual: {p.unidades} Unidades
                           </div>
-                        ))}
+                        )}
+                        {p.aplicacionesAnteriores.length > 0 && (
+                          <div style={{ marginTop: 2 }}>
+                            {p.aplicacionesAnteriores.map((ap, idx) => (
+                              <div key={idx} style={{ fontSize: '8pt', color: '#777', paddingLeft: 8 }}>
+                                • {formatDate(ap.fecha)}: {ap.unidades}U
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     );
                   })
                 }
               </div>
             ) : (
-              <div style={{ color: '#666' }}>No se registraron aplicaciones.</div>
+              <div style={{ color: '#666', fontStyle: 'italic' }}>No se registraron aplicaciones activas ni históricas.</div>
             )}
           </div>
         </div>

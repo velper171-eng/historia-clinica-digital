@@ -10,6 +10,7 @@ type Props = {
   onTogglePoint?: (id: string) => void;
   readOnly?: boolean;
   width?: number;
+  gender?: Gender;
 };
 
 export function FaceDiagram({
@@ -17,66 +18,15 @@ export function FaceDiagram({
   onTogglePoint,
   readOnly = false,
   width = 400,
+  gender = 'mujer',
 }: Props) {
   const [hoverId, setHoverId] = useState<string | null>(null);
-  const [gender, setGender] = useState<Gender>('mujer');
 
   const faceImage = gender === 'mujer' ? '/face-female-with-dots.png' : '/face-male-with-dots.png';
   const points = gender === 'mujer' ? INJECTION_POINTS_MAP.mujer : INJECTION_POINTS_MAP.hombre;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-      {/* Selector de género */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '0',
-          borderRadius: '999px',
-          overflow: 'hidden',
-          border: '1px solid rgba(154, 140, 132, 0.2)',
-          width: 'fit-content',
-          boxShadow: '0 8px 30px rgba(0,0,0,0.04)',
-        }}
-      >
-        <button
-          id="gender-mujer"
-          onClick={() => setGender('mujer')}
-          style={{
-            padding: '10px 32px',
-            fontSize: '12px',
-            fontWeight: 800,
-            cursor: 'pointer',
-            border: 'none',
-            outline: 'none',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            transition: 'all 200ms',
-            background: gender === 'mujer' ? '#A7B7A4' : '#fff',
-            color: gender === 'mujer' ? '#fff' : '#9A8C84',
-          }}
-        >
-          ♀ Mujer
-        </button>
-        <button
-          id="gender-hombre"
-          onClick={() => setGender('hombre')}
-          style={{
-            padding: '10px 32px',
-            fontSize: '12px',
-            fontWeight: 800,
-            cursor: 'pointer',
-            border: 'none',
-            outline: 'none',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            transition: 'all 200ms',
-            background: gender === 'hombre' ? '#9A8C84' : '#fff',
-            color: gender === 'hombre' ? '#fff' : '#9A8C84',
-          }}
-        >
-          ♂ Hombre
-        </button>
-      </div>
 
       {/* Diagrama facial */}
       <div
