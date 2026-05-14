@@ -1240,7 +1240,7 @@ export function HistoriaForm() {
                 {showDCInfo && (
                   <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-4 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1 text-center">Densidad Corporal</div>
-                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                    <p className="text-[11px] leading-relaxed text-stone font-bold">
                       Es una medida que relaciona tu masa total con el volumen de tu cuerpo. En antropometría, se usa para estimar indirectamente qué porcentaje de tu peso es grasa y cuánto es tejido libre de grasa (músculo, hueso, etc.).
                     </p>
                     <button type="button" onClick={() => setShowDCInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
@@ -1281,7 +1281,7 @@ export function HistoriaForm() {
                 {showFatInfo && (
                   <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-4 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1 text-center">Porcentaje de Grasa</div>
-                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                    <p className="text-[11px] leading-relaxed text-stone font-bold">
                       Indica qué parte de tu peso total está compuesta por tejido adiposo. Es un valor fundamental para entender tu salud metabólica y definir objetivos de pérdida de peso o ganancia muscular.
                     </p>
                     <button type="button" onClick={() => setShowFatInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
@@ -1302,7 +1302,7 @@ export function HistoriaForm() {
               <div className={`rounded-xl p-4 border transition-all duration-500 relative group ${
                 somatotipoPredominante === 'endomorfia' 
                   ? 'bg-amber-50 border-amber-200 scale-105 shadow-md shadow-amber-100 ring-2 ring-amber-500/20' 
-                  : 'bg-white/70 backdrop-blur-sm border-sage/10 opacity-60'
+                  : 'bg-white/40 backdrop-blur-sm border-sage/5'
               } flex flex-col items-center`}>
                 <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity scale-75">
                    <LabelWithHistory 
@@ -1333,7 +1333,7 @@ export function HistoriaForm() {
                 {showEndoInfo && (
                   <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left min-w-[200px]">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-amber-600 border-b border-amber-600/10 pb-1 text-center">Endomorfia</div>
-                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                    <p className="text-[11px] leading-relaxed text-stone font-bold">
                       Representa la adiposidad relativa (grasa) y redondez de tu cuerpo. Un valor alto indica una mayor tendencia a almacenar energía.
                     </p>
                     <button type="button" onClick={() => setShowEndoInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
@@ -1345,7 +1345,7 @@ export function HistoriaForm() {
               <div className={`rounded-xl p-4 border transition-all duration-500 relative group ${
                 somatotipoPredominante === 'mesomorfia' 
                   ? 'bg-sage/10 border-sage/20 scale-105 shadow-md shadow-sage/10 ring-2 ring-sage/20' 
-                  : 'bg-white/70 backdrop-blur-sm border-sage/10 opacity-60'
+                  : 'bg-white/40 backdrop-blur-sm border-sage/5'
               } flex flex-col items-center`}>
                 <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity scale-75">
                    <LabelWithHistory 
@@ -1376,7 +1376,7 @@ export function HistoriaForm() {
                 {showMesoInfo && (
                   <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left min-w-[200px]">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1 text-center">Mesomorfia</div>
-                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                    <p className="text-[11px] leading-relaxed text-stone font-bold">
                       Mide la robustez musculoesquelética relativa. Refleja una mayor densidad de tejido muscular y óseo.
                     </p>
                     <button type="button" onClick={() => setShowMesoInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
@@ -1388,7 +1388,7 @@ export function HistoriaForm() {
               <div className={`rounded-xl p-4 border transition-all duration-500 relative group ${
                 somatotipoPredominante === 'ectomorfia' 
                   ? 'bg-sky-50 border-sky-200 scale-105 shadow-md shadow-sky-100 ring-2 ring-sky-500/20' 
-                  : 'bg-white/70 backdrop-blur-sm border-sage/10 opacity-60'
+                  : 'bg-white/40 backdrop-blur-sm border-sage/5'
               } flex flex-col items-center`}>
                 <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity scale-75">
                    <LabelWithHistory 
@@ -1419,7 +1419,7 @@ export function HistoriaForm() {
                 {showEctoInfo && (
                   <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left min-w-[200px]">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sky-600 border-b border-sky-600/10 pb-1 text-center">Ectomorfia</div>
-                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                    <p className="text-[11px] leading-relaxed text-stone font-bold">
                       Refleja la delgadez relativa o linealidad del cuerpo. Se asocia con extremidades largas y poca grasa.
                     </p>
                     <button type="button" onClick={() => setShowEctoInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
