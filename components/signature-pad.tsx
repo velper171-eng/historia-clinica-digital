@@ -19,10 +19,21 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const valueRef = useRef(value);
 
-  // Mantener el ref actualizado
+  // Restaurar firma cuando cambia el valor (ej. al cargar datos)
   useEffect(() => {
+    const prevValue = valueRef.current;
     valueRef.current = value;
-    if (value) setIsLocked(true);
+    
+    if (value && value !== prevValue) {
+      setIsLocked(true);
+      const sig = sigRef.current;
+      if (sig && sig.isEmpty()) {
+        // Un pequeño delay para asegurar que el canvas esté listo
+        setTimeout(() => {
+          sig.fromDataURL(value);
+        }, 50);
+      }
+    }
   }, [value]);
   
   useEffect(() => {
