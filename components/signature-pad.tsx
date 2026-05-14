@@ -16,21 +16,29 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
   const [isLocked, setIsLocked] = useState(!!value);
 
 
-  useEffect(() => {
-    const sig = sigRef.current;
-    if (!sig) return;
-    if (value && sig.isEmpty()) {
-      sig.fromDataURL(value);
-      setIsLocked(true);
-    }
-  }, [value]);
-
   const containerRef = useRef<HTMLDivElement>(null);
+  const valueRef = useRef(value);
+
+  // Mantener el ref actualizado
+  useEffect(() => {
+    valueRef.current = value;
+    if (value) setIsLocked(true);
+  }, [value]);
   
   useEffect(() => {
     const container = containerRef.current;
     const sig = sigRef.current;
     if (!container || !sig) return;
+
+    const restoreSignature = () => {
+      const val = valueRef.current;
+      if (val && sig) {
+        // Un pequeño delay asegura que el canvas esté listo para pintar
+        setTimeout(() => {
+          sig.fromDataURL(val);
+        }, 50);
+      }
+    };
 
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
@@ -38,23 +46,25 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
         const canvas = sig.getCanvas();
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
         
-        // Solo redimensionamos si hay un cambio significativo para evitar bucles
-        if (Math.abs(canvas.width - width * ratio) > 1 || Math.abs(canvas.height - height * ratio) > 1) {
-          canvas.width = width * ratio;
-          canvas.height = height * ratio;
+        const newWidth = Math.floor(width * ratio);
+        const newHeight = Math.floor(height * ratio);
+
+        if (canvas.width !== newWidth || canvas.height !== newHeight) {
+          canvas.width = newWidth;
+          canvas.height = newHeight;
           canvas.getContext('2d')?.scale(ratio, ratio);
-          
-          // Restaurar la firma si existe
-          if (value) {
-            sig.fromDataURL(value);
-          }
+          restoreSignature();
         }
       }
     });
 
     resizeObserver.observe(container);
+    
+    // Intento inicial de restauración
+    restoreSignature();
+
     return () => resizeObserver.disconnect();
-  }, [value]);
+  }, []); // Sin dependencias para que solo se monte una vez
 
   const handleEnd = () => {
     const sig = sigRef.current;
