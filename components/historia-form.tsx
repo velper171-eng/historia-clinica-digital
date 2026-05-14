@@ -1207,7 +1207,7 @@ export function HistoriaForm() {
               Resultados de Composición Corporal
             </h2>
             
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 relative z-10">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 relative z-20">
               <div className="rounded-2xl bg-white/80 backdrop-blur-sm p-6 shadow-sm border border-stone/5 flex flex-col items-center text-center relative group">
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                    <LabelWithHistory 
@@ -1220,7 +1220,13 @@ export function HistoriaForm() {
                   Densidad Corporal (DC)
                   <button 
                     type="button" 
-                    onClick={() => setShowDCInfo(!showDCInfo)}
+                    onClick={() => {
+                      setShowDCInfo(!showDCInfo);
+                      setShowFatInfo(false);
+                      setShowEndoInfo(false);
+                      setShowMesoInfo(false);
+                      setShowEctoInfo(false);
+                    }}
                     className={`transition-colors p-1 rounded-full ${showDCInfo ? 'bg-sage/10 text-sage' : 'text-stone/20 hover:text-sage'}`}
                   >
                     <Info size={12} />
@@ -1255,7 +1261,13 @@ export function HistoriaForm() {
                   % Grasa Corporal
                   <button 
                     type="button" 
-                    onClick={() => setShowFatInfo(!showFatInfo)}
+                    onClick={() => {
+                      setShowFatInfo(!showFatInfo);
+                      setShowDCInfo(false);
+                      setShowEndoInfo(false);
+                      setShowMesoInfo(false);
+                      setShowEctoInfo(false);
+                    }}
                     className={`transition-colors p-1 rounded-full ${showFatInfo ? 'bg-sage/10 text-sage' : 'text-stone/20 hover:text-sage'}`}
                   >
                     <Info size={12} />
@@ -1303,7 +1315,13 @@ export function HistoriaForm() {
                   Endomorfia
                   <button 
                     type="button" 
-                    onClick={() => setShowEndoInfo(!showEndoInfo)}
+                    onClick={() => {
+                      setShowEndoInfo(!showEndoInfo);
+                      setShowDCInfo(false);
+                      setShowFatInfo(false);
+                      setShowMesoInfo(false);
+                      setShowEctoInfo(false);
+                    }}
                     className="transition-colors"
                   >
                     <Info size={10} />
@@ -1340,7 +1358,13 @@ export function HistoriaForm() {
                   Mesomorfia
                   <button 
                     type="button" 
-                    onClick={() => setShowMesoInfo(!showMesoInfo)}
+                    onClick={() => {
+                      setShowMesoInfo(!showMesoInfo);
+                      setShowDCInfo(false);
+                      setShowFatInfo(false);
+                      setShowEndoInfo(false);
+                      setShowEctoInfo(false);
+                    }}
                     className="transition-colors"
                   >
                     <Info size={10} />
@@ -1377,7 +1401,13 @@ export function HistoriaForm() {
                   Ectomorfia
                   <button 
                     type="button" 
-                    onClick={() => setShowEctoInfo(!showEctoInfo)}
+                    onClick={() => {
+                      setShowEctoInfo(!showEctoInfo);
+                      setShowDCInfo(false);
+                      setShowFatInfo(false);
+                      setShowEndoInfo(false);
+                      setShowMesoInfo(false);
+                    }}
                     className="transition-colors"
                   >
                     <Info size={10} />
