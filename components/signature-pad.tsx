@@ -17,6 +17,7 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
 
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const isInternalUpdate = useRef(false);
   const valueRef = useRef(value);
 
   // Restaurar firma cuando cambia el valor (ej. al cargar datos)
@@ -25,7 +26,12 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
     valueRef.current = value;
     
     if (value && value !== prevValue) {
-      setIsLocked(true);
+      // Solo bloqueamos automáticamente si el cambio NO fue interno (ej. carga de datos externa)
+      if (!isInternalUpdate.current) {
+        setIsLocked(true);
+      }
+      isInternalUpdate.current = false;
+
       const sig = sigRef.current;
       if (sig && sig.isEmpty()) {
         // Un pequeño delay para asegurar que el canvas esté listo
@@ -85,6 +91,7 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
       setIsLocked(false);
       return;
     }
+    isInternalUpdate.current = true;
     onChange(sig.toDataURL('image/png'));
   };
 
