@@ -10,7 +10,7 @@ type Props = {
   onTogglePoint?: (id: string) => void;
   readOnly?: boolean;
   width?: number;
-  gender?: Gender;
+  gender: Gender;
 };
 
 export function FaceDiagram({
@@ -18,7 +18,7 @@ export function FaceDiagram({
   onTogglePoint,
   readOnly = false,
   width = 400,
-  gender = 'mujer',
+  gender,
 }: Props) {
   const [hoverId, setHoverId] = useState<string | null>(null);
 

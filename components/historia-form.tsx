@@ -19,6 +19,7 @@ export function HistoriaForm() {
   const [generatingWord, setGeneratingWord] = useState(false);
   const [saving, setSaving] = useState(false);
   const [openHistoryIds, setOpenHistoryIds] = useState<Set<string>>(new Set());
+  const [diagramGender, setDiagramGender] = useState<'mujer' | 'hombre'>('mujer');
   const [activeTab, setActiveTab] = useState<'historia' | 'antropometria'>('historia');
 
   const toggleHistory = (id: string) => {
@@ -890,29 +891,40 @@ export function HistoriaForm() {
         </p>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_240px]">
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Rostro Femenino */}
-              <div className="flex flex-col items-center gap-4 rounded-3xl bg-blush/30 p-6 border border-stone/5">
-                <div className="text-[10px] font-black uppercase tracking-widest text-sage bg-white px-4 py-1.5 rounded-full shadow-sm">Rostro Femenino</div>
-                <FaceDiagram
-                  activeIds={activeIds}
-                  onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
-                  gender="mujer"
-                  width={340}
-                />
-              </div>
+          <div className="flex flex-col items-center gap-6">
+            {/* Selector de Género Premium */}
+            <div className="flex p-1 bg-stone/5 rounded-2xl border border-stone/10 shadow-inner">
+              <button
+                type="button"
+                onClick={() => setDiagramGender('mujer')}
+                className={`px-8 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 ${
+                  diagramGender === 'mujer' 
+                    ? 'bg-white text-sage shadow-md scale-[1.02]' 
+                    : 'text-stone/40 hover:text-stone/60'
+                }`}
+              >
+                ♀ Femenino
+              </button>
+              <button
+                type="button"
+                onClick={() => setDiagramGender('hombre')}
+                className={`px-8 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 ${
+                  diagramGender === 'hombre' 
+                    ? 'bg-white text-stone shadow-md scale-[1.02]' 
+                    : 'text-stone/40 hover:text-stone/60'
+                }`}
+              >
+                ♂ Masculino
+              </button>
+            </div>
 
-              {/* Rostro Masculino */}
-              <div className="flex flex-col items-center gap-4 rounded-3xl bg-stone/5 p-6 border border-stone/5">
-                <div className="text-[10px] font-black uppercase tracking-widest text-stone/40 bg-white px-4 py-1.5 rounded-full shadow-sm">Rostro Masculino</div>
-                <FaceDiagram
-                  activeIds={activeIds}
-                  onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
-                  gender="hombre"
-                  width={340}
-                />
-              </div>
+            <div className="flex justify-center rounded-[40px] bg-blush/30 p-8 border border-stone/5 shadow-inner">
+              <FaceDiagram
+                activeIds={activeIds}
+                onTogglePoint={useFormStore.getState().togglePuntoInyeccion}
+                gender={diagramGender}
+                width={typeof window !== 'undefined' && window.innerWidth < 480 ? 300 : 460}
+              />
             </div>
           </div>
 
