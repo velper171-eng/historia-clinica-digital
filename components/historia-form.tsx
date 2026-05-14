@@ -12,6 +12,14 @@ import { INJECTION_POINTS, ZONAS_INYECCION } from '../lib/injection-points';
 import { supabase } from '../lib/supabase';
 import { Edit2, Save, Calendar, Trash2, Info } from 'lucide-react';
 
+const deduplicateHistory = <T extends { fecha: string }>(entries: T[]): T[] => {
+  const map = new Map<string, T>();
+  entries.forEach(entry => {
+    map.set(entry.fecha, entry);
+  });
+  return Array.from(map.values());
+};
+
 export function HistoriaForm() {
   const data = useFormStore();
   const reset = useFormStore((s) => s.reset);
@@ -1000,7 +1008,7 @@ export function HistoriaForm() {
                               {openHistoryIds.has(p.id) && p.aplicacionesAnteriores.length > 0 && (
                                 <div className="mt-2 space-y-1.5 rounded-xl bg-sand/20 p-2 border border-stone/5">
                                   <div className="text-[9px] font-bold uppercase tracking-widest text-stone/40">Aplicaciones previas</div>
-                                  {p.aplicacionesAnteriores.map((ap, idx) => (
+                                  {deduplicateHistory(p.aplicacionesAnteriores).map((ap, idx) => (
                                     <div key={idx} className="text-[10px] text-stone/80 flex justify-between gap-2 border-b border-stone/5 last:border-0 pb-1 last:pb-0">
                                       <span className="font-bold">{ap.fecha}</span>
                                       <span>{ap.unidades} U {ap.nota && <span className="italic text-stone/50 opacity-80">({ap.nota})</span>}</span>
@@ -1478,7 +1486,7 @@ function HistoricalEntries({
         <div className="h-px flex-1 bg-stone/5"></div>
       </div>
       <div className="space-y-4">
-        {entries.map((entry, idx) => (
+        {deduplicateHistory(entries).map((entry, idx) => (
           <div key={idx} className="relative rounded-2xl border border-stone/10 bg-white p-4 shadow-sm transition-all hover:shadow-md">
             <div className="mb-3 flex items-center justify-between text-[11px] font-bold text-stone/40">
               <span className="flex items-center gap-1.5 rounded-full bg-sand/30 px-3 py-1">
@@ -1602,7 +1610,7 @@ function AntroField({
             </button>
           </div>
           <div className="max-h-32 overflow-y-auto space-y-2">
-            {history.slice().reverse().map((h, i) => (
+            {deduplicateHistory(history).reverse().map((h, i) => (
               <button
                 key={i}
                 type="button"
@@ -1662,7 +1670,7 @@ function LabelWithHistory({
               </button>
             </div>
             <div className="max-h-48 overflow-y-auto space-y-2">
-              {history.slice().reverse().map((h, i) => (
+              {deduplicateHistory(history).reverse().map((h, i) => (
                 <button
                   key={i}
                   type="button"

@@ -301,57 +301,76 @@ export const useFormStore = create<Store>()(
       commitToHistory: () =>
         set((s) => {
           const fecha = today();
-          const newProcedimientos = [...s.procedimientosAnteriores];
+          
+          const pushOrUpdate = <T extends { fecha: string }>(arr: T[], newItem: T): T[] => {
+            const index = arr.findIndex((item) => item.fecha === newItem.fecha);
+            if (index !== -1) {
+              const updated = [...arr];
+              updated[index] = newItem;
+              return updated;
+            }
+            return [...arr, newItem];
+          };
+
+          let newProcedimientos = [...s.procedimientosAnteriores];
           if (s.consentimiento.procedimiento.trim()) {
-            newProcedimientos.push({ texto: s.consentimiento.procedimiento, fecha });
+            newProcedimientos = pushOrUpdate(newProcedimientos, { texto: s.consentimiento.procedimiento, fecha });
           }
 
-          const newMedicamentos = [...s.medicamentosAnteriores];
+          let newMedicamentos = [...s.medicamentosAnteriores];
           if (s.medicamentos.trim()) {
-            newMedicamentos.push({ texto: s.medicamentos, fecha });
+            newMedicamentos = pushOrUpdate(newMedicamentos, { texto: s.medicamentos, fecha });
           }
 
-          const newQuirurgicos = [...s.quirurgicosAnteriores];
+          let newQuirurgicos = [...s.quirurgicosAnteriores];
           if (s.quirurgicos.trim()) {
-            newQuirurgicos.push({ texto: s.quirurgicos, fecha });
+            newQuirurgicos = pushOrUpdate(newQuirurgicos, { texto: s.quirurgicos, fecha });
           }
 
-          const newRiesgos = [...s.consentimiento.riesgosInformadosAnteriores];
+          let newRiesgos = [...s.consentimiento.riesgosInformadosAnteriores];
           if (s.consentimiento.riesgosInformados.trim()) {
-            newRiesgos.push({ texto: s.consentimiento.riesgosInformados, fecha });
+            newRiesgos = pushOrUpdate(newRiesgos, { texto: s.consentimiento.riesgosInformados, fecha });
           }
 
-          const newPatologicos = [...s.observacionesPatologicosAnteriores];
+          let newPatologicos = [...s.observacionesPatologicosAnteriores];
           if (s.observacionesPatologicos.trim()) {
-            newPatologicos.push({ texto: s.observacionesPatologicos, fecha });
+            newPatologicos = pushOrUpdate(newPatologicos, { texto: s.observacionesPatologicos, fecha });
           }
 
-          const newAlergias = [...s.observacionesAlergiasAnteriores];
+          let newAlergias = [...s.observacionesAlergiasAnteriores];
           if (s.observacionesAlergias.trim()) {
-            newAlergias.push({ texto: s.observacionesAlergias, fecha });
+            newAlergias = pushOrUpdate(newAlergias, { texto: s.observacionesAlergias, fecha });
           }
 
-          const newCondiciones = [...s.condicionRecuperacionAnteriores];
+          let newCondiciones = [...s.condicionRecuperacionAnteriores];
           if (s.condicionRecuperacion.trim()) {
-            newCondiciones.push({ texto: s.condicionRecuperacion, fecha });
+            newCondiciones = pushOrUpdate(newCondiciones, { texto: s.condicionRecuperacion, fecha });
           }
 
-          const newObsGral = [...s.observacionesGeneralesAnteriores];
+          let newObsGral = [...s.observacionesGeneralesAnteriores];
           if (s.observacionesGenerales.trim()) {
-            newObsGral.push({ texto: s.observacionesGenerales, fecha });
+            newObsGral = pushOrUpdate(newObsGral, { texto: s.observacionesGenerales, fecha });
           }
 
           const newPuntos = s.puntosInyeccion.map((p) => {
             if (p.activo && p.unidades) {
+              const existingIndex = p.aplicacionesAnteriores.findIndex(a => a.fecha === fecha);
+              let updatedAplicaciones;
+              if (existingIndex !== -1) {
+                updatedAplicaciones = [...p.aplicacionesAnteriores];
+                updatedAplicaciones[existingIndex] = { unidades: p.unidades, fecha, nota: p.nota };
+              } else {
+                updatedAplicaciones = [
+                  ...p.aplicacionesAnteriores,
+                  { unidades: p.unidades, fecha, nota: p.nota },
+                ];
+              }
               return {
                 ...p,
                 activo: false,
                 unidades: undefined,
                 nota: undefined,
-                aplicacionesAnteriores: [
-                  ...p.aplicacionesAnteriores,
-                  { unidades: p.unidades, fecha, nota: p.nota },
-                ],
+                aplicacionesAnteriores: updatedAplicaciones,
               };
             }
             return p;
@@ -361,7 +380,13 @@ export const useFormStore = create<Store>()(
           Object.entries(s.antropometria).forEach(([key, valor]) => {
             if (typeof valor === 'string' && valor.trim()) {
               if (!newAntroHistorial[key]) newAntroHistorial[key] = [];
-              newAntroHistorial[key] = [...newAntroHistorial[key], { valor, fecha }];
+              
+              const existingIndex = newAntroHistorial[key].findIndex(h => h.fecha === fecha);
+              if (existingIndex !== -1) {
+                newAntroHistorial[key][existingIndex] = { valor, fecha };
+              } else {
+                newAntroHistorial[key] = [...newAntroHistorial[key], { valor, fecha }];
+              }
             }
           });
 
