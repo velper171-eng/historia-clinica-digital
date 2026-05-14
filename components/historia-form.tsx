@@ -1331,13 +1331,13 @@ export function HistoriaForm() {
                 {somatotipoPredominante === 'endomorfia' && <span className="mt-1 text-[8px] font-black uppercase text-amber-500 tracking-tighter">Predominante</span>}
                 
                 {showEndoInfo && (
-                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left min-w-[200px]">
+                  <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left min-w-[200px]">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-amber-600 border-b border-amber-600/10 pb-1 text-center">Endomorfia</div>
                     <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
                       Representa la adiposidad relativa (grasa) y redondez de tu cuerpo. Un valor alto indica una mayor tendencia a almacenar energía.
                     </p>
                     <button type="button" onClick={() => setShowEndoInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-t border-l border-stone/10 bg-white" />
                   </div>
                 )}
               </div>
@@ -1374,13 +1374,13 @@ export function HistoriaForm() {
                 {somatotipoPredominante === 'mesomorfia' && <span className="mt-1 text-[8px] font-black uppercase text-sage tracking-tighter">Predominante</span>}
                 
                 {showMesoInfo && (
-                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left min-w-[200px]">
+                  <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left min-w-[200px]">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1 text-center">Mesomorfia</div>
                     <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
                       Mide la robustez musculoesquelética relativa. Refleja una mayor densidad de tejido muscular y óseo.
                     </p>
                     <button type="button" onClick={() => setShowMesoInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-t border-l border-stone/10 bg-white" />
                   </div>
                 )}
               </div>
@@ -1417,13 +1417,13 @@ export function HistoriaForm() {
                 {somatotipoPredominante === 'ectomorfia' && <span className="mt-1 text-[8px] font-black uppercase text-sky-500 tracking-tighter">Predominante</span>}
                 
                 {showEctoInfo && (
-                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left min-w-[200px]">
+                  <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left min-w-[200px]">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sky-600 border-b border-sky-600/10 pb-1 text-center">Ectomorfia</div>
                     <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
                       Refleja la delgadez relativa o linealidad del cuerpo. Se asocia con extremidades largas y poca grasa.
                     </p>
                     <button type="button" onClick={() => setShowEctoInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-t border-l border-stone/10 bg-white" />
                   </div>
                 )}
               </div>
