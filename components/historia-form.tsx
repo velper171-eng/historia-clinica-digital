@@ -22,6 +22,12 @@ const deduplicateHistory = <T extends { fecha: string }>(entries: T[]): T[] => {
 
 export function HistoriaForm() {
   const data = useFormStore();
+  const [showDCInfo, setShowDCInfo] = useState(false);
+  const [showFatInfo, setShowFatInfo] = useState(false);
+  const [showEndoInfo, setShowEndoInfo] = useState(false);
+  const [showMesoInfo, setShowMesoInfo] = useState(false);
+  const [showEctoInfo, setShowEctoInfo] = useState(false);
+
   const reset = useFormStore((s) => s.reset);
   const [generating, setGenerating] = useState(false);
   const [generatingWord, setGeneratingWord] = useState(false);
@@ -1210,11 +1216,31 @@ export function HistoriaForm() {
                     onRestore={(v) => useFormStore.getState().setAntropometria({ dc: v })}
                   />
                 </div>
-                <span className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-stone/40">Densidad Corporal (DC)</span>
+                <span className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-stone/40 flex items-center gap-2">
+                  Densidad Corporal (DC)
+                  <button 
+                    type="button" 
+                    onClick={() => setShowDCInfo(!showDCInfo)}
+                    className={`transition-colors p-1 rounded-full ${showDCInfo ? 'bg-sage/10 text-sage' : 'text-stone/20 hover:text-sage'}`}
+                  >
+                    <Info size={12} />
+                  </button>
+                </span>
                 <div className="text-4xl font-black text-stone tracking-tight">
                   {data.antropometria.dc} <span className="text-sm font-medium text-stone/30">g/ml</span>
                 </div>
                 <p className="mt-2 text-xs text-stone/50 font-medium">Ecuación Jackson & Pollock</p>
+                
+                {showDCInfo && (
+                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-4 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left">
+                    <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1 text-center">Densidad Corporal</div>
+                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                      Es una medida que relaciona tu masa total con el volumen de tu cuerpo. En antropometría, se usa para estimar indirectamente qué porcentaje de tu peso es grasa y cuánto es tejido libre de grasa (músculo, hueso, etc.).
+                    </p>
+                    <button type="button" onClick={() => setShowDCInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                  </div>
+                )}
               </div>
 
               <div className="rounded-2xl bg-white/80 backdrop-blur-sm p-6 shadow-sm border border-stone/5 flex flex-col items-center text-center relative group">
@@ -1225,11 +1251,31 @@ export function HistoriaForm() {
                     onRestore={(v) => useFormStore.getState().setAntropometria({ porcentajeGrasa: v })}
                   />
                 </div>
-                <span className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-stone/40">% Grasa Corporal</span>
+                <span className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-stone/40 flex items-center gap-2">
+                  % Grasa Corporal
+                  <button 
+                    type="button" 
+                    onClick={() => setShowFatInfo(!showFatInfo)}
+                    className={`transition-colors p-1 rounded-full ${showFatInfo ? 'bg-sage/10 text-sage' : 'text-stone/20 hover:text-sage'}`}
+                  >
+                    <Info size={12} />
+                  </button>
+                </span>
                 <div className="text-4xl font-black text-sage tracking-tight">
                   {data.antropometria.porcentajeGrasa} <span className="text-sm font-medium text-sage/30">%</span>
                 </div>
                 <p className="mt-2 text-xs text-stone/50 font-medium">Ecuación de Siri</p>
+                
+                {showFatInfo && (
+                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-4 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left">
+                    <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1 text-center">Porcentaje de Grasa</div>
+                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                      Indica qué parte de tu peso total está compuesta por tejido adiposo. Es un valor fundamental para entender tu salud metabólica y definir objetivos de pérdida de peso o ganancia muscular.
+                    </p>
+                    <button type="button" onClick={() => setShowFatInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                  </div>
+                )}
               </div>
             </div>
 
@@ -1253,9 +1299,29 @@ export function HistoriaForm() {
                     onRestore={(v) => useFormStore.getState().setAntropometria({ endomorfia: v })}
                   />
                 </div>
-                <span className={`text-[9px] font-bold uppercase mb-1 ${somatotipoPredominante === 'endomorfia' ? 'text-amber-600' : 'text-stone/40'}`}>Endomorfia</span>
+                <span className={`text-[9px] font-bold uppercase mb-1 flex items-center gap-1 ${somatotipoPredominante === 'endomorfia' ? 'text-amber-600' : 'text-stone/40'}`}>
+                  Endomorfia
+                  <button 
+                    type="button" 
+                    onClick={() => setShowEndoInfo(!showEndoInfo)}
+                    className="transition-colors"
+                  >
+                    <Info size={10} />
+                  </button>
+                </span>
                 <span className={`text-2xl font-black ${somatotipoPredominante === 'endomorfia' ? 'text-amber-900' : 'text-stone'}`}>{data.antropometria.endomorfia}</span>
                 {somatotipoPredominante === 'endomorfia' && <span className="mt-1 text-[8px] font-black uppercase text-amber-500 tracking-tighter">Predominante</span>}
+                
+                {showEndoInfo && (
+                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left min-w-[200px]">
+                    <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-amber-600 border-b border-amber-600/10 pb-1 text-center">Endomorfia</div>
+                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                      Representa la adiposidad relativa (grasa) y redondez de tu cuerpo. Un valor alto indica una mayor tendencia a almacenar energía.
+                    </p>
+                    <button type="button" onClick={() => setShowEndoInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                  </div>
+                )}
               </div>
 
               <div className={`rounded-xl p-4 border transition-all duration-500 relative group ${
@@ -1270,9 +1336,29 @@ export function HistoriaForm() {
                     onRestore={(v) => useFormStore.getState().setAntropometria({ mesomorfia: v })}
                   />
                 </div>
-                <span className={`text-[9px] font-bold uppercase mb-1 ${somatotipoPredominante === 'mesomorfia' ? 'text-sage' : 'text-stone/40'}`}>Mesomorfia</span>
+                <span className={`text-[9px] font-bold uppercase mb-1 flex items-center gap-1 ${somatotipoPredominante === 'mesomorfia' ? 'text-sage' : 'text-stone/40'}`}>
+                  Mesomorfia
+                  <button 
+                    type="button" 
+                    onClick={() => setShowMesoInfo(!showMesoInfo)}
+                    className="transition-colors"
+                  >
+                    <Info size={10} />
+                  </button>
+                </span>
                 <span className={`text-2xl font-black ${somatotipoPredominante === 'mesomorfia' ? 'text-sage' : 'text-stone'}`}>{data.antropometria.mesomorfia}</span>
                 {somatotipoPredominante === 'mesomorfia' && <span className="mt-1 text-[8px] font-black uppercase text-sage tracking-tighter">Predominante</span>}
+                
+                {showMesoInfo && (
+                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left min-w-[200px]">
+                    <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1 text-center">Mesomorfia</div>
+                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                      Mide la robustez musculoesquelética relativa. Refleja una mayor densidad de tejido muscular y óseo.
+                    </p>
+                    <button type="button" onClick={() => setShowMesoInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                  </div>
+                )}
               </div>
 
               <div className={`rounded-xl p-4 border transition-all duration-500 relative group ${
@@ -1287,9 +1373,29 @@ export function HistoriaForm() {
                     onRestore={(v) => useFormStore.getState().setAntropometria({ ectomorfia: v })}
                   />
                 </div>
-                <span className={`text-[9px] font-bold uppercase mb-1 ${somatotipoPredominante === 'ectomorfia' ? 'text-sky-600' : 'text-stone/40'}`}>Ectomorfia</span>
+                <span className={`text-[9px] font-bold uppercase mb-1 flex items-center gap-1 ${somatotipoPredominante === 'ectomorfia' ? 'text-sky-600' : 'text-stone/40'}`}>
+                  Ectomorfia
+                  <button 
+                    type="button" 
+                    onClick={() => setShowEctoInfo(!showEctoInfo)}
+                    className="transition-colors"
+                  >
+                    <Info size={10} />
+                  </button>
+                </span>
                 <span className={`text-2xl font-black ${somatotipoPredominante === 'ectomorfia' ? 'text-sky-900' : 'text-stone'}`}>{data.antropometria.ectomorfia}</span>
                 {somatotipoPredominante === 'ectomorfia' && <span className="mt-1 text-[8px] font-black uppercase text-sky-500 tracking-tighter">Predominante</span>}
+                
+                {showEctoInfo && (
+                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-0 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left min-w-[200px]">
+                    <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sky-600 border-b border-sky-600/10 pb-1 text-center">Ectomorfia</div>
+                    <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
+                      Refleja la delgadez relativa o linealidad del cuerpo. Se asocia con extremidades largas y poca grasa.
+                    </p>
+                    <button type="button" onClick={() => setShowEctoInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                  </div>
+                )}
               </div>
             </div>
 
