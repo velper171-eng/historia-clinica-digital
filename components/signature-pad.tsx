@@ -137,14 +137,24 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
           canvasProps={{
             className: clsx(
               'w-full h-full block transition-opacity',
-              isLocked ? 'cursor-not-allowed pointer-events-none opacity-60' : 'cursor-crosshair opacity-100'
+              isLocked ? 'opacity-0 pointer-events-none' : 'cursor-crosshair opacity-100'
             ),
           }}
           onEnd={handleEnd}
         />
         
+        {isLocked && value && (
+          <div className="absolute inset-0 flex items-center justify-center p-4">
+            <img 
+              src={value} 
+              alt="Firma" 
+              className="max-w-full max-h-full object-contain pointer-events-none transition-opacity duration-500"
+            />
+          </div>
+        )}
+        
         {isLocked && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/20 backdrop-blur-[1px] animate-in fade-in duration-500">
+          <div className="absolute inset-0 flex items-center justify-center bg-white/10 backdrop-blur-[1px] animate-in fade-in duration-500">
             <div className="flex flex-col items-center gap-1 rounded-xl bg-white/90 p-2.5 shadow-sm border border-sage/20 scale-90 sm:scale-100">
               <Lock size={14} className="text-sage" />
               <span className="text-[9px] font-black text-sage uppercase tracking-tighter">Firma Protegida</span>
