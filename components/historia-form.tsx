@@ -1232,13 +1232,13 @@ export function HistoriaForm() {
                 <p className="mt-2 text-xs text-stone/50 font-medium">Ecuación Jackson & Pollock</p>
                 
                 {showDCInfo && (
-                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-4 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left">
+                  <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-4 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1 text-center">Densidad Corporal</div>
                     <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
                       Es una medida que relaciona tu masa total con el volumen de tu cuerpo. En antropometría, se usa para estimar indirectamente qué porcentaje de tu peso es grasa y cuánto es tejido libre de grasa (músculo, hueso, etc.).
                     </p>
                     <button type="button" onClick={() => setShowDCInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-t border-l border-stone/10 bg-white" />
                   </div>
                 )}
               </div>
@@ -1267,13 +1267,13 @@ export function HistoriaForm() {
                 <p className="mt-2 text-xs text-stone/50 font-medium">Ecuación de Siri</p>
                 
                 {showFatInfo && (
-                  <div className="absolute inset-x-0 bottom-full z-[100] mb-4 mx-4 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300 text-left">
+                  <div className="absolute inset-x-0 top-full z-[100] mt-4 mx-4 rounded-2xl border border-stone/10 bg-white p-4 shadow-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 text-left">
                     <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-sage border-b border-sage/10 pb-1 text-center">Porcentaje de Grasa</div>
                     <p className="text-[11px] leading-relaxed text-stone/80 font-medium">
                       Indica qué parte de tu peso total está compuesta por tejido adiposo. Es un valor fundamental para entender tu salud metabólica y definir objetivos de pérdida de peso o ganancia muscular.
                     </p>
                     <button type="button" onClick={() => setShowFatInfo(false)} className="mt-3 w-full rounded-xl bg-stone/5 py-2 text-[9px] font-bold uppercase text-stone/40 hover:bg-stone/10 transition-colors">Cerrar</button>
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-stone/10 bg-white" />
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-t border-l border-stone/10 bg-white" />
                   </div>
                 )}
               </div>
