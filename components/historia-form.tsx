@@ -646,8 +646,8 @@ export function HistoriaForm() {
           y por ello acepto la realización del procedimiento.
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[240px_1fr]">
-          <div className="min-w-0">
+        <div className="space-y-6">
+          <div className="max-w-[240px]">
             <label className="mb-1 block text-sm font-medium text-stone">Fecha</label>
             <input
               type="date"
@@ -658,13 +658,11 @@ export function HistoriaForm() {
               className={inputClass}
             />
           </div>
-          <div className="min-w-0">
-            <SignaturePad
-              value={data.consentimiento.firma}
-              onChange={(firma) => useFormStore.getState().setConsentimiento({ firma })}
-              label="Firma del paciente"
-            />
-          </div>
+          <SignaturePad
+            value={data.consentimiento.firma}
+            onChange={(firma) => useFormStore.getState().setConsentimiento({ firma })}
+            label="Firma del paciente"
+          />
         </div>
       </Section>
 
@@ -799,8 +797,8 @@ export function HistoriaForm() {
           </select>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[240px_1fr]">
-          <div className="min-w-0">
+        <div className="space-y-6">
+          <div className="max-w-[240px]">
             <label className="mb-1 block text-sm font-medium text-stone">Fecha</label>
             <input
               type="date"
@@ -809,13 +807,11 @@ export function HistoriaForm() {
               className={inputClass}
             />
           </div>
-          <div className="min-w-0">
-            <SignaturePad
-              value={data.firmaFinal}
-              onChange={useFormStore.getState().setFirmaFinal}
-              label="Firma final del paciente"
-            />
-          </div>
+          <SignaturePad
+            value={data.firmaFinal}
+            onChange={useFormStore.getState().setFirmaFinal}
+            label="Firma final del paciente"
+          />
         </div>
       </Section>
 
