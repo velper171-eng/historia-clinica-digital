@@ -28,33 +28,32 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    const handleResize = () => {
-      const container = containerRef.current;
-      const sig = sigRef.current;
-      if (!container || !sig) return;
-      
-      const canvas = sig.getCanvas();
-      const rect = container.getBoundingClientRect();
-      
-      // Ajustamos el canvas para que coincida con el tamaño visual exacto
-      // Usamos el ratio de píxeles para que se vea nítido en pantallas retina/iPad
-      const ratio = Math.max(window.devicePixelRatio || 1, 1);
-      
-      if (canvas.width !== rect.width * ratio || canvas.height !== rect.height * ratio) {
-        canvas.width = rect.width * ratio;
-        canvas.height = rect.height * ratio;
-        canvas.getContext('2d')?.scale(ratio, ratio);
+    const container = containerRef.current;
+    const sig = sigRef.current;
+    if (!container || !sig) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        const canvas = sig.getCanvas();
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
         
-        // Al redimensionar el canvas se borra, así que intentamos recargar el valor si existe
-        if (value) {
-          sig.fromDataURL(value);
+        // Solo redimensionamos si hay un cambio significativo para evitar bucles
+        if (Math.abs(canvas.width - width * ratio) > 1 || Math.abs(canvas.height - height * ratio) > 1) {
+          canvas.width = width * ratio;
+          canvas.height = height * ratio;
+          canvas.getContext('2d')?.scale(ratio, ratio);
+          
+          // Restaurar la firma si existe
+          if (value) {
+            sig.fromDataURL(value);
+          }
         }
       }
-    };
+    });
 
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    resizeObserver.observe(container);
+    return () => resizeObserver.disconnect();
   }, [value]);
 
   const handleEnd = () => {
@@ -107,7 +106,7 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
       <div 
         ref={containerRef} 
         className={clsx(
-          "relative rounded-2xl border-2 border-dashed transition-all duration-300 overflow-hidden",
+          "relative rounded-2xl border-2 border-dashed transition-all duration-300 overflow-hidden h-40 w-full max-w-2xl mx-auto",
           isLocked ? "border-sage/40 bg-sage/5" : "border-stone/20 bg-blush/10"
         )}
       >
@@ -116,7 +115,7 @@ export function SignaturePad({ value, onChange, label = 'Firma' }: Props) {
           penColor="#4A4A4A"
           canvasProps={{
             className: clsx(
-              'w-full h-40 block transition-opacity',
+              'w-full h-full block transition-opacity',
               isLocked ? 'cursor-not-allowed pointer-events-none opacity-60' : 'cursor-crosshair opacity-100'
             ),
           }}
