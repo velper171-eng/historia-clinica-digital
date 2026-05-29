@@ -211,8 +211,19 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
     }));
   }
 
-  // 7. Valoración Antropométrica
-  children.push(createHeading('7. Valoración Antropométrica'));
+  // 7. Evolución y Observaciones de Procedimientos
+  children.push(createHeading('7. Evolución y Observaciones de Procedimientos'));
+  children.push(createField('Registro sesión actual', data.evolucionProcedimientos));
+  if (data.evolucionProcedimientosAnteriores && data.evolucionProcedimientosAnteriores.length > 0) {
+    children.push(new Paragraph({
+      children: [new TextRun({ text: "Historial de evolución:", bold: true })],
+      spacing: { before: 200, after: 100 }
+    }));
+    children.push(...createHistoryItems(data.evolucionProcedimientosAnteriores));
+  }
+
+  // 8. Valoración Antropométrica
+  children.push(createHeading('8. Valoración Antropométrica'));
   children.push(createField('Edad', `${data.antropometria.edad} años`));
   children.push(createField('Talla', `${data.antropometria.talla} cm`));
   children.push(createField('Masa Corporal', `${data.antropometria.masaCorporal} kg`));

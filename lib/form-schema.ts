@@ -153,6 +153,11 @@ export const historiaClinicaSchema = z.object({
     texto: z.string(),
     fecha: z.string(),
   })).default([]),
+  evolucionProcedimientos: z.string().default(''),
+  evolucionProcedimientosAnteriores: z.array(z.object({
+    texto: z.string(),
+    fecha: z.string(),
+  })).default([]),
   firmaFinal: z.string().min(1, 'La firma final es obligatoria'),
   fechaFinal: z.string().min(1, 'Selecciona la fecha'),
   puntosInyeccion: z.array(puntoInyeccionSchema),

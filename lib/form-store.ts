@@ -118,6 +118,8 @@ const initialState: HistoriaClinica = {
   fechasSesiones: [today()],
   observacionesGenerales: '',
   observacionesGeneralesAnteriores: [],
+  evolucionProcedimientos: '',
+  evolucionProcedimientosAnteriores: [],
   firmaFinal: '',
   fechaFinal: today(),
   puntosInyeccion: INJECTION_POINTS.map((p) => ({
@@ -144,6 +146,7 @@ type Store = HistoriaClinica & {
   setSesionesProgramadas: (n: number) => void;
   setFechasSesiones: (arr: string[]) => void;
   setObservacionesGenerales: (s: string) => void;
+  setEvolucionProcedimientos: (s: string) => void;
   setFirmaFinal: (s: string) => void;
   setFechaFinal: (s: string) => void;
   togglePuntoInyeccion: (id: string) => void;
@@ -162,6 +165,7 @@ type Store = HistoriaClinica & {
   updateAlergiaHistorico: (index: number, texto: string) => void;
   updateCondicionHistorico: (index: number, texto: string) => void;
   updateObservacionGralHistorico: (index: number, texto: string) => void;
+  updateEvolucionProcedimientosHistorico: (index: number, texto: string) => void;
   commitToHistory: () => void;
 
   loadData: (data: HistoriaClinica) => void;
@@ -191,6 +195,7 @@ export const useFormStore = create<Store>()(
       setSesionesProgramadas: (sesionesProgramadas) => set({ sesionesProgramadas }),
       setFechasSesiones: (fechasSesiones) => set({ fechasSesiones }),
       setObservacionesGenerales: (observacionesGenerales) => set({ observacionesGenerales }),
+      setEvolucionProcedimientos: (evolucionProcedimientos) => set({ evolucionProcedimientos }),
       setFirmaFinal: (firmaFinal) => set({ firmaFinal }),
       setFechaFinal: (fechaFinal) => set({ fechaFinal }),
       togglePuntoInyeccion: (id) =>
@@ -297,6 +302,12 @@ export const useFormStore = create<Store>()(
             i === index ? { ...o, texto } : o
           ),
         })),
+      updateEvolucionProcedimientosHistorico: (index, texto) =>
+        set((s) => ({
+          evolucionProcedimientosAnteriores: s.evolucionProcedimientosAnteriores.map((e, i) =>
+            i === index ? { ...e, texto } : e
+          ),
+        })),
 
       commitToHistory: () =>
         set((s) => {
@@ -352,6 +363,11 @@ export const useFormStore = create<Store>()(
             newObsGral = pushOrUpdate(newObsGral, { texto: s.observacionesGenerales, fecha });
           }
 
+          let newEvolucion = [...s.evolucionProcedimientosAnteriores];
+          if (s.evolucionProcedimientos.trim()) {
+            newEvolucion = pushOrUpdate(newEvolucion, { texto: s.evolucionProcedimientos, fecha });
+          }
+
           const newPuntos = s.puntosInyeccion.map((p) => {
             if (p.activo && p.unidades) {
               const existingIndex = p.aplicacionesAnteriores.findIndex(a => a.fecha === fecha);
@@ -398,6 +414,7 @@ export const useFormStore = create<Store>()(
             observacionesAlergiasAnteriores: newAlergias,
             condicionRecuperacionAnteriores: newCondiciones,
             observacionesGeneralesAnteriores: newObsGral,
+            evolucionProcedimientosAnteriores: newEvolucion,
             puntosInyeccion: newPuntos,
             antropometriaHistorial: newAntroHistorial,
             consentimiento: { 
@@ -412,6 +429,7 @@ export const useFormStore = create<Store>()(
             observacionesAlergias: '',
             condicionRecuperacion: '',
             observacionesGenerales: '',
+            evolucionProcedimientos: '',
           };
         }),
 
@@ -426,6 +444,7 @@ export const useFormStore = create<Store>()(
           observacionesAlergiasAnteriores: data.observacionesAlergiasAnteriores || [],
           condicionRecuperacionAnteriores: data.condicionRecuperacionAnteriores || [],
           observacionesGeneralesAnteriores: data.observacionesGeneralesAnteriores || [],
+          evolucionProcedimientosAnteriores: data.evolucionProcedimientosAnteriores || [],
           consentimiento: {
             ...(data.consentimiento || s.consentimiento),
             riesgosInformadosAnteriores: data.consentimiento?.riesgosInformadosAnteriores || []
@@ -454,6 +473,7 @@ export const useFormStore = create<Store>()(
           observacionesAlergias: '',
           condicionRecuperacion: '',
           observacionesGenerales: '',
+          evolucionProcedimientos: '',
           puntosInyeccion: s.puntosInyeccion.map(p => ({
             ...p,
             activo: false,

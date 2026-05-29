@@ -202,7 +202,7 @@ export function PdfDocument({ data }: Props) {
         <SignatureBlock firma={c.firma} fecha={c.fecha} />
 
         <div style={{ textAlign: 'center', marginTop: 22, fontSize: '8pt', color: '#555' }}>
-          Página 1 de 4
+          Página 1 de 6
         </div>
       </div>
 
@@ -254,7 +254,7 @@ export function PdfDocument({ data }: Props) {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 18, fontSize: '8pt', color: '#555' }}>
-          Página 2 de 4
+          Página 2 de 6
         </div>
       </div>
 
@@ -410,7 +410,7 @@ export function PdfDocument({ data }: Props) {
         <SignatureBlock firma={data.firmaFinal} fecha={data.fechaFinal} />
 
         <div style={{ textAlign: 'center', marginTop: 18, fontSize: '8pt', color: '#555' }}>
-          Página 3 de 4
+          Página 3 de 6
         </div>
       </div>
 
@@ -484,12 +484,61 @@ export function PdfDocument({ data }: Props) {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 18, fontSize: '8pt', color: '#555' }}>
-          Página 4 de 5
+          Página 4 de 6
         </div>
       </div>
 
-      {/* ====== PÁGINA 5: VALORACIÓN ANTROPOMÉTRICA ====== */}
+      {/* ====== PÁGINA 5: EVOLUCIÓN Y OBSERVACIONES DE PROCEDIMIENTOS ====== */}
       <div id="pdf-page-5" style={PAGE_STYLE}>
+        <h1 style={{ textAlign: 'center', fontSize: '13pt', marginBottom: 14, marginTop: 4 }}>
+          EVOLUCIÓN Y OBSERVACIONES DE PROCEDIMIENTOS
+        </h1>
+        <div style={{ textAlign: 'center', fontSize: '10pt', marginBottom: 18 }}>
+          Paciente: <strong>{c.nombreCompleto || '—'}</strong> · {c.tipoDocumento} {c.numeroDocumento}
+        </div>
+
+        <div style={{ marginTop: 14, fontWeight: 600 }}>REGISTRO SESIÓN ACTUAL</div>
+        <div
+          style={{
+            border: '1px solid #94a3b8',
+            padding: 10,
+            minHeight: 80,
+            whiteSpace: 'pre-wrap',
+            fontSize: '10pt',
+            marginBottom: 20
+          }}
+        >
+          {data.evolucionProcedimientos || 'Ninguno registrado en la sesión actual.'}
+        </div>
+
+        <div style={{ marginTop: 20, fontWeight: 700, borderBottom: '2px solid #E0D7CD', paddingBottom: 4, marginBottom: 10 }}>
+          HISTORIAL DE EVOLUCIÓN Y OBSERVACIONES
+        </div>
+        
+        {data.evolucionProcedimientosAnteriores && data.evolucionProcedimientosAnteriores.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {data.evolucionProcedimientosAnteriores.map((e, idx) => (
+              <div key={idx} style={{ padding: 10, border: '1px solid #e2e8f0', borderRadius: 8, background: '#f8fafc' }}>
+                <div style={{ fontSize: '9pt', fontWeight: 700, color: '#475569', marginBottom: 4 }}>
+                  Fecha: {formatDate(e.fecha)}
+                </div>
+                <div style={{ fontSize: '9.5pt', color: '#1e293b', whiteSpace: 'pre-wrap' }}>
+                  {e.texto}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ color: '#666', fontStyle: 'italic', fontSize: '9.5pt' }}>No hay registros previos de evolución.</div>
+        )}
+
+        <div style={{ textAlign: 'center', marginTop: 'auto', fontSize: '8pt', color: '#555', paddingTop: 20 }}>
+          Página 5 de 6
+        </div>
+      </div>
+
+      {/* ====== PÁGINA 6: VALORACIÓN ANTROPOMÉTRICA ====== */}
+      <div id="pdf-page-6" style={PAGE_STYLE}>
         <h1 style={{ textAlign: 'center', fontSize: '13pt', marginBottom: 14, marginTop: 4 }}>
           VALORACIÓN ANTROPOMÉTRICA
         </h1>
@@ -551,7 +600,7 @@ export function PdfDocument({ data }: Props) {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 22, fontSize: '8pt', color: '#555' }}>
-          Página 5 de 5
+          Página 6 de 6
         </div>
       </div>
     </div>

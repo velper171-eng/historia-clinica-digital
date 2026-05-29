@@ -414,6 +414,8 @@ export function HistoriaForm() {
         fechasSesiones,
         observacionesGenerales,
         observacionesGeneralesAnteriores,
+        evolucionProcedimientos,
+        evolucionProcedimientosAnteriores,
         firmaFinal,
         fechaFinal,
         puntosInyeccion,
@@ -444,6 +446,8 @@ export function HistoriaForm() {
         fechasSesiones,
         observacionesGenerales,
         observacionesGeneralesAnteriores,
+        evolucionProcedimientos,
+        evolucionProcedimientosAnteriores,
         firmaFinal,
         fechaFinal,
         puntosInyeccion,
@@ -1028,6 +1032,33 @@ export function HistoriaForm() {
             </div>
           </div>
         </div>
+      </Section>
+
+      {/* ====== SECCIÓN 10: EVOLUCIÓN Y OBSERVACIONES DE PROCEDIMIENTOS ====== */}
+      <Section number="10" title="Evolución y Observaciones de Procedimientos">
+        <p className="text-sm text-stone/60 font-medium">
+          Registre las observaciones y evolución de los procedimientos realizados. Al guardar la sesión, la entrada quedará registrada de forma permanente con la fecha actual.
+        </p>
+        
+        <div>
+          <label className="mb-1 block text-sm font-medium text-stone">
+            Nueva observación / evolución de procedimientos
+          </label>
+          <textarea
+            rows={4}
+            value={data.evolucionProcedimientos}
+            onChange={(e) => useFormStore.getState().setEvolucionProcedimientos(e.target.value)}
+            className={inputClass}
+            placeholder="Escriba aquí los detalles del procedimiento realizado hoy, observaciones, evolución del paciente, etc..."
+          />
+        </div>
+
+        {/* Historial general de observaciones con sus fechas */}
+        <HistoricalEntries 
+          title="Historial de Evolución y Observaciones"
+          entries={data.evolucionProcedimientosAnteriores}
+          onEdit={useFormStore.getState().updateEvolucionProcedimientosHistorico}
+        />
       </Section>
 
           <div className="mt-6 flex justify-end">
