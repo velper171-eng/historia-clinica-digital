@@ -178,46 +178,45 @@ export type HistoriaClinica = z.infer<typeof historiaClinicaSchema>;
 export const ENFERMEDADES = [
   {
     key: 'neurologica' as const,
-    label: 'Enfermedad neurológica',
-    descripcion: 'Como migraña, alteración del aprendizaje o del habla, infección, aumento en la presión endocraneana, infarto cerebral previo, entre otros.',
+    label: 'Neurológica',
+    descripcion: 'Migraña, alteración del aprendizaje/habla, infección, etc.',
   },
   {
     key: 'oftalmica' as const,
-    label: 'Afección oftálmica',
-    descripcion: 'Como desprendimiento de retina, ceguera o disminución de la agudeza visual, cataratas, trauma previo, entre otras.',
+    label: 'Oftálmica',
+    descripcion: 'Desprendimiento de retina, ceguera, cataratas, trauma previo, etc.',
   },
   {
     key: 'cardiovascularMetabolica' as const,
-    label: 'Enfermedad cardiovascular y metabólica',
-    descripcion: 'Hipertensión arterial o presión alta, diabetes o azúcar alta, infarto cardiaco previo, soplo cardiaco, insuficiencia cardiaca, enfermedad vascular periférica o mala circulación.',
+    label: 'Cardiovascular/Metabólica',
+    descripcion: 'Hipertensión, diabetes, infarto, soplo, etc.',
   },
   {
     key: 'renal' as const,
-    label: 'Enfermedad renal',
-    descripcion: 'Uno o ambos riñones no funcionan normalmente, artrosis.',
+    label: 'Renal',
+    descripcion: 'Uno o ambos riñones no funcionales normalmente, etc.',
   },
   {
     key: 'oseaMusculoesqueletica' as const,
-    label: 'Afección ósea o musculoesquelética',
-    descripcion: 'Como la osteoporosis.',
+    label: 'Ósea/Musculoesquelética',
+    descripcion: 'Osteoporosis, artrosis, etc.',
   },
   {
     key: 'autoinmuneReumatologica' as const,
-    label: 'Enfermedad autoinmune o reumatológica',
-    descripcion: 'Como lupus, artritis reumatoide, fibromialgia, entre otras.',
+    label: 'Autoinmune/Reumatológica',
+    descripcion: 'Lupus, artritis reumatoide, fibromialgia, etc.',
   },
   {
     key: 'otras' as const,
     label: 'Otras',
-    descripcion: 'Como historia de cáncer.',
+    descripcion: 'Historia de cáncer u otras condiciones no mencionadas.',
   },
 ];
 
 export const ALERGIAS = [
-  { key: 'aines' as const, label: 'AINES (como diclofenaco, naproxeno, ibuprofeno)' },
-  { key: 'opioides' as const, label: 'Opioides (como tramadol, codeína, morfina)' },
-  { key: 'antihistaminicos' as const, label: 'Antihistamínicos (como loratadina, cetirizina, clorfenidramina)' },
-  { key: 'antibioticos' as const, label: 'Antibióticos (como penicilinas)' },
-  { key: 'oseaMusculoesqueletica' as const, label: 'Afección ósea o musculoesquelética (como la osteoporosis)' },
-  { key: 'anestesicosLocales' as const, label: 'Anestésicos locales (como lidocaína)' },
+  { key: 'aines' as const, label: 'AINES (ej. Diclofenaco, Ibuprofeno)' },
+  { key: 'opioides' as const, label: 'Opiáceos (ej. Tramadol, Morfina)' },
+  { key: 'antihistaminicos' as const, label: 'Antihistamínicos (ej. Loratadina)' },
+  { key: 'antibioticos' as const, label: 'Antibióticos (ej. Penicilinas)' },
+  { key: 'anestesicosLocales' as const, label: 'Anestésicos locales (ej. Lidocaína)' },
 ];

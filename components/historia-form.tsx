@@ -676,27 +676,17 @@ export function HistoriaForm() {
         </div>
       </Section>
 
-      {/* ====== SECCIÓN 2: ANTECEDENTES PATOLÓGICOS PERSONALES ====== */}
-      <Section number="2" title="Antecedentes patológicos personales">
+      {/* ====== SECCIÓN 2: ANTECEDENTES PATOLÓGICOS ====== */}
+      <Section number="2" title="Antecedentes patológicos">
         <p className="text-sm text-stone/60 font-medium">
-          Marque las enfermedades que <strong>el paciente</strong> ha sufrido o sufre actualmente.
+          Marque con una X si sufre o sufrió el paciente o algún familiar directo de alguna de las siguientes enfermedades.
         </p>
         <DiseaseChecklist
-          idPrefix="ant-personales"
-          value={data.antecedentesPersonales}
-          onChange={useFormStore.getState().setAntecedentesPersonales}
-        />
-      </Section>
-
-      {/* ====== SECCIÓN 3: ANTECEDENTES PATOLÓGICOS FAMILIARES ====== */}
-      <Section number="3" title="Antecedentes patológicos familiares">
-        <p className="text-sm text-stone/60 font-medium">
-          Marque las enfermedades que <strong>familiares directos</strong> han sufrido o sufren actualmente.
-        </p>
-        <DiseaseChecklist
-          idPrefix="ant-familiares"
-          value={data.antecedentesFamiliares}
-          onChange={useFormStore.getState().setAntecedentesFamiliares}
+          idPrefix="ant-patologicos"
+          personales={data.antecedentesPersonales}
+          familiares={data.antecedentesFamiliares}
+          onChangePersonales={useFormStore.getState().setAntecedentesPersonales}
+          onChangeFamiliares={useFormStore.getState().setAntecedentesFamiliares}
         />
 
         <div>
@@ -715,8 +705,8 @@ export function HistoriaForm() {
         </div>
       </Section>
 
-      {/* ====== SECCIÓN 4: MEDICAMENTOS ====== */}
-      <Section number="4" title="Medicamentos">
+      {/* ====== SECCIÓN 3: MEDICAMENTOS ====== */}
+      <Section number="3" title="Medicamentos">
         <p className="text-sm text-stone/60 font-medium">
           Describa los medicamentos que toma en casa.
         </p>
@@ -734,8 +724,8 @@ export function HistoriaForm() {
         />
       </Section>
 
-      {/* ====== SECCIÓN 5: ALERGIAS ====== */}
-      <Section number="5" title="Alergias">
+      {/* ====== SECCIÓN 4: ALERGIAS ====== */}
+      <Section number="4" title="Alergias">
         <p className="text-sm text-stone/60 font-medium">
           Marque las alergias medicamentosas presentadas.
         </p>
@@ -745,7 +735,7 @@ export function HistoriaForm() {
         />
         <div>
           <LabelWithHistory 
-            label="Observaciones y síntomas de alergias" 
+            label="Síntomas presentados / Observaciones" 
             history={data.observacionesAlergiasAnteriores}
             onRestore={(val) => useFormStore.getState().setObservacionesAlergias(val)}
           />
@@ -759,27 +749,26 @@ export function HistoriaForm() {
         </div>
       </Section>
 
-      {/* ====== SECCIÓN 6: QUIRÚRGICOS ====== */}
-      <Section number="6" title="Antecedentes quirúrgicos">
-        <LabelWithHistory 
-          label="Cirugías" 
-          history={data.quirurgicosAnteriores}
-          onRestore={(val) => useFormStore.getState().setQuirurgicos(val)}
-        />
-        <textarea
-          rows={3}
-          value={data.quirurgicos}
-          onChange={(e) => useFormStore.getState().setQuirurgicos(e.target.value)}
-          className={inputClass}
-          placeholder="Cirugías previas y detalles relevantes"
-        />
-      </Section>
-
-      {/* ====== SECCIÓN 7: CONDICIONES FINALES ====== */}
-      <Section number="7" title="Condiciones finales">
+      {/* ====== SECCIÓN 5: ANTECEDENTES QUIRÚRGICOS Y CONDICIONES ADICIONALES ====== */}
+      <Section number="5" title="Antecedentes quirúrgicos y condiciones adicionales">
         <div>
           <LabelWithHistory 
-            label="¿Conoce alguna condición que interfiera con la recuperación?" 
+            label="¿Le han realizado algún procedimiento quirúrgico previo?" 
+            history={data.quirurgicosAnteriores}
+            onRestore={(val) => useFormStore.getState().setQuirurgicos(val)}
+          />
+          <textarea
+            rows={3}
+            value={data.quirurgicos}
+            onChange={(e) => useFormStore.getState().setQuirurgicos(e.target.value)}
+            className={inputClass}
+            placeholder="Cirugías previas y detalles relevantes"
+          />
+        </div>
+
+        <div>
+          <LabelWithHistory 
+            label="¿Conoce alguna condición que interfiera con su recuperación? (Sí/No)" 
             history={data.condicionRecuperacionAnteriores}
             onRestore={(val) => useFormStore.getState().setCondicionRecuperacion(val)}
           />
@@ -794,7 +783,7 @@ export function HistoriaForm() {
 
         <div>
           <label className="mb-1 block text-sm font-medium text-stone">
-            ¿Sabe o sospecha estado de gestación?
+            ¿Sabe o sospecha que pueda estar en estado de gestación?
           </label>
           <select
             value={data.estadoGestacion}
@@ -807,7 +796,7 @@ export function HistoriaForm() {
           </select>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 pt-4 border-t border-stone/5">
           <div className="max-w-[240px]">
             <label className="mb-1 block text-sm font-medium text-stone">Fecha</label>
             <input
@@ -825,8 +814,8 @@ export function HistoriaForm() {
         </div>
       </Section>
 
-      {/* ====== SECCIÓN 8: EVALUACIÓN FACIAL Y SESIONES ====== */}
-      <Section number="8" title="Evaluación facial y sesiones">
+      {/* ====== SECCIÓN 6: EVALUACIÓN FACIAL Y SESIONES ====== */}
+      <Section number="6" title="Evaluación facial y sesiones">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div>
             <label className="mb-1 block text-sm font-medium text-stone">Tipo de cutis</label>
@@ -898,8 +887,8 @@ export function HistoriaForm() {
         </div>
       </Section>
 
-      {/* ====== SECCIÓN 9: PUNTOS DE INYECCIÓN ====== */}
-      <Section number="9" title="Puntos de inyección">
+      {/* ====== SECCIÓN 7: PUNTOS DE INYECCIÓN ====== */}
+      <Section number="7" title="Puntos de inyección">
         <p className="text-sm text-stone/60 font-medium">
           Haga click en los puntos para marcar dónde se aplicará la toxina.
         </p>
@@ -1034,8 +1023,8 @@ export function HistoriaForm() {
         </div>
       </Section>
 
-      {/* ====== SECCIÓN 10: EVOLUCIÓN Y OBSERVACIONES DE PROCEDIMIENTOS ====== */}
-      <Section number="10" title="Evolución y Observaciones de Procedimientos">
+      {/* ====== SECCIÓN 8: EVOLUCIÓN Y OBSERVACIONES DE PROCEDIMIENTOS ====== */}
+      <Section number="8" title="Evolución y Observaciones de Procedimientos">
         <p className="text-sm text-stone/60 font-medium">
           Registre las observaciones y evolución de los procedimientos realizados. Al guardar la sesión, la entrada quedará registrada de forma permanente con la fecha actual.
         </p>
