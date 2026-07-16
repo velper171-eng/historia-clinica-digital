@@ -164,7 +164,8 @@ function getSignatureImage(base64String: string, width: number = 130, height: nu
 export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   const children: (Paragraph | Table)[] = [];
   const c = data.consentimiento;
-  const tieneInyecciones = data.puntosInyeccion.some(p => p.activo);
+  const tieneInyecciones = data.puntosInyeccion.some(p => p.activo || p.aplicacionesAnteriores.length > 0);
+  const tieneAntropometria = !!(data.antropometria.masaCorporal?.trim() || data.antropometria.talla?.trim());
 
   // Título principal
   children.push(createHeading('RELIV - CENTRO COSMÉTICO Y DE BIENESTAR', HeadingLevel.HEADING_1));
@@ -364,48 +365,50 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   }
 
   // ====== 9. Valoración Antropométrica ======
-  children.push(createHeading('9. Valoración Antropométrica'));
-  children.push(createField('Edad', `${data.antropometria.edad} años`));
-  children.push(createField('Talla', `${data.antropometria.talla} cm`));
-  children.push(createField('Masa Corporal', `${data.antropometria.masaCorporal} kg`));
-  children.push(createField('Densidad Corporal (DC)', data.antropometria.dc));
-  children.push(createField('% Grasa Corporal', `${data.antropometria.porcentajeGrasa}%`));
+  if (tieneAntropometria) {
+    children.push(createHeading('9. Valoración Antropométrica'));
+    children.push(createField('Edad', `${data.antropometria.edad} años`));
+    children.push(createField('Talla', `${data.antropometria.talla} cm`));
+    children.push(createField('Masa Corporal', `${data.antropometria.masaCorporal} kg`));
+    children.push(createField('Densidad Corporal (DC)', data.antropometria.dc));
+    children.push(createField('% Grasa Corporal', `${data.antropometria.porcentajeGrasa}%`));
 
-  children.push(new Paragraph({
-    children: [new TextRun({ text: "Pliegues Cutáneos (mm):", bold: true, color: BRONZE_COLOR })],
-    spacing: { before: 140, after: 60 }
-  }));
-  const pliegues = [
-    `Tríceps: ${data.antropometria.plTriceps}`,
-    `Subescapular: ${data.antropometria.plSubescapular}`,
-    `Bíceps: ${data.antropometria.plBiceps}`,
-    `Cresta Ilíaca: ${data.antropometria.plCrestaIliaca}`,
-    `Supraespinal: ${data.antropometria.plSupraespinal}`,
-    `Abdominal: ${data.antropometria.plAbdominal}`,
-    `Muslo: ${data.antropometria.plMuslo}`,
-    `Pierna: ${data.antropometria.plPierna}`
-  ];
-  pliegues.forEach(p => children.push(new Paragraph({ text: `• ${p}`, indent: { left: 240 }, spacing: { after: 30 } })));
+    children.push(new Paragraph({
+      children: [new TextRun({ text: "Pliegues Cutáneos (mm):", bold: true, color: BRONZE_COLOR })],
+      spacing: { before: 140, after: 60 }
+    }));
+    const pliegues = [
+      `Tríceps: ${data.antropometria.plTriceps}`,
+      `Subescapular: ${data.antropometria.plSubescapular}`,
+      `Bíceps: ${data.antropometria.plBiceps}`,
+      `Cresta Ilíaca: ${data.antropometria.plCrestaIliaca}`,
+      `Supraespinal: ${data.antropometria.plSupraespinal}`,
+      `Abdominal: ${data.antropometria.plAbdominal}`,
+      `Muslo: ${data.antropometria.plMuslo}`,
+      `Pierna: ${data.antropometria.plPierna}`
+    ];
+    pliegues.forEach(p => children.push(new Paragraph({ text: `• ${p}`, indent: { left: 240 }, spacing: { after: 30 } })));
 
-  children.push(new Paragraph({
-    children: [new TextRun({ text: "Somatotipo Heath-Carter:", bold: true, color: BRONZE_COLOR })],
-    spacing: { before: 140, after: 60 }
-  }));
-  children.push(createField('Endomorfia', data.antropometria.endomorfia));
-  children.push(createField('Mesomorfia', data.antropometria.mesomorfia));
-  children.push(createField('Ectomorfia', data.antropometria.ectomorfia));
+    children.push(new Paragraph({
+      children: [new TextRun({ text: "Somatotipo Heath-Carter:", bold: true, color: BRONZE_COLOR })],
+      spacing: { before: 140, after: 60 }
+    }));
+    children.push(createField('Endomorfia', data.antropometria.endomorfia));
+    children.push(createField('Mesomorfia', data.antropometria.mesomorfia));
+    children.push(createField('Ectomorfia', data.antropometria.ectomorfia));
 
-  children.push(new Paragraph({
-    children: [new TextRun({ text: "Diagnóstico y Recomendaciones:", bold: true, color: BRONZE_COLOR })],
-    spacing: { before: 140, after: 60 }
-  }));
-  children.push(createField('Estado Saludable', data.antropometria.evaluacionSaludable));
-  children.push(createField('Tendencia Grasa', data.antropometria.evaluacionGrasa));
-  children.push(createField('Respuesta Calórica', data.antropometria.evaluacionRespuestaCalorica));
-  children.push(createField('Sensibilidad Digestiva', data.antropometria.evaluacionSensibilidadDigestiva));
-  children.push(createField('Margen Muscular', data.antropometria.evaluacionMargenMuscular));
-  children.push(createField('Fase de Definición', data.antropometria.evaluacionFaseDefinicion));
-  children.push(createField('Tipo de Volumen', data.antropometria.evaluacionVolumen));
+    children.push(new Paragraph({
+      children: [new TextRun({ text: "Diagnóstico y Recomendaciones:", bold: true, color: BRONZE_COLOR })],
+      spacing: { before: 140, after: 60 }
+    }));
+    children.push(createField('Estado Saludable', data.antropometria.evaluacionSaludable));
+    children.push(createField('Tendencia Grasa', data.antropometria.evaluacionGrasa));
+    children.push(createField('Respuesta Calórica', data.antropometria.evaluacionRespuestaCalorica));
+    children.push(createField('Sensibilidad Digestiva', data.antropometria.evaluacionSensibilidadDigestiva));
+    children.push(createField('Margen Muscular', data.antropometria.evaluacionMargenMuscular));
+    children.push(createField('Fase de Definición', data.antropometria.evaluacionFaseDefinicion));
+    children.push(createField('Tipo de Volumen', data.antropometria.evaluacionVolumen));
+  }
 
   // Generar documento
   const doc = new Document({
