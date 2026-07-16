@@ -137,9 +137,34 @@ function createHistoryItems(entries: { texto: string; fecha: string }[]) {
   }));
 }
 
+function getSignatureImage(base64String: string, width: number = 130, height: number = 55) {
+  if (!base64String || !base64String.startsWith('data:image/')) return null;
+  try {
+    const base64Data = base64String.split(',')[1];
+    const binaryString = window.atob(base64Data);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return new ImageRun({
+      data: bytes,
+      type: "png",
+      transformation: {
+        width,
+        height
+      }
+    });
+  } catch (e) {
+    console.error("Error parsing signature image", e);
+    return null;
+  }
+}
+
 export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   const children: (Paragraph | Table)[] = [];
   const c = data.consentimiento;
+  const tieneInyecciones = data.puntosInyeccion.some(p => p.activo);
 
   // Título principal
   children.push(createHeading('RELIV - CENTRO COSMÉTICO Y DE BIENESTAR', HeadingLevel.HEADING_1));
@@ -181,7 +206,20 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   }));
 
   children.push(createField('Fecha Consentimiento', c.fecha));
-  children.push(new Paragraph({ text: '[Firma Digital 1 registrada en el consentimiento informado]', spacing: { after: 120 } }));
+  
+  // Firma 1 (Consentimiento)
+  const signature1 = getSignatureImage(c.firma);
+  if (signature1) {
+    children.push(new Paragraph({
+      children: [
+        new TextRun({ text: "Firma del Paciente: ", bold: true, color: BRONZE_COLOR }),
+        signature1
+      ],
+      spacing: { before: 100, after: 120 }
+    }));
+  } else {
+    children.push(new Paragraph({ text: '[No firmado]', spacing: { after: 120 } }));
+  }
 
   // ====== 2. Antecedentes Patológicos ======
   children.push(createHeading('2. Antecedentes Patológicos'));
@@ -224,7 +262,20 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   }
   children.push(createField('Estado de gestación (embarazo)', data.estadoGestacion || 'No'));
   children.push(createField('Fecha de Registro Final', data.fechaFinal));
-  children.push(new Paragraph({ text: '[Firma Digital 2 registrada en el registro final]', spacing: { after: 120 } }));
+
+  // Firma 2 (Firma Final)
+  const signature2 = getSignatureImage(data.firmaFinal);
+  if (signature2) {
+    children.push(new Paragraph({
+      children: [
+        new TextRun({ text: "Firma Final del Paciente: ", bold: true, color: BRONZE_COLOR }),
+        signature2
+      ],
+      spacing: { before: 100, after: 120 }
+    }));
+  } else {
+    children.push(new Paragraph({ text: '[No firmado]', spacing: { after: 120 } }));
+  }
 
   // ====== 6. Evaluación Facial y Sesiones ======
   children.push(createHeading('6. Evaluación Facial y Sesiones'));
@@ -240,62 +291,64 @@ export async function generarHistoriaClinicaWord(data: HistoriaClinica) {
   }
 
   // ====== 7. Diagrama Facial (Puntos de Aplicación) ======
-  children.push(createHeading('7. Puntos de Aplicación (Diagrama Facial)'));
-  
-  const resumenAplicaciones = data.puntosInyeccion
-    .filter(p => p.activo || p.aplicacionesAnteriores.length > 0)
-    .map(p => {
-      const def = INJECTION_POINTS.find(d => d.id === p.id);
-      let t = `${def?.zona} - ${def?.nombre}`;
-      if (p.activo) t += ` (Actual: ${p.unidades} U)`;
-      if (p.aplicacionesAnteriores.length > 0) {
-        t += ` [Previos: ${p.aplicacionesAnteriores.map(a => `${a.unidades}U (${a.fecha})`).join(', ')}]`;
+  if (tieneInyecciones) {
+    children.push(createHeading('7. Puntos de Aplicación (Diagrama Facial)'));
+    
+    const resumenAplicaciones = data.puntosInyeccion
+      .filter(p => p.activo || p.aplicacionesAnteriores.length > 0)
+      .map(p => {
+        const def = INJECTION_POINTS.find(d => d.id === p.id);
+        let t = `${def?.zona} - ${def?.nombre}`;
+        if (p.activo) t += ` (Actual: ${p.unidades} U)`;
+        if (p.aplicacionesAnteriores.length > 0) {
+          t += ` [Previos: ${p.aplicacionesAnteriores.map(a => `${a.unidades}U (${a.fecha})`).join(', ')}]`;
+        }
+        return t;
+      });
+
+    if (resumenAplicaciones.length > 0) {
+      resumenAplicaciones.forEach(text => {
+        children.push(new Paragraph({ text: `• ${text}`, spacing: { after: 40 }, indent: { left: 240 } }));
+      });
+    } else {
+      children.push(new Paragraph({ text: 'No se registraron aplicaciones.', spacing: { after: 80 } }));
+    }
+
+    // Capturar imagen del diagrama
+    const elemento = document.getElementById('pdf-page-4');
+    if (elemento) {
+      try {
+        const canvas = await html2canvas(elemento, { scale: 1.5, useCORS: true, logging: false });
+        const imgData = canvas.toDataURL('image/jpeg', 0.85);
+        const base64Data = imgData.replace(/^data:image\/jpeg;base64,/, "");
+        const binaryString = window.atob(base64Data);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+        
+        const maxWidth = 500;
+        const width = canvas.width;
+        const height = canvas.height;
+        const ratio = maxWidth / width;
+
+        children.push(new Paragraph({
+          children: [
+            new ImageRun({
+              data: bytes,
+              type: "jpg",
+              transformation: {
+                width: width * ratio,
+                height: height * ratio
+              }
+            })
+          ],
+          spacing: { before: 200 }
+        }));
+      } catch (e) {
+        console.error('Error capturando FaceDiagram para docx', e);
       }
-      return t;
-    });
-
-  if (resumenAplicaciones.length > 0) {
-    resumenAplicaciones.forEach(text => {
-      children.push(new Paragraph({ text: `• ${text}`, spacing: { after: 40 }, indent: { left: 240 } }));
-    });
-  } else {
-    children.push(new Paragraph({ text: 'No se registraron aplicaciones.', spacing: { after: 80 } }));
-  }
-
-  // Capturar imagen del diagrama
-  const elemento = document.getElementById('pdf-page-4');
-  if (elemento) {
-    try {
-      const canvas = await html2canvas(elemento, { scale: 1.5, useCORS: true, logging: false });
-      const imgData = canvas.toDataURL('image/jpeg', 0.85);
-      const base64Data = imgData.replace(/^data:image\/jpeg;base64,/, "");
-      const binaryString = window.atob(base64Data);
-      const len = binaryString.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      
-      const maxWidth = 500;
-      const width = canvas.width;
-      const height = canvas.height;
-      const ratio = maxWidth / width;
-
-      children.push(new Paragraph({
-        children: [
-          new ImageRun({
-            data: bytes,
-            type: "jpg",
-            transformation: {
-              width: width * ratio,
-              height: height * ratio
-            }
-          })
-        ],
-        spacing: { before: 200 }
-      }));
-    } catch (e) {
-      console.error('Error capturando FaceDiagram para docx', e);
     }
   }
 

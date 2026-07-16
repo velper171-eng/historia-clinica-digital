@@ -14,11 +14,12 @@ export async function generarHistoriaClinicaPDF(data: HistoriaClinica) {
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = pdf.internal.pageSize.getHeight();
 
+  let pagesRendered = 0;
   for (let i = 0; i < PAGE_IDS.length; i++) {
     const id = PAGE_IDS[i];
     const elemento = document.getElementById(id);
     if (!elemento) {
-      throw new Error(`No se encontró el elemento #${id}`);
+      continue;
     }
 
     // Pequeño retardo para asegurar renderizado
@@ -34,7 +35,8 @@ export async function generarHistoriaClinicaPDF(data: HistoriaClinica) {
     const imgData = canvas.toDataURL('image/jpeg', 0.85);
     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-    if (i > 0) pdf.addPage();
+    if (pagesRendered > 0) pdf.addPage();
+    pagesRendered++;
     // Si la imagen es más alta que la página, la escalamos para que entre.
     const finalHeight = Math.min(imgHeight, pdfHeight);
     const finalWidth = (canvas.width * finalHeight) / canvas.height;

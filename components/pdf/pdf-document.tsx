@@ -103,10 +103,10 @@ function Header({ subtitle }: { subtitle: string }) {
   );
 }
 
-function Footer({ pageNum }: { pageNum: number }) {
+function Footer({ pageNum, totalPages }: { pageNum: number; totalPages: number }) {
   return (
     <div style={{ marginTop: 'auto', textAlign: 'center', fontSize: '8pt', color: '#B6A27F', paddingTop: '10px' }}>
-      Página {pageNum} de 6 · RELIV Centro de Bienestar
+      Página {pageNum} de {totalPages} · RELIV Centro de Bienestar
     </div>
   );
 }
@@ -191,6 +191,11 @@ function HistorySection({ entries }: { entries: { texto: string; fecha: string }
 export function PdfDocument({ data }: Props) {
   const c = data.consentimiento;
   const activeIds = new Set(data.puntosInyeccion.filter((p) => p.activo).map((p) => p.id));
+  const tieneInyecciones = data.puntosInyeccion.some((p) => p.activo);
+  const totalPages = tieneInyecciones ? 6 : 5;
+  const p4Number = 4;
+  const p5Number = tieneInyecciones ? 5 : 4;
+  const p6Number = tieneInyecciones ? 6 : 5;
 
   return (
     <div style={{ background: '#E2E8F0', padding: '20px 0', display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center' }}>
@@ -241,7 +246,7 @@ export function PdfDocument({ data }: Props) {
 
         <SignatureBlock label="Firma del Paciente" firma={c.firma} fecha={c.fecha} />
 
-        <Footer pageNum={1} />
+        <Footer pageNum={1} totalPages={totalPages} />
       </div>
 
       {/* ====== PÁGINA 2: ANTECEDENTES PATOLÓGICOS Y MEDICAMENTOS ====== */}
@@ -303,7 +308,7 @@ export function PdfDocument({ data }: Props) {
           <HistorySection entries={data.medicamentosAnteriores} />
         </div>
 
-        <Footer pageNum={2} />
+        <Footer pageNum={2} totalPages={totalPages} />
       </div>
 
       {/* ====== PÁGINA 3: ALERGIAS, QUIRÚRGICOS Y RECOMENDACIONES ====== */}
@@ -392,84 +397,86 @@ export function PdfDocument({ data }: Props) {
 
         <SignatureBlock label="Firma de Registro del Paciente" firma={data.firmaFinal} fecha={data.fechaFinal} />
 
-        <Footer pageNum={3} />
+        <Footer pageNum={3} totalPages={totalPages} />
       </div>
 
       {/* ====== PÁGINA 4: DIAGRAMA FACIAL (PUNTOS DE APLICACIÓN) ====== */}
-      <div id="pdf-page-4" style={PAGE_STYLE}>
-        <Header subtitle="Diagrama Facial y Puntos de Inyección" />
+      {tieneInyecciones && (
+        <div id="pdf-page-4" style={PAGE_STYLE}>
+          <Header subtitle="Diagrama Facial y Puntos de Inyección" />
 
-        <div style={{ textAlign: 'center', margin: '5px 0 15px 0' }}>
-          <h2 style={{ fontSize: '13pt', fontWeight: 900, color: '#4A3F35', margin: 0, textTransform: 'uppercase' }}>
-            Mapeo de Puntos de Aplicación
-          </h2>
-          <div style={{ fontSize: '8.5pt', color: '#7E6E65', marginTop: 4 }}>
-            Paciente: <strong>{c.nombreCompleto || '—'}</strong> · Documento: {c.numeroDocumento}
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', gap: 24, justifyContent: 'center', marginBottom: 20 }}>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '7.5pt', fontWeight: 700, color: '#B6A27F', marginBottom: 4, textTransform: 'uppercase' }}>Rostro Femenino</div>
-            <div style={{ background: '#F9F7F2', border: '1px solid #F0ECE4', padding: '6px', borderRadius: '12px' }}>
-              <FaceDiagram activeIds={activeIds} readOnly width={260} gender="mujer" />
+          <div style={{ textAlign: 'center', margin: '5px 0 15px 0' }}>
+            <h2 style={{ fontSize: '13pt', fontWeight: 900, color: '#4A3F35', margin: 0, textTransform: 'uppercase' }}>
+              Mapeo de Puntos de Aplicación
+            </h2>
+            <div style={{ fontSize: '8.5pt', color: '#7E6E65', marginTop: 4 }}>
+              Paciente: <strong>{c.nombreCompleto || '—'}</strong> · Documento: {c.numeroDocumento}
             </div>
           </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '7.5pt', fontWeight: 700, color: '#B6A27F', marginBottom: 4, textTransform: 'uppercase' }}>Rostro Masculino</div>
-            <div style={{ background: '#F9F7F2', border: '1px solid #F0ECE4', padding: '6px', borderRadius: '12px' }}>
-              <FaceDiagram activeIds={activeIds} readOnly width={260} gender="hombre" />
+
+          <div style={{ display: 'flex', gap: 24, justifyContent: 'center', marginBottom: 20 }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '7.5pt', fontWeight: 700, color: '#B6A27F', marginBottom: 4, textTransform: 'uppercase' }}>Rostro Femenino</div>
+              <div style={{ background: '#F9F7F2', border: '1px solid #F0ECE4', padding: '6px', borderRadius: '12px' }}>
+                <FaceDiagram activeIds={activeIds} readOnly width={260} gender="mujer" />
+              </div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '7.5pt', fontWeight: 700, color: '#B6A27F', marginBottom: 4, textTransform: 'uppercase' }}>Rostro Masculino</div>
+              <div style={{ background: '#F9F7F2', border: '1px solid #F0ECE4', padding: '6px', borderRadius: '12px' }}>
+                <FaceDiagram activeIds={activeIds} readOnly width={260} gender="hombre" />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 700, fontSize: '9pt', color: '#4A3F35', borderBottom: '2.5px solid #B6A27F', paddingBottom: 4, marginBottom: 8, textTransform: 'uppercase' }}>
-            Detalle Técnico de Aplicación de Toxina (Sesión Actual y Previas)
-          </div>
-          {data.puntosInyeccion.some(p => p.activo || p.aplicacionesAnteriores.length > 0) ? (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'x:20px, y:8px', maxHeight: '180px', overflow: 'hidden' }}>
-              {data.puntosInyeccion
-                .filter(p => p.activo || p.aplicacionesAnteriores.length > 0)
-                .map(p => {
-                  const def = INJECTION_POINTS.find(d => d.id === p.id);
-                  const isFemenino = p.id.startsWith('m-');
-                  return (
-                    <div key={p.id} style={{ borderBottom: '1px solid #F0ECE4', paddingBottom: 4, fontSize: '8.5pt' }}>
-                      <div style={{ fontWeight: 700, color: '#4A3F35' }}>
-                        <span style={{ color: isFemenino ? '#B6A27F' : '#5E503F', marginRight: 4, fontWeight: 'bold' }}>
-                          [{isFemenino ? '♀' : '♂'}]
-                        </span>
-                        {def?.zona} - {def?.nombre}
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 700, fontSize: '9pt', color: '#4A3F35', borderBottom: '2.5px solid #B6A27F', paddingBottom: 4, marginBottom: 8, textTransform: 'uppercase' }}>
+              Detalle Técnico de Aplicación de Toxina (Sesión Actual y Previas)
+            </div>
+            {data.puntosInyeccion.some(p => p.activo || p.aplicacionesAnteriores.length > 0) ? (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'x:20px, y:8px', maxHeight: '180px', overflow: 'hidden' }}>
+                {data.puntosInyeccion
+                  .filter(p => p.activo || p.aplicacionesAnteriores.length > 0)
+                  .map(p => {
+                    const def = INJECTION_POINTS.find(d => d.id === p.id);
+                    const isFemenino = p.id.startsWith('m-');
+                    return (
+                      <div key={p.id} style={{ borderBottom: '1px solid #F0ECE4', paddingBottom: 4, fontSize: '8.5pt' }}>
+                        <div style={{ fontWeight: 700, color: '#4A3F35' }}>
+                          <span style={{ color: isFemenino ? '#B6A27F' : '#5E503F', marginRight: 4, fontWeight: 'bold' }}>
+                            [{isFemenino ? '♀' : '♂'}]
+                          </span>
+                          {def?.zona} - {def?.nombre}
+                        </div>
+                        {p.activo && (
+                          <div style={{ color: '#5F715B', fontWeight: 700, marginTop: 1, fontSize: '8pt' }}>
+                            Aplicado Hoy: {p.unidades} U
+                          </div>
+                        )}
+                        {p.aplicacionesAnteriores.length > 0 && (
+                          <div style={{ fontSize: '7.5pt', color: '#7E6E65' }}>
+                            Histórico: {p.aplicacionesAnteriores.map(a => `${a.unidades}U (${formatDate(a.fecha)})`).join(', ')}
+                          </div>
+                        )}
                       </div>
-                      {p.activo && (
-                        <div style={{ color: '#5F715B', fontWeight: 700, marginTop: 1, fontSize: '8pt' }}>
-                          Aplicado Hoy: {p.unidades} U
-                        </div>
-                      )}
-                      {p.aplicacionesAnteriores.length > 0 && (
-                        <div style={{ fontSize: '7.5pt', color: '#7E6E65' }}>
-                          Histórico: {p.aplicacionesAnteriores.map(a => `${a.unidades}U (${formatDate(a.fecha)})`).join(', ')}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
-              }
-            </div>
-          ) : (
-            <div style={{ color: '#7E6E65', fontStyle: 'italic', fontSize: '9pt', marginTop: 10 }}>
-              No se han registrado aplicaciones de toxina botulínica en este paciente.
-            </div>
-          )}
-        </div>
+                    );
+                  })
+                }
+              </div>
+            ) : (
+              <div style={{ color: '#7E6E65', fontStyle: 'italic', fontSize: '9pt', marginTop: 10 }}>
+                No se han registrado aplicaciones de toxina botulínica en este paciente.
+              </div>
+            )}
+          </div>
 
-        <div style={{ fontSize: '8pt', color: '#7E6E65', borderTop: '1px solid #F0ECE4', paddingTop: 8, marginTop: 10 }}>
-          * Los puntos marcados en verde en el diagrama corresponden a la dosificación y puntos inyectados en la sesión actual.
-        </div>
+          <div style={{ fontSize: '8pt', color: '#7E6E65', borderTop: '1px solid #F0ECE4', paddingTop: 8, marginTop: 10 }}>
+            * Los puntos marcados en verde en el diagrama corresponden a la dosificación y puntos inyectados en la sesión actual.
+          </div>
 
-        <Footer pageNum={4} />
-      </div>
+          <Footer pageNum={p4Number} totalPages={totalPages} />
+        </div>
+      )}
 
       {/* ====== PÁGINA 5: EVOLUCIÓN Y OBSERVACIONES ====== */}
       <div id="pdf-page-5" style={PAGE_STYLE}>
@@ -535,7 +542,7 @@ export function PdfDocument({ data }: Props) {
           )}
         </div>
 
-        <Footer pageNum={5} />
+        <Footer pageNum={p5Number} totalPages={totalPages} />
       </div>
 
       {/* ====== PÁGINA 6: VALORACIÓN ANTROPOMÉTRICA ====== */}
@@ -615,7 +622,7 @@ export function PdfDocument({ data }: Props) {
           </div>
         </div>
 
-        <Footer pageNum={6} />
+        <Footer pageNum={p6Number} totalPages={totalPages} />
       </div>
     </div>
   );
