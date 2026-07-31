@@ -33,6 +33,19 @@ export function HistoriaForm() {
   const [showMesoInfo, setShowMesoInfo] = useState(false);
   const [showEctoInfo, setShowEctoInfo] = useState(false);
 
+  const [originalDoc, setOriginalDoc] = useState<string>('');
+  const [originalName, setOriginalName] = useState<string>('');
+
+  useEffect(() => {
+    if (data.id) {
+      setOriginalDoc(data.consentimiento.numeroDocumento || '');
+      setOriginalName(data.consentimiento.nombreCompleto || '');
+    } else {
+      setOriginalDoc('');
+      setOriginalName('');
+    }
+  }, [data.id]);
+
   const reset = useFormStore((s) => s.reset);
 
   useEffect(() => {
@@ -420,6 +433,38 @@ export function HistoriaForm() {
     setSuccess(false);
 
     try {
+      // Prevenir sobreescritura accidental: si tiene ID (está editando) pero cambió Nombre o Cédula
+      if (data.id && (data.consentimiento.numeroDocumento !== originalDoc || data.consentimiento.nombreCompleto !== originalName)) {
+        const confirmNew = confirm(
+          `Has modificado los datos de identidad de este paciente (Nombre o Cédula).\n\n` +
+          `¿Deseas guardar esto como un NUEVO PACIENTE?\n` +
+          `• Presiona ACEPTAR si es un nuevo paciente (el historial del paciente anterior se limpiará para este nuevo paciente).\n` +
+          `• Presiona CANCELAR si solo estás corrigiendo un error de escritura en los datos del paciente actual.`
+        );
+        if (confirmNew) {
+          // Limpiar historial médico previo para el nuevo registro y quitar ID para forzar INSERT
+          useFormStore.setState({
+            id: undefined,
+            procedimientosAnteriores: [],
+            medicamentosAnteriores: [],
+            quirurgicosAnteriores: [],
+            observacionesPatologicosAnteriores: [],
+            observacionesAlergiasAnteriores: [],
+            condicionRecuperacionAnteriores: [],
+            observacionesGeneralesAnteriores: [],
+            evolucionProcedimientosAnteriores: [],
+            puntosInyeccion: data.puntosInyeccion.map(p => ({ 
+              ...p, 
+              activo: p.activo, 
+              unidades: p.unidades, 
+              nota: p.nota, 
+              aplicacionesAnteriores: [] 
+            })),
+            antropometriaHistorial: {}
+          });
+        }
+      }
+
       // Primero "comiteamos" lo actual al historial si hay algo nuevo
       useFormStore.getState().commitToHistory();
       
