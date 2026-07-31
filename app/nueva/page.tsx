@@ -1,6 +1,6 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { HistoriaForm } from '../../components/historia-form';
-
 import { AuthGate } from '../../components/auth-gate';
 
 export default function NuevaHistoria() {
@@ -16,7 +16,9 @@ export default function NuevaHistoria() {
             <div className="w-16" />
           </div>
         </header>
-        <HistoriaForm />
+        <Suspense fallback={<div className="flex justify-center p-12">Cargando formulario...</div>}>
+          <HistoriaForm />
+        </Suspense>
       </main>
     </AuthGate>
   );

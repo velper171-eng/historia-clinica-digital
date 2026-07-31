@@ -12,6 +12,8 @@ import { INJECTION_POINTS, ZONAS_INYECCION } from '../lib/injection-points';
 import { supabase } from '../lib/supabase';
 import { Edit2, Save, Calendar, Trash2, Info } from 'lucide-react';
 
+import { useSearchParams, useRouter } from 'next/navigation';
+
 const deduplicateHistory = <T extends { fecha: string }>(entries: T[]): T[] => {
   const map = new Map<string, T>();
   entries.forEach(entry => {
@@ -22,6 +24,9 @@ const deduplicateHistory = <T extends { fecha: string }>(entries: T[]): T[] => {
 
 export function HistoriaForm() {
   const data = useFormStore();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const idFromUrl = searchParams.get('id');
   const [showDCInfo, setShowDCInfo] = useState(false);
   const [showFatInfo, setShowFatInfo] = useState(false);
   const [showEndoInfo, setShowEndoInfo] = useState(false);
@@ -29,6 +34,36 @@ export function HistoriaForm() {
   const [showEctoInfo, setShowEctoInfo] = useState(false);
 
   const reset = useFormStore((s) => s.reset);
+
+  useEffect(() => {
+    if (!idFromUrl) {
+      if (data.id !== undefined) {
+        reset();
+      }
+    } else {
+      if (data.id !== idFromUrl) {
+        const fetchPatient = async () => {
+          try {
+            const { data: record, error } = await supabase
+              .from('historias_clinicas')
+              .select('*')
+              .eq('id', idFromUrl)
+              .single();
+            if (error) throw error;
+            if (record) {
+              useFormStore.getState().loadData({
+                ...record.datos,
+                id: record.id
+              });
+            }
+          } catch (e) {
+            console.error("Error al cargar paciente por ID de la URL:", e);
+          }
+        };
+        fetchPatient();
+      }
+    }
+  }, [idFromUrl, data.id, reset]);
   const [generating, setGenerating] = useState(false);
   const [generatingWord, setGeneratingWord] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -480,6 +515,7 @@ export function HistoriaForm() {
       
       if (!id && insertData && insertData[0]) {
         useFormStore.getState().loadData({ ...cleanData, id: insertData[0].id });
+        router.replace(`/nueva?id=${insertData[0].id}`);
       }
 
       setSuccess(true);

@@ -51,7 +51,7 @@ export default function ExistentesPage() {
       id: record.id, // Aseguramos que el ID de la DB esté presente
     };
     loadData(fullData);
-    router.push('/nueva');
+    router.push(`/nueva?id=${record.id}`);
   };
 
   const handleDelete = async (e: React.MouseEvent, id: string, name: string) => {
@@ -120,7 +120,7 @@ export default function ExistentesPage() {
               </div>
               <h3 className="text-lg font-bold text-stone">No se encontraron pacientes</h3>
               <p className="text-stone/50 font-medium">Intenta con otro nombre o documento, o crea una nueva historia.</p>
-              <Link href="/nueva" className="mt-6 inline-block rounded-xl bg-stone px-6 py-3 font-bold text-white transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-stone/20">
+              <Link href="/nueva" onClick={() => useFormStore.getState().reset()} className="mt-6 inline-block rounded-xl bg-stone px-6 py-3 font-bold text-white transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-stone/20">
                 Crear Nueva Historia
               </Link>
             </div>
